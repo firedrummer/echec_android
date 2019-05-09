@@ -61,6 +61,15 @@ public abstract class Piece {
     public abstract double obtenirPointagePiece();
 
     /**
+     * Méthode qui valide si le déplacement de la pièce est possible pour un mouvement standard
+     *
+     * @param p_coordonneeDepart coordonnée de départ de la piece avant le mouvement
+     * @param p_coordonneeFin    coordonnée de fin de la piece après le mouvement
+     * @return si le deplacement est valide
+     */
+    public abstract boolean estDeplacementValide(String p_coordonneeDepart, String p_coordonneeFin);
+
+    /**
      * @return la couleur de la piece
      */
     public Couleur getCouleur() {

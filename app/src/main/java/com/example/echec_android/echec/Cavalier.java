@@ -51,9 +51,12 @@ public class Cavalier extends Piece {
             return false;
         }
 
-        return ((Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0)) == 2 &&
-                Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) == 1) ||
-                (Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) == 2 &&
-                        Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0)) == 1));
+        int differenceLettre = p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0);
+        int differenceChiffre = p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1);
+
+        return ((Math.abs(differenceLettre) == 2 &&
+                Math.abs(differenceChiffre) == 1) ||
+                (Math.abs(differenceChiffre) == 2 &&
+                        Math.abs(differenceLettre) == 1));
     }
 }

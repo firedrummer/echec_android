@@ -13,21 +13,33 @@ public class FragmentPartie extends Fragment {
     Button[][] m_boutons = new Button[8][8];
 
     public void InitialiserTableau(TableLayout p_table, char[] p_matrice) {
-        int numeroBouton = 0;
+        int numeroBouton = 1;
 
-        for (int i = 0; i < 8; i++) {
+        for (int i = 0; i < 9; i++) {
             TableRow rangee = new TableRow(this.getActivity());
             p_table.addView(rangee);
 
-            for (int j = 0; j < 8; j++) {
-                final Button bouton = new Button(this.getActivity());
+            for (int j = 0; j < 9; j++) {
+                if (i == 0 && j == 0) {
+                    // ajouter quelchose de vide
+                } else if (i == 0) {
+                    // ajouter texte view avec comme texte des lettre de A à H
+                } else if (j == 0) {
+                    // ajouter texte view avec comme texte des chiffre de 1 à 8
+                } else {
+                    // Ajouter les bouttons a partir de i = 1 et j = 1
+                    final Button bouton = new Button(this.getActivity());
 
-                bouton.setTag("" + numeroBouton);
+                    bouton.setTag("" + numeroBouton);
+
+                    numeroBouton++;
+                }
+
+
 
 
             }
         }
-        numeroBouton++;
     }
 
 }
