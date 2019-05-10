@@ -1,9 +1,11 @@
 package com.example.echec_android.gui;
 
 import android.support.v4.app.Fragment;
+import android.view.View;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
+import android.widget.TextView;
 
 public class FragmentPartie extends Fragment {
 
@@ -22,24 +24,46 @@ public class FragmentPartie extends Fragment {
             for (int j = 0; j < 9; j++) {
                 if (i == 0 && j == 0) {
                     // ajouter quelchose de vide
+                    TextView textView = new TextView(getContext());
+                    textView.setText(" ");
+                    rangee.addView(textView);
+
                 } else if (i == 0) {
-                    // ajouter texte view avec comme texte des lettre de A à H
+                    // Les lettre de A - H
+                    TextView textView = new TextView(getContext());
+                    textView.setText((char) ('a' + j));
+                    rangee.addView(textView);
                 } else if (j == 0) {
-                    // ajouter texte view avec comme texte des chiffre de 1 à 8
+                    // Les chiffres de 1 - 8
+                    TextView textView = new TextView(getContext());
+                    textView.setText(i);
+                    rangee.addView(textView);
                 } else {
                     // Ajouter les bouttons a partir de i = 1 et j = 1
                     final Button bouton = new Button(this.getActivity());
 
-                    bouton.setTag("" + numeroBouton);
+                    bouton.setTag("" + (char) ('a' + (i - 1)) + (char) j);
 
+
+                    bouton.setText(" "); // TODO initialiser le jeu d'echec
+
+
+                    bouton.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            // TODO
+                        }
+                    });
+
+                    m_boutons[i][j] = bouton;
+                    rangee.addView(bouton);
                     numeroBouton++;
                 }
-
-
-
 
             }
         }
     }
-
 }
+
+
+
