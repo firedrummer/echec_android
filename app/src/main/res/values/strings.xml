@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">echec_android</string>
+    <string name="lLayout1"> linearLayout</string>
 </resources>
