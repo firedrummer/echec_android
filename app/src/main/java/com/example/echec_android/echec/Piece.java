@@ -1,5 +1,7 @@
 package com.example.echec_android.echec;
 
+import java.util.ArrayList;
+
 /**
  * Classe pièce composée de toutes les pièces qui forment le jeu d'échec
  *
@@ -68,6 +70,14 @@ public abstract class Piece {
      * @return si le deplacement est valide
      */
     public abstract boolean estDeplacementValide(String p_coordonneeDepart, String p_coordonneeFin);
+
+    /**
+     * Méthode qui calcul les coordonnées de base possible selon une piece
+     *
+     * @param p_coordonnee coordonnée à calculer mouvement possible
+     * @return coordonées des mouvement possible
+     */
+    public abstract ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee);
 
     /**
      * @return la couleur de la piece

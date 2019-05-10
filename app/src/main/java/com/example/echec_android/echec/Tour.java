@@ -1,5 +1,7 @@
 package com.example.echec_android.echec;
 
+import java.util.ArrayList;
+
 /**
  * Classe tour dans un jeu d'échec
  *
@@ -53,5 +55,32 @@ public class Tour extends Piece {
                 Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) == 0) ||
                 (Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0)) == 0 &&
                         Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) <= 7));
+    }
+
+    /**
+     * Méthode qui calcul les coordonnées de base possible selon une piece
+     *
+     * @param p_coordonnee coordonnée à calculer mouvement possible
+     * @return coordonées des mouvement possible
+     */
+    @Override
+    public ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee) {
+        ArrayList<String> mouvements = new ArrayList<>();
+
+        for (int i = 0; i < 8; i++) {
+            if (p_coordonnee.charAt(0) != (char) ('a' + i) || p_coordonnee.charAt(1) != (char) ('1' + i)) {
+                String coordonnee = "" + (char) ('a' + i) + p_coordonnee.charAt(1);
+                if (estDeplacementValide(p_coordonnee, coordonnee)) {
+                    mouvements.add(coordonnee);
+                }
+
+                coordonnee = "" + p_coordonnee.charAt(0) + (char) ('1' + i);
+                if (estDeplacementValide(p_coordonnee, coordonnee)) {
+                    mouvements.add(coordonnee);
+                }
+            }
+        }
+
+        return mouvements;
     }
 }

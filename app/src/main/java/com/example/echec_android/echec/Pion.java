@@ -1,5 +1,7 @@
 package com.example.echec_android.echec;
 
+import java.util.ArrayList;
+
 /**
  * Classe pion dans un jeu d'échec
  *
@@ -51,6 +53,31 @@ public class Pion extends Piece {
             return false;
         } else return Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0)) == 0 &&
                 Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) == 1;
+    }
+
+    /**
+     * Méthode qui calcul les coordonnées de base possible selon une piece
+     *
+     * @param p_coordonnee coordonnée à calculer mouvement possible
+     * @return coordonées des mouvement possible
+     */
+    @Override
+    public ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee) {
+        ArrayList<String> mouvements = new ArrayList<>();
+
+        if (getCouleur() == Couleur.BLANC && p_coordonnee.charAt(1) == '2') {
+            mouvements.add("" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) + 2));
+        } else if (getCouleur() == Couleur.NOIR && p_coordonnee.charAt(1) == '7') {
+            mouvements.add("" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) - 2));
+        }
+
+        if (getCouleur() == Couleur.NOIR) {
+            mouvements.add("" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) - 1));
+        } else {
+            mouvements.add("" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) + 1));
+        }
+
+        return mouvements;
     }
 
     /**

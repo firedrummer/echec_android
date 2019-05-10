@@ -1,5 +1,7 @@
 package com.example.echec_android.echec;
 
+import java.util.ArrayList;
+
 /**
  * Classe reine dans un jeu d'échec
  *
@@ -68,5 +70,17 @@ public class Reine extends Piece {
                 Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) == 0) ||
                 (Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0)) == 0 &&
                         Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) <= 7));
+    }
+
+    /**
+     * Méthode qui calcul les coordonnées de base possible selon une piece
+     *
+     * @param p_coordonnee coordonnée à calculer mouvement possible
+     * @return coordonées des mouvement possible
+     */
+    @Override
+    public ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee) {
+        // TODO
+        return null;
     }
 }

@@ -1,5 +1,7 @@
 package com.example.echec_android.echec;
 
+import java.util.ArrayList;
+
 /**
  * Classe fou dans un jeu d'échec
  *
@@ -65,5 +67,20 @@ public class Fou extends Piece {
         }
 
         return false;
+    }
+
+    /**
+     * Méthode qui calcul les coordonnées de base possible selon une piece
+     *
+     * @param p_coordonnee coordonnée à calculer mouvement possible
+     * @return coordonées des mouvement possible
+     */
+    @Override
+    public ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee) {
+        ArrayList<String> mouvements = new ArrayList<>();
+
+        // TODO
+
+        return mouvements;
     }
 }

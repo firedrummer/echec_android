@@ -1,5 +1,7 @@
 package com.example.echec_android.echec;
 
+import java.util.ArrayList;
+
 /**
  * Classe roi dans un jeu d'échec
  *
@@ -62,5 +64,34 @@ public class Roi extends Piece {
                         p_coordonneeDepart.charAt(1) + 1 == p_coordonneeFin.charAt(1)) ||
                 (p_coordonneeDepart.charAt(0) + 1 == p_coordonneeFin.charAt(0) &&
                         p_coordonneeDepart.charAt(1) - 1 == p_coordonneeFin.charAt(1));
+    }
+
+    /**
+     * Méthode qui calcul les coordonnées de base possible selon une piece
+     *
+     * @param p_coordonnee coordonnée à calculer mouvement possible
+     * @return coordonées des mouvement possible
+     */
+    @Override
+    public ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee) {
+        ArrayList<String> mouvements = new ArrayList<>();
+
+        mouvements.add("" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) + 1));
+        mouvements.add("" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) - 1));
+        mouvements.add("" + (char) (p_coordonnee.charAt(0) + 1) + p_coordonnee.charAt(1));
+        mouvements.add("" + (char) (p_coordonnee.charAt(0) - 1) + p_coordonnee.charAt(1));
+        mouvements.add("" + (char) (p_coordonnee.charAt(0) - 1) + (char) (p_coordonnee.charAt(1) + 1));
+        mouvements.add("" + (char) (p_coordonnee.charAt(0) - 1) + (char) (p_coordonnee.charAt(1) - 1));
+        mouvements.add("" + (char) (p_coordonnee.charAt(0) + 1) + (char) (p_coordonnee.charAt(1) + 1));
+        mouvements.add("" + (char) (p_coordonnee.charAt(0) + 1) + (char) (p_coordonnee.charAt(1) - 1));
+
+        for (String coordonnee : mouvements) {
+            if (coordonnee.charAt(0) > 'h' || coordonnee.charAt(0) < 'a' ||
+                    coordonnee.charAt(1) < '1' || coordonnee.charAt(0) > '8') {
+                mouvements.remove(coordonnee);
+            }
+        }
+
+        return mouvements;
     }
 }
