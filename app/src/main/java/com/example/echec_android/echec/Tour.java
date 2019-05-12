@@ -67,9 +67,10 @@ public class Tour extends Piece {
     public ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee) {
         ArrayList<String> mouvements = new ArrayList<>();
 
+        String coordonnee;
         for (int i = 0; i < 8; i++) {
             if (p_coordonnee.charAt(0) != (char) ('a' + i) || p_coordonnee.charAt(1) != (char) ('1' + i)) {
-                String coordonnee = "" + (char) ('a' + i) + p_coordonnee.charAt(1);
+                coordonnee = "" + (char) ('a' + i) + p_coordonnee.charAt(1);
                 if (estDeplacementValide(p_coordonnee, coordonnee)) {
                     mouvements.add(coordonnee);
                 }

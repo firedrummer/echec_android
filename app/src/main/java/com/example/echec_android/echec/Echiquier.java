@@ -4,6 +4,7 @@ package com.example.echec_android.echec;
 import com.example.echec_android.echec.Piece.Couleur;
 import com.example.echec_android.echec.Piece.Type;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -208,7 +209,11 @@ public class Echiquier {
     private LinkedHashMap<String, String> getToursPossibleSelonPiece(Piece p_piece, String p_coordonnee) {
         LinkedHashMap<String, String> tourPossible = new LinkedHashMap<>();
 
-        // TODO
+        ArrayList<String> mouvementsBasique = p_piece.deplacementPossibleSelonCoordoordee(p_coordonnee);
+
+        if (p_piece.getType() == Type.ROI || p_piece.getType() == Type.TOUR) {
+            // TODO
+        }
 
         return tourPossible;
     }

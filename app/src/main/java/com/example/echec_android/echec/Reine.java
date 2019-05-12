@@ -80,7 +80,56 @@ public class Reine extends Piece {
      */
     @Override
     public ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee) {
-        // TODO
-        return null;
+        ArrayList<String> mouvements = new ArrayList<>();
+        String coordonnee = "";
+
+        for (int i = 1; i < 8; i++) {
+
+            if (p_coordonnee.charAt(0) + i <= 'h') {
+                coordonnee = "" + (char) (p_coordonnee.charAt(0) + i) + p_coordonnee.charAt(1);
+                mouvements.add(coordonnee);
+            }
+
+            if (p_coordonnee.charAt(0) - i >= 'a') {
+                coordonnee = "" + (char) (p_coordonnee.charAt(0) + i) + (p_coordonnee.charAt(1));
+                mouvements.add(coordonnee);
+            }
+
+            if (p_coordonnee.charAt(1) + i <= 8) {
+                coordonnee = "" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) + i);
+                mouvements.add(coordonnee);
+            }
+
+            if (p_coordonnee.charAt(1) - i >= 1) {
+                coordonnee = "" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) + i);
+                mouvements.add(coordonnee);
+            }
+
+            if ((p_coordonnee.charAt(0) + i <= 'h') && (p_coordonnee.charAt(1) + i <= 8)) {
+                coordonnee = "" + (char) (p_coordonnee.charAt(0) + i) +
+                        (char) (p_coordonnee.charAt(1) + i);
+                mouvements.add(coordonnee);
+            }
+
+            if ((p_coordonnee.charAt(0) - i >= 'a') && (p_coordonnee.charAt(1) - i >= 1)) {
+                coordonnee = "" + (char) (p_coordonnee.charAt(0) - i) +
+                        (char) (p_coordonnee.charAt(1) - i);
+                mouvements.add(coordonnee);
+            }
+
+            if ((p_coordonnee.charAt(0) - i >= 'a') && (p_coordonnee.charAt(1) + i <= 8)) {
+                coordonnee = "" + (char) (p_coordonnee.charAt(0) - i) +
+                        (char) (p_coordonnee.charAt(1) + i);
+                mouvements.add(coordonnee);
+            }
+
+            if ((p_coordonnee.charAt(0) + i <= 'h') && (p_coordonnee.charAt(1) - i >= 1)) {
+                coordonnee = "" + (char) (p_coordonnee.charAt(0) + i) +
+                        (char) (p_coordonnee.charAt(1) - i);
+                mouvements.add(coordonnee);
+            }
+        }
+
+        return mouvements;
     }
 }
