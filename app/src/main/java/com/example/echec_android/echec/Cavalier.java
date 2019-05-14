@@ -39,6 +39,7 @@ public class Cavalier extends Piece {
             return "C";
     }
 
+
     /**
      * Méthode qui valide si le déplacement de la pièce est possible pour un mouvement standard
      *

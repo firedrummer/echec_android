@@ -291,17 +291,46 @@ public class Echiquier {
         // TODO
     }
 
-    private boolean deplacementPetitRoqueValide(Piece p_piece, String p_coordonneDepart, String coordonneeFin) {
-        Piece pieceCourante = getPiece(p_coordonneDepart);
+    private boolean deplacementPetitRoqueValide(Piece p_piece, String p_coordonneePiece1, String p_coordonneePiece2) {
+        Piece piece1 = getPiece(p_coordonneePiece1);
+        Piece piece2 = getPiece(p_coordonneePiece2);
 
-        return pieceCourante.getType() == Type.ROI && pieceCourante.getType() == Type.TOUR;
+        if (piece1.estDeplacer() || piece2.estDeplacer()) {
+            return false;
+        }
 
-        // TODO
+        if (Math.abs(p_coordonneePiece1.charAt(0) - p_coordonneePiece2.charAt(0)) == 2 &&
+                casesVide(p_coordonneePiece1, p_coordonneePiece2)) {
+            if (piece1.getCouleur() == piece2.getCouleur()) {
+                return (piece1.getType() == Type.ROI && piece2.getType() == Type.TOUR) ||
+                        (piece2.getType() == Type.ROI && piece1.getType() == Type.TOUR);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
-    private boolean deplacementGrandRoqueValide(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
-        return true;
-        // TODO
+    private boolean deplacementGrandRoqueValide(Piece p_piece, String p_coordonneePiece1, String p_coordonneePiece2) {
+        Piece piece1 = getPiece(p_coordonneePiece1);
+        Piece piece2 = getPiece(p_coordonneePiece2);
+
+        if (piece1.estDeplacer() || piece2.estDeplacer()) {
+            return false;
+        }
+
+        if (Math.abs(p_coordonneePiece1.charAt(0) - p_coordonneePiece2.charAt(0)) == 3 &&
+                casesVide(p_coordonneePiece1, p_coordonneePiece2)) {
+            if (piece1.getCouleur() == piece2.getCouleur()) {
+                return (piece1.getType() == Type.ROI && piece2.getType() == Type.TOUR) ||
+                        (piece2.getType() == Type.ROI && piece1.getType() == Type.TOUR);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -323,18 +352,44 @@ public class Echiquier {
                 m_echiquier.remove(p_coordonneeFin);
             }
 
+            piece.deplacer();
+
             ajouterPiece(p_coordonneeFin, piece);
+
             return true;
         } else if (valide == 2) {
-            Piece piece1 = getPiece(p_coordonneeDebut);
-            Piece piece2 = getPiece(p_coordonneeFin);
+            Piece pieceRoi = getPiece(p_coordonneeDebut);
+            Piece pieceTour = getPiece(p_coordonneeFin);
 
+            pieceRoi.deplacer();
+            pieceTour.deplacer();
 
             m_echiquier.remove(p_coordonneeDebut);
             m_echiquier.remove(p_coordonneeFin);
 
-            ajouterPiece(p_coordonneeFin, piece1);
-            ajouterPiece(p_coordonneeDebut, piece2);
+            if (pieceRoi.getType() != Type.ROI) {
+                Piece pieceTempon = pieceRoi;
+                pieceTour = pieceRoi;
+                pieceRoi = pieceTempon;
+            }
+
+            if (Math.abs(p_coordonneeDebut.charAt(0) - p_coordonneeFin.charAt(0)) == 2) {
+                if (pieceRoi.getCouleur() == Couleur.NOIR) {
+                    ajouterPiece("g8", pieceRoi);
+                    ajouterPiece("f8", pieceTour);
+                } else {
+                    ajouterPiece("g1", pieceRoi);
+                    ajouterPiece("f1", pieceTour);
+                }
+            } else {
+                if (pieceRoi.getCouleur() == Couleur.NOIR) {
+                    ajouterPiece("c8", pieceRoi);
+                    ajouterPiece("d8", pieceTour);
+                } else {
+                    ajouterPiece("c1", pieceRoi);
+                    ajouterPiece("d1", pieceTour);
+                }
+            }
 
             return true;
         } else {

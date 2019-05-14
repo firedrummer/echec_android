@@ -19,6 +19,8 @@ public abstract class Piece {
      */
     private Type m_type;
 
+    private boolean m_deplacer = false;
+
     /**
      * constructeur privé d'une pièce
      *
@@ -46,6 +48,17 @@ public abstract class Piece {
      */
     public boolean estBlanc() {
         return this.m_couleur == Couleur.BLANC;
+    }
+
+    public boolean estDeplacer() {
+        return m_deplacer;
+    }
+
+    /**
+     * Met la valeur de m_deplacer à true pour dire que la piece à deja été déplacer
+     */
+    public void deplacer() {
+        m_deplacer = true;
     }
 
     /**
