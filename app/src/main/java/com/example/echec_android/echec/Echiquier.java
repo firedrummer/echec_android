@@ -208,16 +208,128 @@ public class Echiquier {
      */
     private LinkedHashMap<String, String> getToursPossibleSelonPiece(Piece p_piece, String p_coordonnee) {
         LinkedHashMap<String, String> tourPossible = new LinkedHashMap<>();
+        Type type = p_piece.getType();
 
         ArrayList<String> mouvementsBasique = p_piece.deplacementPossibleSelonCoordoordee(p_coordonnee);
 
-        if (p_piece.getType() == Type.ROI || p_piece.getType() == Type.TOUR) {
-            // TODO
-        }
+        if (type == Type.ROI) {
+            for (String coordonne : mouvementsBasique) {
+                if (casesVide(p_coordonnee, coordonne)) {
+                    tourPossible.put(p_coordonnee, coordonne);
+                }
+            }
 
-        return tourPossible;
+            if (p_coordonnee.equals("e1") || p_coordonnee.equals("e8")) {
+                if (deplacementGrandRoqueValide(p_piece, p_coordonnee, "a" + p_coordonnee.charAt(1))) {
+                    tourPossible.put(p_coordonnee, "a" + p_coordonnee.charAt(1));
+                }
+
+                if (deplacementPetitRoqueValide(p_piece, p_coordonnee, "h" + p_coordonnee.charAt(1))) {
+                    tourPossible.put(p_coordonnee, "h" + p_coordonnee.charAt(1));
+                }
+            }
+
+            return tourPossible;
+        } else if (type == Type.TOUR) {
+            for (String coordonne : mouvementsBasique) {
+                if (casesVide(p_coordonnee, coordonne)) {
+                    tourPossible.put(p_coordonnee, coordonne);
+                }
+            }
+
+            if (p_coordonnee.equals("h1") || p_coordonnee.equals("h8")) {
+                if (deplacementPetitRoqueValide(p_piece, p_coordonnee, "e" + p_coordonnee.charAt(1))) {
+                    tourPossible.put(p_coordonnee, "e" + p_coordonnee.charAt(1));
+                }
+            } else if (p_coordonnee.equals("a1") || p_coordonnee.equals("a8")) {
+                if (deplacementGrandRoqueValide(p_piece, p_coordonnee, "e" + p_coordonnee.charAt(1))) {
+                    tourPossible.put(p_coordonnee, "e" + p_coordonnee.charAt(1));
+                }
+            }
+
+            return tourPossible;
+        } else if (type == Type.PION) {
+            for (String coordonne : mouvementsBasique) {
+                if (casesVide(p_coordonnee, coordonne)) {
+                    tourPossible.put(p_coordonnee, coordonne);
+                }
+            }
+
+            tourPossible.putAll(deplacementSpeciauxPion(p_piece, p_coordonnee));
+
+            return tourPossible;
+        } else if (type == Type.CAVALIER) {
+            for (String coordonne : mouvementsBasique) {
+                tourPossible.put(p_coordonnee, coordonne);
+            }
+            return tourPossible;
+        } else {
+            for (String coordonne : mouvementsBasique) {
+                if (casesVide(p_coordonnee, coordonne)) {
+                    tourPossible.put(p_coordonnee, coordonne);
+                }
+            }
+
+            return tourPossible;
+        }
     }
 
+    private LinkedHashMap<String, String> deplacementSpeciauxPion(Piece p_piece, String p_coordonnee) {
+        LinkedHashMap<String, String> tourPion = new LinkedHashMap<>();
+
+        ArrayList<String> deplacementSpeciaux = new ArrayList<>();
+        deplacementSpeciaux.add("" + (char) (p_coordonnee.charAt(0) + 1) + (char) (p_coordonnee.charAt(1) + 1));
+        deplacementSpeciaux.add("" + (char) (p_coordonnee.charAt(0) + 1) + (char) (p_coordonnee.charAt(1) - 1));
+        deplacementSpeciaux.add("" + (char) (p_coordonnee.charAt(0) - 1) + (char) (p_coordonnee.charAt(1) + 1));
+        deplacementSpeciaux.add("" + (char) (p_coordonnee.charAt(0) - 1) + (char) (p_coordonnee.charAt(1) - 1));
+
+        for (String coordonnee : deplacementSpeciaux) {
+            if (deplacementValidePion(p_piece, p_coordonnee, coordonnee)) {
+                tourPion.put(p_coordonnee, coordonnee);
+            }
+        }
+
+        return tourPion;
+    }
+
+    /**
+     * Fait la promotion d'un pion
+     *
+     * @param p_coordonnee pion à promouvoir
+     * @param p_type       vers le type de pièce la promotion à lieu
+     */
+    public void promotion(String p_coordonnee, Type p_type) {
+        Piece piece = getPiece(p_coordonnee);
+        Piece nouvellePiece;
+
+        switch (p_type) {
+            case ROI:
+                nouvellePiece = new Roi(piece.getCouleur());
+                nouvellePiece.deplacer();
+                break;
+            case FOU:
+                nouvellePiece = new Roi(piece.getCouleur());
+                nouvellePiece.deplacer();
+                break;
+            case CAVALIER:
+                nouvellePiece = new Roi(piece.getCouleur());
+                nouvellePiece.deplacer();
+                break;
+            case DAME:
+                nouvellePiece = new Roi(piece.getCouleur());
+                nouvellePiece.deplacer();
+                break;
+            case TOUR:
+                nouvellePiece = new Roi(piece.getCouleur());
+                nouvellePiece.deplacer();
+                break;
+            default:
+                throw new IllegalArgumentException("Le code ne devrait pas aller ici!!!");
+        }
+
+        m_echiquier.remove(p_coordonnee);
+        m_echiquier.put(p_coordonnee, nouvellePiece);
+    }
 
     /**
      * Vérifie si un déplacement est valide en prenant en compte le reste de Échiquier
@@ -262,7 +374,9 @@ public class Echiquier {
     }
 
     private boolean deplacementValideDame(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
-        return casesVide(p_coordonneDebut, p_coordonneeFin) && p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin);
+        return casesVide(p_coordonneDebut, p_coordonneeFin) &&
+                p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin) &&
+                mangerValidation(p_coordonneDebut, p_coordonneeFin) != 'n';
     }
 
     private boolean deplacementValideCavalier(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
@@ -270,7 +384,9 @@ public class Echiquier {
     }
 
     private boolean deplacementValideFou(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
-        return casesVide(p_coordonneDebut, p_coordonneeFin) && p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin);
+        return casesVide(p_coordonneDebut, p_coordonneeFin) &&
+                p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin) &&
+                mangerValidation(p_coordonneDebut, p_coordonneeFin) != 'n';
     }
 
     private byte deplacementValideRoi(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
@@ -286,9 +402,41 @@ public class Echiquier {
         }
     }
 
+    /**
+     * Valide si une case est vide ou si la piece peut à cette position peu l'être
+     *
+     * @param p_coordonneeDebut coordonnée de départ
+     * @param p_coordonneeFin   coordonnée de fin
+     * @return v si elle est vide, m si la pièce est mangeable et n dans le cas contraire
+     */
+    private char mangerValidation(String p_coordonneeDebut, String p_coordonneeFin) {
+        Piece pieceFin = getPiece(p_coordonneeFin);
+        Piece pieceDebut = getPiece(p_coordonneeDebut);
+
+        if (pieceFin == null) {
+            return 'v';
+        } else if (pieceDebut.getCouleur() != pieceFin.getCouleur()) {
+            return 'n';
+        } else {
+            return 'm';
+        }
+    }
+
     private boolean deplacementValidePion(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
-        return true;
-        // TODO
+        char manger = mangerValidation(p_coordonneDebut, p_coordonneeFin);
+
+        if (manger == 'v') {
+            if (true) {
+                // TODO prise en passant
+            } else {
+                return p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin);
+            }
+            return false; // à enlever quand le todo sera fait
+        } else if (manger == 'n') {
+            return false;
+        } else {
+            return p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin);
+        }
     }
 
     private boolean deplacementPetitRoqueValide(Piece p_piece, String p_coordonneePiece1, String p_coordonneePiece2) {
@@ -333,11 +481,14 @@ public class Echiquier {
         }
     }
 
+    // TODO ajouter la notion d'échec
+    // TODO ajou
+
     /**
      * Tente de déplacer une piece si le déplacement n'est pas valide retourne false
      *
      * @param p_coordonneeDebut coordonnée de départ de la piece
-     * @param p_coordonneeFin    coordonnée de destination de la piece
+     * @param p_coordonneeFin   coordonnée de destination de la piece
      * @return true le déplacement réussit sinon false
      */
     public boolean deplacerPiece(String p_coordonneeDebut, String p_coordonneeFin) {

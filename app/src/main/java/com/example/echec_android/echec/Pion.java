@@ -65,10 +65,17 @@ public class Pion extends Piece {
     public ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee) {
         ArrayList<String> mouvements = new ArrayList<>();
 
+        String deplacement;
         if (getCouleur() == Couleur.BLANC && p_coordonnee.charAt(1) == '2') {
-            mouvements.add("" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) + 2));
+            deplacement = "" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) + 2);
+            if (estPremierDeplacementValide(p_coordonnee, deplacement)) {
+                mouvements.add(deplacement);
+            }
         } else if (getCouleur() == Couleur.NOIR && p_coordonnee.charAt(1) == '7') {
-            mouvements.add("" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) - 2));
+            deplacement = "" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) - 2);
+            if (estPremierDeplacementValide(p_coordonnee, deplacement)) {
+                mouvements.add(deplacement);
+            }
         }
 
         if (getCouleur() == Couleur.NOIR) {
@@ -87,12 +94,13 @@ public class Pion extends Piece {
      * @param p_coordonneeFin    coordonnée de fin de la piece après le mouvement
      * @return si le deplacement est valide
      */
-    boolean estPremierDeplacementValide(String p_coordonneeDepart, String p_coordonneeFin) {
+    private boolean estPremierDeplacementValide(String p_coordonneeDepart, String p_coordonneeFin) {
         if (p_coordonneeDepart.compareTo(p_coordonneeFin) == 0 ||
                 p_coordonneeFin.charAt(0) < 'a' || p_coordonneeFin.charAt(0) > 'h' ||
                 p_coordonneeFin.charAt(1) < '1' || p_coordonneeFin.charAt(1) > '8') {
             return false;
-        } else return Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0)) == 0 &&
+        } else
+            return !estDeplacer() && Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0)) == 0 &&
                 Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) < 2;
     }
 }
