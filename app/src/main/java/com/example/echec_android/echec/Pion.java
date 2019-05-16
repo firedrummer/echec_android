@@ -51,8 +51,9 @@ public class Pion extends Piece {
                 p_coordonneeFin.charAt(0) < 'a' || p_coordonneeFin.charAt(0) > 'h' ||
                 p_coordonneeFin.charAt(1) < '1' || p_coordonneeFin.charAt(1) > '8') {
             return false;
-        } else return Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0)) == 0 &&
-                Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) == 1;
+        } else return (Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0)) == 0 &&
+                Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) == 1) ||
+                estPremierDeplacementValide(p_coordonneeDepart, p_coordonneeFin);
     }
 
     /**
@@ -101,6 +102,6 @@ public class Pion extends Piece {
             return false;
         } else
             return !estDeplacer() && Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0)) == 0 &&
-                Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) < 2;
+                    Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) <= 2;
     }
 }

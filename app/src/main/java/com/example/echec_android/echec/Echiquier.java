@@ -1,6 +1,8 @@
 package com.example.echec_android.echec;
 
 
+import android.support.v4.util.Pair;
+
 import com.example.echec_android.echec.Piece.Couleur;
 import com.example.echec_android.echec.Piece.Type;
 
@@ -8,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.Objects;
 
 
 /**
@@ -274,6 +277,43 @@ public class Echiquier {
         }
     }
 
+    /**
+     * Dernier déplacement d'une Piece avec 1 si c'est sont premier déplacement
+     * et 0 dans le cas contraire, la valeur est du String est vide et le nombre est 3
+     * si le dernier deplacement n'est pas effectuer par un pion
+     */
+    private Pair<String, Integer> dernierTourJouer = new Pair<>("", 3);
+
+    public boolean estEchecEtMathNoir() {
+        String positionRoiNoir = obtenirCoordonneeRoiSelonCouleur(Couleur.NOIR);
+
+        return estEchec(Couleur.NOIR) &&
+                getToursPossibleSelonPiece(getPiece(positionRoiNoir),
+                        positionRoiNoir).size() == 0;
+    }
+
+    public boolean estEchecEtMathBlanc() {
+        String positionRoiBlanc = obtenirCoordonneeRoiSelonCouleur(Couleur.BLANC);
+
+        return estEchec(Couleur.BLANC) &&
+                getToursPossibleSelonPiece(getPiece(positionRoiBlanc),
+                        positionRoiBlanc).size() == 0;
+    }
+
+    public boolean estEchec(Couleur p_couleur) {
+        Couleur couleurOposer;
+
+        if (p_couleur == Couleur.BLANC) {
+            couleurOposer = Couleur.NOIR;
+        } else {
+            couleurOposer = Couleur.BLANC;
+        }
+
+        String coordonneeRoi = obtenirCoordonneeRoiSelonCouleur(p_couleur);
+
+        return getToursPossibleSelonCouleur(couleurOposer).containsValue(coordonneeRoi);
+    }
+
     private LinkedHashMap<String, String> deplacementSpeciauxPion(Piece p_piece, String p_coordonnee) {
         LinkedHashMap<String, String> tourPion = new LinkedHashMap<>();
 
@@ -329,6 +369,20 @@ public class Echiquier {
 
         m_echiquier.remove(p_coordonnee);
         m_echiquier.put(p_coordonnee, nouvellePiece);
+    }
+
+    private String obtenirCoordonneeRoiSelonCouleur(Couleur p_couleur) {
+        for (Map.Entry<String, Piece> entry : m_echiquier.entrySet()) {
+            if (Objects.equals(Type.ROI, entry.getValue().getType()) &&
+                    Objects.equals(p_couleur, entry.getValue().getCouleur())) {
+                return entry.getKey();
+            }
+        }
+        return null;
+    }
+
+    public boolean estPatSelonCouleur(Couleur p_couleur) {
+        return getToursPossibleSelonCouleur(p_couleur).size() == 0 && !estEchec(p_couleur);
     }
 
     /**
@@ -422,20 +476,45 @@ public class Echiquier {
         }
     }
 
-    private boolean deplacementValidePion(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
-        char manger = mangerValidation(p_coordonneDebut, p_coordonneeFin);
+    /**
+     * Regarde si un cas de partie infinie se produit dans se cas c'est ne partie nulle
+     *
+     * @return true si la partie est nulle, false dans le cas contraire
+     */
+    public boolean partieNulle() {
+        return m_echiquier.size() <= 3;
+    }
+
+    private boolean deplacementValidePion(Piece p_piece, String p_coordonneeDebut, String p_coordonneeFin) {
+        char manger = mangerValidation(p_coordonneeDebut, p_coordonneeFin);
 
         if (manger == 'v') {
-            if (true) {
-                // TODO prise en passant
+            if (estPriseEnPassantValide(p_coordonneeDebut)) {
+                return Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDebut.charAt(0)) == 1 &&
+                        Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDebut.charAt(1)) == 1
+                        && getPiece(p_coordonneeFin) == null;
             } else {
-                return p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin);
+                return p_piece.estDeplacementValide(p_coordonneeDebut, p_coordonneeFin);
             }
-            return false; // à enlever quand le todo sera fait
         } else if (manger == 'n') {
             return false;
         } else {
-            return p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin);
+            return (p_coordonneeDebut.charAt(0) + 1 == p_coordonneeFin.charAt(0) &&
+                    p_coordonneeDebut.charAt(1) + 1 == p_coordonneeFin.charAt(1)) ||
+                    (p_coordonneeDebut.charAt(0) - 1 == p_coordonneeFin.charAt(0) &&
+                            p_coordonneeDebut.charAt(1) - 1 == p_coordonneeFin.charAt(1)) ||
+                    (p_coordonneeDebut.charAt(0) - 1 == p_coordonneeFin.charAt(0) &&
+                            p_coordonneeDebut.charAt(1) + 1 == p_coordonneeFin.charAt(1)) ||
+                    (p_coordonneeDebut.charAt(0) + 1 == p_coordonneeFin.charAt(0) &&
+                            p_coordonneeDebut.charAt(1) - 1 == p_coordonneeFin.charAt(1));
+        }
+    }
+
+    private boolean estPriseEnPassantValide(String p_coordonneeDebut) {
+        if (Objects.equals(dernierTourJouer.first, p_coordonneeDebut) && dernierTourJouer.second != null) {
+            return dernierTourJouer.second == 1;
+        } else {
+            return false;
         }
     }
 
@@ -481,9 +560,6 @@ public class Echiquier {
         }
     }
 
-    // TODO ajouter la notion d'échec
-    // TODO ajou
-
     /**
      * Tente de déplacer une piece si le déplacement n'est pas valide retourne false
      *
@@ -501,6 +577,12 @@ public class Echiquier {
 
             if (getPiece(p_coordonneeFin) != null) {
                 m_echiquier.remove(p_coordonneeFin);
+            }
+
+            if (piece.getType() == Type.PION) {
+                dernierTourJouer = new Pair<>(p_coordonneeFin, piece.estDeplacer() ? 1 : 0);
+            } else {
+                dernierTourJouer = new Pair<>("", 3);
             }
 
             piece.deplacer();
