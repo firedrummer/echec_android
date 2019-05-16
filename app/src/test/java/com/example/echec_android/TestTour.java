@@ -61,4 +61,9 @@ public class TestTour extends TestPiece {
         assertFalse(piece.estDeplacementValide("b1", "e5"));
         assertFalse(piece.estDeplacementValide("a1", "g3"));
     }
+
+    @Override
+    public void deplacementPossibleSelonCoordonnee() {
+
+    }
 }

@@ -6,6 +6,10 @@ import com.example.echec_android.echec.Piece.Couleur;
 
 import org.junit.Test;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -61,6 +65,18 @@ public class TestCavalier extends TestPiece {
         assertFalse(piece.estDeplacementValide("d4", "d8"));
         assertFalse(piece.estDeplacementValide("d4", "h4"));
         assertFalse(piece.estDeplacementValide("d4", "h8"));
+    }
+
+    @Test
+    @Override
+    public void deplacementPossibleSelonCoordonnee() {
+        Cavalier piece = (Cavalier) creerPiece(Couleur.NOIR);
+
+        List<String> listeTest = asList("b4", "b6", "c3", "c7", "e3", "e7", "f4", "f6");
+        List<String> listeTest2 = asList("b3", "c2");
+
+        assertArrayEquals(listeTest.toArray(), piece.deplacementPossibleSelonCoordoordee("d5").toArray());
+        assertArrayEquals(listeTest2.toArray(), piece.deplacementPossibleSelonCoordoordee("a1").toArray());
     }
 }
 

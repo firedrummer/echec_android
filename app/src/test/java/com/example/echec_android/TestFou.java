@@ -62,4 +62,9 @@ public class TestFou extends TestPiece {
         assertTrue(piece.estDeplacementValide("b1", "e4"));
         assertFalse(piece.estDeplacementValide("a1", "g3"));
     }
+
+    @Override
+    public void deplacementPossibleSelonCoordonnee() {
+
+    }
 }

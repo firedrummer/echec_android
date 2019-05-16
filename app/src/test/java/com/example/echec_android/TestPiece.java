@@ -52,4 +52,7 @@ public abstract class TestPiece {
 
     @Test
     public abstract void deplacementValide();
+
+    @Test
+    public abstract void deplacementPossibleSelonCoordonnee();
 }

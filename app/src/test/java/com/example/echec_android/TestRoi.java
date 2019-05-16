@@ -60,4 +60,9 @@ public class TestRoi extends TestPiece {
         assertTrue(piece.estDeplacementValide("a1", "b2"));
         assertFalse(piece.estDeplacementValide("a1", "c3"));
     }
+
+    @Override
+    public void deplacementPossibleSelonCoordonnee() {
+
+    }
 }

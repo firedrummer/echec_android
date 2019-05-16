@@ -61,5 +61,10 @@ public class TestPion extends TestPiece {
         assertFalse(piece.estDeplacementValide("a1", "b2"));
         assertFalse(piece.estDeplacementValide("a1", "c3"));
     }
+
+    @Override
+    public void deplacementPossibleSelonCoordonnee() {
+
+    }
 }
 
