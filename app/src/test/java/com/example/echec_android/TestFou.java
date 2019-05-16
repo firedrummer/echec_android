@@ -5,6 +5,10 @@ import com.example.echec_android.echec.Piece;
 
 import org.junit.Test;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -63,8 +67,16 @@ public class TestFou extends TestPiece {
         assertFalse(piece.estDeplacementValide("a1", "g3"));
     }
 
+    @Test
     @Override
     public void deplacementPossibleSelonCoordonnee() {
+        Fou piece = (Fou) creerPiece(Piece.Couleur.NOIR);
 
+        List<String> listeTest = asList("b2", "c3", "d4", "e5", "f6", "g7", "h8");
+        List<String> listeTest2 = asList("c1", "d2", "f4", "g5", "h6", "a7", "b6",
+                "c5", "d4", "f2", "g1");
+
+        assertArrayEquals(listeTest.toArray(), piece.deplacementPossibleSelonCoordoordee("a1").toArray());
+        assertArrayEquals(listeTest2.toArray(), piece.deplacementPossibleSelonCoordoordee("e3").toArray());
     }
 }
