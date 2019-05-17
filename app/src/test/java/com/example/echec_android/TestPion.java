@@ -5,7 +5,11 @@ import com.example.echec_android.echec.Pion;
 
 import org.junit.Test;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
 import static junit.framework.TestCase.assertTrue;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
@@ -64,8 +68,21 @@ public class TestPion extends TestPiece {
 
     @Test
     @Override
-    public void deplacementPossibleSelonCoordonnee() {
+    public void deplacementsPossiblesSelonCoordonnee() {
+        Pion piece = (Pion) creerPiece(Piece.Couleur.NOIR);
+        Pion piece2 = (Pion) creerPiece(Piece.Couleur.BLANC);
+
+        List<String> listeTest = asList("a5", "b5");
+        List<String> listeTest2 = asList("b3", "b4", "a3", "c3");
+
+        // Test selon position de base 1è ligne
+        assertArrayEquals(listeTest2.toArray(), piece2.deplacementsPossiblesSelonCoordonnee("b2").toArray());
+
+        //Test selon position de tour 2 soit 3è rangée
+        assertArrayEquals(listeTest.toArray(), piece.deplacementsPossiblesSelonCoordonnee("a6").toArray());
+        // Test de la prise en passant
 
     }
 }
+
 

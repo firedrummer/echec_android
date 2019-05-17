@@ -79,7 +79,7 @@ public class Reine extends Piece {
      * @return coordonées des mouvement possible
      */
     @Override
-    public ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee) {
+    public ArrayList<String> deplacementsPossiblesSelonCoordonnee(String p_coordonnee) {
         ArrayList<String> mouvements = new ArrayList<>();
         String coordonnee = "";
 
@@ -129,7 +129,6 @@ public class Reine extends Piece {
                 mouvements.add(coordonnee);
             }
         }
-
         return mouvements;
     }
 }

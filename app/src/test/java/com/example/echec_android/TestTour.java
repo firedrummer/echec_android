@@ -5,6 +5,10 @@ import com.example.echec_android.echec.Tour;
 
 import org.junit.Test;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -64,7 +68,16 @@ public class TestTour extends TestPiece {
 
     @Test
     @Override
-    public void deplacementPossibleSelonCoordonnee() {
+    public void deplacementsPossiblesSelonCoordonnee() {
+        Tour piece = (Tour) creerPiece(Piece.Couleur.NOIR);
 
+        List<String> listeTest = asList("a2", "b1", "c2", "d2", "e2", "f2", "g3", "h2", "b3", "b4",
+                "b5", "b6", "b7", "b8");
+
+        List<String> listeTest2 = asList("h7", "h6", "h5", "h4", "h3", "h2", "h1", "g8", "f8", "e8",
+                "d8", "c8", "b8", "c6", "a8");
+
+        assertArrayEquals(listeTest.toArray(), piece.deplacementsPossiblesSelonCoordonnee("b2").toArray());
+        assertArrayEquals(listeTest2.toArray(), piece.deplacementsPossiblesSelonCoordonnee("h8").toArray());
     }
 }

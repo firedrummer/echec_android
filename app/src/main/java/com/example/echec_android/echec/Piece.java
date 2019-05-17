@@ -90,7 +90,7 @@ public abstract class Piece {
      * @param p_coordonnee coordonnée à calculer mouvement possible
      * @return coordonées des mouvement possible
      */
-    public abstract ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee);
+    public abstract ArrayList<String> deplacementsPossiblesSelonCoordonnee(String p_coordonnee);
 
     /**
      * @return la couleur de la piece

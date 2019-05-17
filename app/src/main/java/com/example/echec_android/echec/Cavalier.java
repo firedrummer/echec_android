@@ -70,7 +70,7 @@ public class Cavalier extends Piece {
      * @return coordonées des mouvement possible
      */
     @Override
-    public ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee) {
+    public ArrayList<String> deplacementsPossiblesSelonCoordonnee(String p_coordonnee) {
         ArrayList<String> mouvements = new ArrayList<>();
 
         mouvements.add("" + (char) (p_coordonnee.charAt(0) + 2) + (char) (p_coordonnee.charAt(1) + 1));

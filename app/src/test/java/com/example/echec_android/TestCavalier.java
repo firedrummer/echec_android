@@ -69,14 +69,14 @@ public class TestCavalier extends TestPiece {
 
     @Test
     @Override
-    public void deplacementPossibleSelonCoordonnee() {
+    public void deplacementsPossiblesSelonCoordonnee() {
         Cavalier piece = (Cavalier) creerPiece(Couleur.NOIR);
 
         List<String> listeTest = asList("b4", "b6", "c3", "c7", "e3", "e7", "f4", "f6");
         List<String> listeTest2 = asList("b3", "c2");
 
-        assertArrayEquals(listeTest.toArray(), piece.deplacementPossibleSelonCoordoordee("d5").toArray());
-        assertArrayEquals(listeTest2.toArray(), piece.deplacementPossibleSelonCoordoordee("a1").toArray());
+        assertArrayEquals(listeTest.toArray(), piece.deplacementsPossiblesSelonCoordonnee("d5").toArray());
+        assertArrayEquals(listeTest2.toArray(), piece.deplacementsPossiblesSelonCoordonnee("a1").toArray());
     }
 }
 

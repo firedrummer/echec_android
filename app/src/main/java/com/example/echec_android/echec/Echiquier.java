@@ -213,7 +213,7 @@ public class Echiquier {
         LinkedHashMap<String, String> tourPossible = new LinkedHashMap<>();
         Type type = p_piece.getType();
 
-        ArrayList<String> mouvementsBasique = p_piece.deplacementPossibleSelonCoordoordee(p_coordonnee);
+        ArrayList<String> mouvementsBasique = p_piece.deplacementsPossiblesSelonCoordonnee(p_coordonnee);
 
         if (type == Type.ROI) {
             for (String coordonne : mouvementsBasique) {

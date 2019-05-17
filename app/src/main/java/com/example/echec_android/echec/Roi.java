@@ -73,7 +73,7 @@ public class Roi extends Piece {
      * @return coordonées des mouvement possible
      */
     @Override
-    public ArrayList<String> deplacementPossibleSelonCoordoordee(String p_coordonnee) {
+    public ArrayList<String> deplacementsPossiblesSelonCoordonnee(String p_coordonnee) {
         ArrayList<String> mouvements = new ArrayList<>();
 
         mouvements.add("" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) + 1));
@@ -91,7 +91,6 @@ public class Roi extends Piece {
                 mouvements.remove(coordonnee);
             }
         }
-
         return mouvements;
     }
 }

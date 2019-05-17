@@ -69,14 +69,14 @@ public class TestFou extends TestPiece {
 
     @Test
     @Override
-    public void deplacementPossibleSelonCoordonnee() {
+    public void deplacementsPossiblesSelonCoordonnee() {
         Fou piece = (Fou) creerPiece(Piece.Couleur.NOIR);
 
         List<String> listeTest = asList("b2", "c3", "d4", "e5", "f6", "g7", "h8");
         List<String> listeTest2 = asList("c1", "d2", "f4", "g5", "h6", "a7", "b6",
                 "c5", "d4", "f2", "g1");
 
-        assertArrayEquals(listeTest.toArray(), piece.deplacementPossibleSelonCoordoordee("a1").toArray());
-        assertArrayEquals(listeTest2.toArray(), piece.deplacementPossibleSelonCoordoordee("e3").toArray());
+        assertArrayEquals(listeTest.toArray(), piece.deplacementsPossiblesSelonCoordonnee("a1").toArray());
+        assertArrayEquals(listeTest2.toArray(), piece.deplacementsPossiblesSelonCoordonnee("e3").toArray());
     }
 }

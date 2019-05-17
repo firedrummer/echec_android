@@ -5,6 +5,10 @@ import com.example.echec_android.echec.Roi;
 
 import org.junit.Test;
 
+import java.util.List;
+
+import static java.util.Arrays.asList;
+import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -63,7 +67,14 @@ public class TestRoi extends TestPiece {
 
     @Test
     @Override
-    public void deplacementPossibleSelonCoordonnee() {
+    public void deplacementsPossiblesSelonCoordonnee() {
+        Roi piece = (Roi) creerPiece(Piece.Couleur.NOIR);
 
+        List<String> listeTest = asList("a8", "c8", "a7", "b7", "c7");
+
+        List<String> listeTest2 = asList("b3", "d3", "d4", "c4", "b4", "b2", "c2", "d2");
+
+        assertArrayEquals(listeTest.toArray(), piece.deplacementsPossiblesSelonCoordonnee("b8").toArray());
+        assertArrayEquals(listeTest2.toArray(), piece.deplacementsPossiblesSelonCoordonnee("c3").toArray());
     }
 }
