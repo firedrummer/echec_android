@@ -7,9 +7,14 @@ import com.example.echec_android.echec.Echiquier;
 import java.util.LinkedHashMap;
 import java.util.Objects;
 
-
+/**
+ * Classe partie qui constitue un échiquier ainsi que des joueurs
+ *
+ * @author William Blackburn
+ * @author Yanick Bellavance
+ */
 public class Partie {
-
+    //Echiquier dasn une partie entre 2 joueurs
     private Echiquier m_echiquier;
 
     /**
@@ -17,8 +22,14 @@ public class Partie {
      */
     private LinkedHashMap<Integer, Pair<Joueur, Echiquier>> m_historique = new LinkedHashMap<>();
 
+    /**
+     *
+     */
     private Joueur m_joueur1;
 
+    /**
+     *
+     */
     private Joueur m_joueur2;
 
     /**
@@ -26,10 +37,18 @@ public class Partie {
      */
     private int m_tourJoueur = 1;
 
+    /**
+     * Getter pour l'historique de la partie
+     * @return l'historique de la partie
+     */
     LinkedHashMap<Integer, Pair<Joueur, Echiquier>> getHistoriquePartie() {
         return m_historique;
     }
 
+    /**
+     * Restaure la partie
+     * @param p_echiquier l'échiquier
+     */
     void restaurerPartie(Echiquier p_echiquier) {
         m_echiquier = p_echiquier;
     }
@@ -53,6 +72,10 @@ public class Partie {
         }
     }
 
+    /**
+     * Restaure l'historique au numéro du tour saisi
+     * @param p_numeroTourRestaurer numéro du tour où on veut restaurer
+     */
     void restaurerHistorique(Integer p_numeroTourRestaurer) {
         m_echiquier = Objects.requireNonNull(m_historique.get(p_numeroTourRestaurer)).second;
 

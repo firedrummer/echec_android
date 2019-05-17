@@ -17,19 +17,19 @@ public class Joueur {
         m_nom = p_nom;
     }
 
-    Piece.Couleur getCouleurPiece() {
+    public Piece.Couleur getCouleurPiece() {
         return m_couleurPiece;
     }
 
-    void setCouleurPiece(Couleur p_couleur) {
+    public void setCouleurPiece(Couleur p_couleur) {
         m_couleurPiece = p_couleur;
     }
 
-    String getNomJoueur() {
+    public String getNomJoueur() {
         return m_nom;
     }
 
-    void setNomJoueur(String p_nom) {
+    public void setNomJoueur(String p_nom) {
         m_nom = p_nom;
     }
 }
