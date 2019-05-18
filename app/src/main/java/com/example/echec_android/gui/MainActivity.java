@@ -1,19 +1,46 @@
 package com.example.echec_android.gui;
 
 import android.os.Bundle;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
 
-import com.example.echec_android.R;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Classe qui gère les fragments et les changements de mode.
+ *
+ * @author Yanick Bellavance
+ * @author William Blackburn
+ */
+public class MainActivity extends DualFragmentActivity implements FragmentPartie.CallBacks {
+
+    /**
+     * Variable qui contient le mode actuel de l'application
+     */
+    public static Mode actualMode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+
+        setTopFragment(InformationFragment.newInstance());
+        actualMode = Mode.Depart;
+
+        setMainFragment(DepartFragment.newInstance());
     }
 
-    FragmentManager fm = getSupportFragmentManager();
-
+    @Override
+    public void onChangeMode(Mode p_mode, String p_id) {
+        switch (p_mode) {
+            case Depart:
+                actualMode = Mode.Depart;
+                setTopFragment(InformationFragment.newInstance());
+                setMainFragment(DepartFragment.newInstance());
+                break;
+            case Partie:
+                actualMode = Mode.Partie;
+                setTopFragment(HistoriqueFragment.newInstance());
+                setMainFragment(FragmentPartie.newInstance());
+                break;
+            default:
+                break;
+        }
+    }
 }

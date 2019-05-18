@@ -1,4 +1,10 @@
 <resources>
     <string name="app_name">echec_android</string>
     <string name="lLayout1"> linearLayout</string>
+    <string name="information">Veuillez entrer les informations avant de commencer la partie. Veuillez noter que le joueur ayant les blancs commence en premier.</string>
+    <string name="information_pertinente">Information pertinente:</string>
+    <string name="confirmerText">Confirmer</string>
+    <string name="nom_du_joueur_blanc">Nom du joueur blanc:</string>
+    <string name="nom_du_joueur_noire">Nom du joueur noire:</string>
+    <string name="toast_info_joueur">Vous devez au moins avoir 3 caractères pour chacun de vos nom!</string>
 </resources>

@@ -1,11 +1,19 @@
 package com.example.echec_android.gui;
 
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+
+import com.example.echec_android.R;
+import com.example.echec_android.partie.Partie;
 
 public class FragmentPartie extends Fragment {
 
@@ -13,6 +21,7 @@ public class FragmentPartie extends Fragment {
      * Les 64 cases du tableau d'échec sont représentées par un array de boutons à 2 dimensions
      */
     Button[][] m_boutons = new Button[8][8];
+    Partie m_partie = new Partie();
 
     public void InitialiserTableau(TableLayout p_table, char[] p_matrice) {
         int numeroBouton = 1;
@@ -62,6 +71,41 @@ public class FragmentPartie extends Fragment {
 
             }
         }
+    }
+
+    /**
+     * Crée une nouvelle instance de FragmentPartie
+     *
+     * @return retourne une nouvelle instance de FragmentPartie
+     */
+    public static FragmentPartie newInstance() {
+        Bundle args = new Bundle();
+
+        FragmentPartie fragment = new FragmentPartie();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+        View v = inflater.inflate(R.layout.partie_fragment_layout, container, false);
+
+        return v;
+    }
+
+    /**
+     * Interface de gestion des modes de l'application.
+     */
+    public interface CallBacks {
+        void onChangeMode(Mode mode, String id);
     }
 }
 
