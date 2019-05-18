@@ -42,5 +42,4 @@ public class TestJoueur {
         Assert.assertEquals("newName", joueur.getNomJoueur());
 
     }
-
 }

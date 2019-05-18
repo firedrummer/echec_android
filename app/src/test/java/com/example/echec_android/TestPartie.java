@@ -20,6 +20,5 @@ public class TestPartie {
     @Test
     public void creation() {
 
-
     }
 }

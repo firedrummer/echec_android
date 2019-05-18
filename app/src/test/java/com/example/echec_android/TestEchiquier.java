@@ -124,5 +124,16 @@ public class TestEchiquier {
 
         System.out.println(m_echiquier.obtenirRepresentation());
     }
+
+    /**
+     * Méthode test de promotion pour tester un pion qui touche la dernière case
+     */
+    @Test
+    public void testPromotion() {
+        m_echiquier.viderEchiquier();
+        m_echiquier.initialiser();
+
+
+    }
 }
 
