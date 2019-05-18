@@ -71,6 +71,17 @@ public class Partie {
     }
 
     /**
+     * @return
+     */
+    public Echiquier getEchiquier() {
+        return m_echiquier;
+    }
+
+    public void setEchiquier(Echiquier p_echiquier) {
+        m_echiquier = p_echiquier;
+    }
+
+    /**
      * Getter pour l'historique de la partie
      * @return l'historique de la partie
      */

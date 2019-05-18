@@ -1,5 +1,6 @@
 package com.example.echec_android.gui;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -13,9 +14,12 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.echec_android.R;
+import com.example.echec_android.echec.Echiquier;
 import com.example.echec_android.echec.Piece;
 import com.example.echec_android.partie.Joueur;
 import com.example.echec_android.partie.Partie;
+
+import java.util.LinkedHashMap;
 
 public class FragmentPartie extends Fragment {
 
@@ -23,9 +27,18 @@ public class FragmentPartie extends Fragment {
      * Les 64 cases du tableau d'échec sont représentées par un array de boutons à 2 dimensions
      */
     Button[][] m_boutons = new Button[8][8];
+    Button m_dernierBoutonCliquer;
+
     static Partie m_partie = new Partie();
 
-    public void InitialiserTableau(TableLayout p_table, char[] p_matrice) {
+    public void InitialiserTableau(TableLayout p_table, Echiquier p_echiquier) {
+
+        if (p_echiquier == null) {
+            m_partie.getEchiquier().initialiser();
+        } else {
+            m_partie.setEchiquier(p_echiquier);
+        }
+
         int numeroBouton = 1;
 
         for (int i = 0; i < 9; i++) {
@@ -53,16 +66,43 @@ public class FragmentPartie extends Fragment {
                     // Ajouter les bouttons a partir de i = 1 et j = 1
                     final Button bouton = new Button(this.getActivity());
 
-                    bouton.setTag("" + (char) ('a' + (i - 1)) + (char) j);
+                    String coordonnee = "" + (char) ('a' + (i - 1)) + (char) j;
 
+                    bouton.setTag(coordonnee);
 
-                    bouton.setText(" "); // TODO initialiser le jeu d'echec
+                    Piece piece = m_partie.getEchiquier().getPiece(coordonnee);
 
+                    if (piece != null) {
+                        bouton.setText(piece.obtenirRepresentation());
+                    } else {
+                        bouton.setText("");
+                    }
 
-                    bouton.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            // TODO
+                    int noir = Color.BLACK;
+                    int blanc = Color.WHITE;
+
+                    if (i % 2 == 0 && j % 2 == 0) {
+
+                        bouton.setBackgroundColor(noir);
+                    } else {
+                        bouton.setBackgroundColor(blanc);
+                    }
+
+                    bouton.setOnClickListener(v -> {
+                        if (m_dernierBoutonCliquer == null) {
+                            m_dernierBoutonCliquer = bouton;
+
+                            LinkedHashMap<String, String> mouvementPossible = m_partie.
+                                    getEchiquier().getToursPossibleSelonPiece(piece, coordonnee);
+
+                            int couleurMouvement = Color.GRAY;
+
+                            for (String mouvements : mouvementPossible.values()) {
+                                m_boutons[mouvements.charAt(0) - 'a'][mouvements.charAt(1) - '1'].setBackgroundColor(couleurMouvement);
+                            }
+                        } else {
+                            m_partie.jouerTour(m_dernierBoutonCliquer.getTag().toString(), coordonnee);
+                            InitialiserTableau(p_table, m_partie.getEchiquier());
                         }
                     });
 
