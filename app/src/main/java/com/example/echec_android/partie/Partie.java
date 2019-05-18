@@ -37,19 +37,35 @@ public class Partie {
      */
     private int m_tourJoueur = 1;
 
-
+    /**
+     * getter pour joueur
+     *
+     * @return le joueur 1
+     */
     public Joueur getJoueur1() {
         return m_joueur1;
     }
 
+    /**
+     * setter pour le joueur 1
+     * @param p_joueur le joueur 1 dans la partie
+     */
     public void setJoueur1(Joueur p_joueur) {
         m_joueur1 = p_joueur;
     }
 
+    /**
+     * Getter pour le joueur 2
+     * @return le joueur 2
+     */
     public Joueur getJoueur2() {
         return m_joueur2;
     }
 
+    /**
+     * Setter pour le joueur 2
+     * @param p_joueur
+     */
     public void setJoueur2(Joueur p_joueur) {
         m_joueur2 = p_joueur;
     }

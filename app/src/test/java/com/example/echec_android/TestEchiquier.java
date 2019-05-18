@@ -5,6 +5,9 @@ import com.example.echec_android.echec.Echiquier;
 import com.example.echec_android.echec.Fou;
 import com.example.echec_android.echec.Piece;
 import com.example.echec_android.echec.Pion;
+import com.example.echec_android.echec.Reine;
+import com.example.echec_android.echec.Roi;
+import com.example.echec_android.echec.Tour;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -132,8 +135,60 @@ public class TestEchiquier {
     public void testPromotion() {
         m_echiquier.viderEchiquier();
         m_echiquier.initialiser();
+        //Tour 1 blanc bouge pion de 2 cases
+        m_echiquier.deplacerPiece("a2", "a4");
+        //Tour 1 noir bouge pion de 2 cases
+        m_echiquier.deplacerPiece("c7", "c5");
+        //Tour 2 blanc avance le meme pion de 1
+        m_echiquier.deplacerPiece("a4", "a5");
+        //Tour 2 noir avance le meme pion de 1
+        m_echiquier.deplacerPiece("c5", "c4");
+        //Tour 3 blanc avance le meme pion de 1
+        m_echiquier.deplacerPiece("a5", "a6");
+        //Tour 3 noir avance le meme pion de 1
+        m_echiquier.deplacerPiece("c4", "c3");
+        //Tour 4 blanc avance le meme pion de 1
+        m_echiquier.deplacerPiece("a6", "a7");
+        //Tour 4 noir avance le meme pion de 1
+        m_echiquier.deplacerPiece("c3", "c2");
+        //Tour 5 blanc avance le meme pion de 1
+        m_echiquier.deplacerPiece("a7", "a8");
+        //Test de la  promotion du pion blanc qui s'est rendu à la dernière rangée
+        m_echiquier.promotion("a8", Piece.Type.DAME);
 
+        Assert.assertEquals("DAME", m_echiquier.getPieceEnTexte("a8"));
+    }
 
+    @Test
+    public void testPartieNulle() {
+        // Les 3 pièces nécéssaires pour tester qu'il y a 3 pièces sur l'échiquier afin d'avoir une partie nulle
+        Pion pion = new Pion(Piece.Couleur.BLANC);
+        Roi roiBlanc = new Roi(Piece.Couleur.BLANC);
+        Roi roiNoir = new Roi(Piece.Couleur.NOIR);
+
+        m_echiquier.viderEchiquier();
+        m_echiquier.obtenirRepresentation();
+        m_echiquier.ajouterPiece("a2", pion);
+        m_echiquier.ajouterPiece("d5", roiNoir);
+        m_echiquier.ajouterPiece("e7", roiBlanc);
+        Assert.assertTrue(m_echiquier.partieNulle());
+
+    }
+
+    @Test
+    public void testEchecMat() {
+        Roi roiNoir = new Roi(Piece.Couleur.NOIR);
+        Roi roiBlanc = new Roi(Piece.Couleur.BLANC);
+        Reine reineBlanche = new Reine(Piece.Couleur.BLANC);
+        Tour tourBlanche = new Tour(Piece.Couleur.BLANC);
+
+        m_echiquier.viderEchiquier();
+        m_echiquier.ajouterPiece("b5", roiBlanc);
+        m_echiquier.ajouterPiece("a6", reineBlanche);
+        m_echiquier.ajouterPiece("b7", tourBlanche);
+        m_echiquier.ajouterPiece("a8", roiNoir);
+
+        Assert.assertTrue(m_echiquier.estEchecEtMathNoir());
     }
 }
 

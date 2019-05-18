@@ -20,13 +20,14 @@ import java.util.Objects;
  * @author Yanick Bellavance
  */
 public class Echiquier {
-
+    //Variable pour effectuer des sauts de ligne
     private static final String SAUT_LIGNE = System.lineSeparator();
 
     /**
      * L'échiquier représenté sous forme de hashmap
      */
     private LinkedHashMap<String, Piece> m_echiquier = new LinkedHashMap<>();
+
     /**
      * Dernier déplacement d'une Piece avec 1 si c'est sont premier déplacement
      * et 0 dans le cas contraire, la valeur est du String est vide et le nombre est 3
@@ -58,6 +59,8 @@ public class Echiquier {
     }
 
     /**
+     * Gets nombre pieces.
+     *
      * @return le nombre de pieces présents sur l'échiquier
      */
     public int getNombrePieces() {
@@ -150,6 +153,7 @@ public class Echiquier {
      * Compte du pointage des pièces de la couleur indiquer en paramètre
      *
      * @param p_couleur couleur des pièces à savoir le pointage
+     * @return the double
      */
     public double compterPointsEchiquier(Couleur p_couleur) {
         double nombrePoint = 0;
@@ -180,6 +184,12 @@ public class Echiquier {
         return nombrePieces;
     }
 
+    /**
+     * Méthode qui retourne les pièces selon leur couleur
+     *
+     * @param p_couleur couleur de la pièce retournée
+     * @return la pièce
+     */
     private LinkedHashMap<String, Piece> getPiecesSelonCouleur(Couleur p_couleur) {
         LinkedHashMap<String, Piece> pieces = new LinkedHashMap<>();
 
@@ -283,6 +293,11 @@ public class Echiquier {
         }
     }
 
+    /**
+     * Méthode qui valide l'échec et mat des noirs
+     *
+     * @return true lorsque les noirs sont EEM
+     */
     public boolean estEchecEtMathNoir() {
         String positionRoiNoir = obtenirCoordonneeRoiSelonCouleur(Couleur.NOIR);
 
@@ -291,6 +306,11 @@ public class Echiquier {
                         positionRoiNoir).size() == 0;
     }
 
+    /**
+     * Méthode qui valide l'échec et mat des blanc
+     *
+     * @return true lorsque les blancs sont EEM
+     */
     public boolean estEchecEtMathBlanc() {
         String positionRoiBlanc = obtenirCoordonneeRoiSelonCouleur(Couleur.BLANC);
 
@@ -299,6 +319,12 @@ public class Echiquier {
                         positionRoiBlanc).size() == 0;
     }
 
+    /**
+     * Méthode qui définit si un joueur est en échec
+     *
+     * @param p_couleur couleur du joueur
+     * @return true lorsque le joueur est en échec
+     */
     public boolean estEchec(Couleur p_couleur) {
         Couleur couleurOposer;
 
@@ -313,6 +339,12 @@ public class Echiquier {
         return getToursPossibleSelonCouleur(couleurOposer).containsValue(coordonneeRoi);
     }
 
+    /**
+     *
+     * @param p_piece pièce
+     * @param p_coordonnee coordonnée où la pièce est placée
+     * @return tourPion
+     */
     private LinkedHashMap<String, String> deplacementSpeciauxPion(Piece p_piece, String p_coordonnee) {
         LinkedHashMap<String, String> tourPion = new LinkedHashMap<>();
 
@@ -382,6 +414,11 @@ public class Echiquier {
                 (getPiece(p_coordonneeDebut).getCouleur() == Couleur.BLANC && p_coordonneeFin.charAt(1) == '8');
     }
 
+    /**
+     * Méthode qui obtient les coordonnées du roi selon sa couleur
+     * @param p_couleur couleur du roi qu'on veut obtenir la coordonnée
+     * @return coordonnée en string du roi à la couleur choisie
+     */
     private String obtenirCoordonneeRoiSelonCouleur(Couleur p_couleur) {
         for (Map.Entry<String, Piece> entry : m_echiquier.entrySet()) {
             if (Objects.equals(Type.ROI, entry.getValue().getType()) &&
@@ -392,6 +429,12 @@ public class Echiquier {
         return null;
     }
 
+    /**
+     * Est pat selon couleur boolean.
+     *
+     * @param p_couleur the p couleur
+     * @return the boolean
+     */
     public boolean estPatSelonCouleur(Couleur p_couleur) {
         return getToursPossibleSelonCouleur(p_couleur).size() == 0 && !estEchec(p_couleur);
     }
@@ -434,6 +477,12 @@ public class Echiquier {
         }
     }
 
+    /** Méthode qui test si le déplacement est valide sur une tour
+     * @param p_piece la pièce soit la tour
+     * @param p_coordonneDebut coordonnée debut
+     * @param p_coordonneeFin coordonnée de fin
+     * @return 2 si c'est un roque ou 0 si le déplacement est invalide ou 1 s'il est valide
+     */
     private byte deplacementValideTour(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
         if (casesVide(p_coordonneDebut, p_coordonneeFin)) {
             if (deplacementGrandRoqueValide(p_piece, p_coordonneDebut, p_coordonneeFin)
@@ -447,22 +496,50 @@ public class Echiquier {
         }
     }
 
+    /**
+     * Méthode qui test les déplacements valides d'une DAME
+     * @param p_piece pièce soit une dame
+     * @param p_coordonneDebut coordonnée de début de tour
+     * @param p_coordonneeFin coordonnée de fin de tour
+     * @return vrai si le déplacement est valide pour la DAME
+     */
     private boolean deplacementValideDame(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
         return casesVide(p_coordonneDebut, p_coordonneeFin) &&
                 p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin) &&
                 mangerValidation(p_coordonneDebut, p_coordonneeFin) != 'n';
     }
 
+    /**
+     * Méthode qui test le déplacement valide d'un cavalier
+     * @param p_piece la pièce soit le cavalier
+     * @param p_coordonneDebut coordonnée de debut de tour
+     * @param p_coordonneeFin coordonnée de fin de tour
+     * @return vrai lorsque le déplacement est valide pour un cavalier
+     */
     private boolean deplacementValideCavalier(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
         return p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin);
     }
 
+    /**
+     * Méthode qui test un déplacement valide pour un fou
+     * @param p_piece pièce soit un FOU
+     * @param p_coordonneDebut coordonnée de debut de tour
+     * @param p_coordonneeFin coordonnée de fin de tour
+     * @return vrai lorsque le déplacement est valide pour un fou
+     */
     private boolean deplacementValideFou(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
         return casesVide(p_coordonneDebut, p_coordonneeFin) &&
                 p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin) &&
                 mangerValidation(p_coordonneDebut, p_coordonneeFin) != 'n';
     }
 
+    /**
+     * Méthode qui test un déplacement valide pour un ROI
+     * @param p_piece pièce soit un ROI
+     * @param p_coordonneDebut coordonnée de debut de tour
+     * @param p_coordonneeFin coordonnée de fin de tour
+     * @return vrai lorsque le déplacement est valide pour un ROI
+     */
     private byte deplacementValideRoi(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
         if (casesVide(p_coordonneDebut, p_coordonneeFin)) {
             if (deplacementGrandRoqueValide(p_piece, p_coordonneDebut, p_coordonneeFin)
@@ -496,6 +573,13 @@ public class Echiquier {
         }
     }
 
+    /**
+     * Méthode qui test les déplacements valides pour un PION
+     * @param p_piece pièce soit le pion
+     * @param p_coordonneeDebut coordonnée de debut de tour
+     * @param p_coordonneeFin coordonnée de fin de tour
+     * @return vrai lorsque le déplacement sera valide pour un pion
+     */
     private boolean deplacementValidePion(Piece p_piece, String p_coordonneeDebut, String p_coordonneeFin) {
         char manger = mangerValidation(p_coordonneeDebut, p_coordonneeFin);
 
@@ -521,6 +605,11 @@ public class Echiquier {
         }
     }
 
+    /**
+     * Méthode qui va valider si une prise en passant peut être effectuée
+     * @param p_coordonneeDebut coordonnée de debut
+     * @return vrai lorsque la prise en passant est disponible
+     */
     private boolean estPriseEnPassantValide(String p_coordonneeDebut) {
         if (Objects.equals(dernierTourJouer.first, p_coordonneeDebut) && dernierTourJouer.second != null) {
             return dernierTourJouer.second == 1;
@@ -529,6 +618,13 @@ public class Echiquier {
         }
     }
 
+    /**
+     * Méthode qui test si le petit roque est valide
+     * @param p_piece pièce qui sera testée pour le roque
+     * @param p_coordonneePiece1 coordonnée de la première pièce
+     * @param p_coordonneePiece2 coordonnée de la deuxième pièce
+     * @return vrai lorsque le petit roque est valide
+     */
     private boolean deplacementPetitRoqueValide(Piece p_piece, String p_coordonneePiece1, String p_coordonneePiece2) {
         Piece piece1 = getPiece(p_coordonneePiece1);
         Piece piece2 = getPiece(p_coordonneePiece2);
@@ -550,6 +646,13 @@ public class Echiquier {
         }
     }
 
+    /**
+     * Méthode qui test si le grand roque est valide
+     * @param p_piece pièce qui sera testée pour le grand roque
+     * @param p_coordonneePiece1 coordonnée de la première pièce
+     * @param p_coordonneePiece2 coordonnée de la deuxième pièce
+     * @return vrai lorque le grand roque est un déplacement possible
+     */
     private boolean deplacementGrandRoqueValide(Piece p_piece, String p_coordonneePiece1, String p_coordonneePiece2) {
         Piece piece1 = getPiece(p_coordonneePiece1);
         Piece piece2 = getPiece(p_coordonneePiece2);

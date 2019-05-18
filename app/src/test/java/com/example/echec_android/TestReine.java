@@ -72,13 +72,14 @@ public class TestReine extends TestPiece {
         Reine piece = (Reine) creerPiece(Piece.Couleur.NOIR);
 
         List<String> listeTest = asList("a3", "a2", "a1", "a5", "a6", "a7", "a8", "b3", "c2", "d1",
-                "b4", "c4", "d4", "e4", "f4", "g4", "h4");
+                "b4", "c4", "d4", "e4", "f4", "g4", "h4", "b5", "c6", "d7", "e8");
 
         List<String> listeTest2 = asList("a5", "b5", "c5", "e5", "f5", "g5", "h5", "d6", "d7", "d8",
                 "e6", "f7", "g8", "c6", "b7", "a8", "c4", "b3", "a2", "d4", "d3", "d2", "d1", "e4", "f3", "g2", "h1");
 
         assertArrayEquals(listeTest.toArray(), piece.deplacementsPossiblesSelonCoordonnee("a4").toArray());
         assertArrayEquals(listeTest2.toArray(), piece.deplacementsPossiblesSelonCoordonnee("d5").toArray());
+
     }
 }
 

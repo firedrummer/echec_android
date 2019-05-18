@@ -71,8 +71,8 @@ public class TestTour extends TestPiece {
     public void deplacementsPossiblesSelonCoordonnee() {
         Tour piece = (Tour) creerPiece(Piece.Couleur.NOIR);
 
-        List<String> listeTest = asList("a2", "b1", "c2", "d2", "e2", "f2", "g3", "h2", "b3", "b4",
-                "b5", "b6", "b7", "b8");
+        List<String> listeTest = asList("a2", "b1", "c2", "b3", "d2", "b4", "e2", "b5", "f2", "g2",
+                "h2", "b6", "b7", "b8");
 
         List<String> listeTest2 = asList("h7", "h6", "h5", "h4", "h3", "h2", "h1", "g8", "f8", "e8",
                 "d8", "c8", "b8", "c6", "a8");

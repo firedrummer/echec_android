@@ -15,7 +15,7 @@ public class TestPartie {
     //On a besoin de ces variables pour le déroulement d'une partie
     private Joueur j1;
     private Joueur j2;
-    private Echiquier m_echiquier;
+    private Echiquier m_echiquier = new Echiquier();
 
     @Test
     public void creation() {
