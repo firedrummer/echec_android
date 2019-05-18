@@ -20,10 +20,10 @@ public class MainActivity extends DualFragmentActivity implements FragmentPartie
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setTopFragment(InformationFragment.newInstance());
+        setTopFragment(DepartFragment.newInstance());
         actualMode = Mode.Depart;
 
-        setMainFragment(DepartFragment.newInstance());
+        setMainFragment(FragmentPartie.newInstance());
     }
 
     @Override
@@ -31,13 +31,11 @@ public class MainActivity extends DualFragmentActivity implements FragmentPartie
         switch (p_mode) {
             case Depart:
                 actualMode = Mode.Depart;
-                setTopFragment(InformationFragment.newInstance());
-                setMainFragment(DepartFragment.newInstance());
+                setTopFragment(DepartFragment.newInstance());
                 break;
             case Partie:
                 actualMode = Mode.Partie;
                 setTopFragment(HistoriqueFragment.newInstance());
-                setMainFragment(FragmentPartie.newInstance());
                 break;
             default:
                 break;

@@ -13,6 +13,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.example.echec_android.R;
+import com.example.echec_android.echec.Piece;
+import com.example.echec_android.partie.Joueur;
 import com.example.echec_android.partie.Partie;
 
 public class FragmentPartie extends Fragment {
@@ -21,7 +23,7 @@ public class FragmentPartie extends Fragment {
      * Les 64 cases du tableau d'échec sont représentées par un array de boutons à 2 dimensions
      */
     Button[][] m_boutons = new Button[8][8];
-    Partie m_partie = new Partie();
+    static Partie m_partie = new Partie();
 
     public void InitialiserTableau(TableLayout p_table, char[] p_matrice) {
         int numeroBouton = 1;
@@ -68,7 +70,6 @@ public class FragmentPartie extends Fragment {
                     rangee.addView(bouton);
                     numeroBouton++;
                 }
-
             }
         }
     }
@@ -85,6 +86,14 @@ public class FragmentPartie extends Fragment {
         fragment.setArguments(args);
 
         return fragment;
+    }
+
+    public static void setJoueurs(String p_nomJoueurBlanc, String p_nomJoueurNoir) {
+        Joueur joueurBlanc = new Joueur(Piece.Couleur.BLANC, p_nomJoueurBlanc);
+        Joueur joueurNoir = new Joueur(Piece.Couleur.NOIR, p_nomJoueurNoir);
+
+        m_partie.setJoueurBlanc(joueurBlanc);
+        m_partie.setJoueurNoir(joueurNoir);
     }
 
     @Override

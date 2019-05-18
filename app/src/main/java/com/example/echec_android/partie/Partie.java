@@ -25,12 +25,12 @@ public class Partie {
     /**
      *
      */
-    private Joueur m_joueur1;
+    private Joueur m_joueurBlanc;
 
     /**
      *
      */
-    private Joueur m_joueur2;
+    private Joueur m_joueurNoir;
 
     /**
      * La valeur est de 1 si c'est le tour du joueur 1 sinon la valeur est 2
@@ -42,32 +42,32 @@ public class Partie {
      *
      * @return le joueur 1
      */
-    public Joueur getJoueur1() {
-        return m_joueur1;
+    public Joueur getJoueurBlanc() {
+        return m_joueurBlanc;
     }
 
     /**
      * setter pour le joueur 1
      * @param p_joueur le joueur 1 dans la partie
      */
-    public void setJoueur1(Joueur p_joueur) {
-        m_joueur1 = p_joueur;
+    public void setJoueurBlanc(Joueur p_joueur) {
+        m_joueurBlanc = p_joueur;
     }
 
     /**
      * Getter pour le joueur 2
      * @return le joueur 2
      */
-    public Joueur getJoueur2() {
-        return m_joueur2;
+    public Joueur getJoueurNoir() {
+        return m_joueurNoir;
     }
 
     /**
      * Setter pour le joueur 2
      * @param p_joueur
      */
-    public void setJoueur2(Joueur p_joueur) {
-        m_joueur2 = p_joueur;
+    public void setJoueurNoir(Joueur p_joueur) {
+        m_joueurNoir = p_joueur;
     }
 
     /**
@@ -97,7 +97,7 @@ public class Partie {
         boolean reussite = m_echiquier.deplacerPiece(p_coordonneeDebut, p_coordonneFin);
 
         if (reussite) {
-            Joueur joueur = m_echiquier.getPiece(p_coordonneeDebut).getCouleur() == m_joueur1.getCouleurPiece() ? m_joueur1 : m_joueur2;
+            Joueur joueur = m_echiquier.getPiece(p_coordonneeDebut).getCouleur() == m_joueurBlanc.getCouleurPiece() ? m_joueurBlanc : m_joueurNoir;
             m_historique.put(m_historique.size() + 1, new Pair<>(joueur, m_echiquier));
             return true;
         } else {
