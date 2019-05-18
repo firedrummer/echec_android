@@ -27,6 +27,12 @@ public class Echiquier {
      * L'échiquier représenté sous forme de hashmap
      */
     private LinkedHashMap<String, Piece> m_echiquier = new LinkedHashMap<>();
+    /**
+     * Dernier déplacement d'une Piece avec 1 si c'est sont premier déplacement
+     * et 0 dans le cas contraire, la valeur est du String est vide et le nombre est 3
+     * si le dernier deplacement n'est pas effectuer par un pion
+     */
+    private Pair<String, Integer> dernierTourJouer = new Pair<>("", 3);
 
     /**
      * Constructeur sans paramètres
@@ -191,7 +197,7 @@ public class Echiquier {
      * @param p_couleur couleur des pieces à avoir les mouvements possibles
      * @return une LinkecHashMap des coordonnées de départ et de fin qui corresponde chacun à un mouvement possible
      */
-    public LinkedHashMap<String, String> getToursPossibleSelonCouleur(Couleur p_couleur) {
+    private LinkedHashMap<String, String> getToursPossibleSelonCouleur(Couleur p_couleur) {
         LinkedHashMap<String, String> tourPossible = new LinkedHashMap<>();
         LinkedHashMap<String, Piece> pieces = getPiecesSelonCouleur(p_couleur);
 
@@ -209,7 +215,7 @@ public class Echiquier {
      * @param p_coordonnee coordonnée de départ de la pièce
      * @return une LinkecHashMap des coordonnées de départ et de fin qui corresponde chacun à un mouvement possible
      */
-    private LinkedHashMap<String, String> getToursPossibleSelonPiece(Piece p_piece, String p_coordonnee) {
+    public LinkedHashMap<String, String> getToursPossibleSelonPiece(Piece p_piece, String p_coordonnee) {
         LinkedHashMap<String, String> tourPossible = new LinkedHashMap<>();
         Type type = p_piece.getType();
 
@@ -276,13 +282,6 @@ public class Echiquier {
             return tourPossible;
         }
     }
-
-    /**
-     * Dernier déplacement d'une Piece avec 1 si c'est sont premier déplacement
-     * et 0 dans le cas contraire, la valeur est du String est vide et le nombre est 3
-     * si le dernier deplacement n'est pas effectuer par un pion
-     */
-    private Pair<String, Integer> dernierTourJouer = new Pair<>("", 3);
 
     public boolean estEchecEtMathNoir() {
         String positionRoiNoir = obtenirCoordonneeRoiSelonCouleur(Couleur.NOIR);
@@ -371,6 +370,18 @@ public class Echiquier {
         m_echiquier.put(p_coordonnee, nouvellePiece);
     }
 
+    /**
+     * Vérifie si un pion est à la bonne position pour avoir une promotion
+     *
+     * @param p_coordonneeDebut coordonnee de debut
+     * @param p_coordonneeFin   coordonne de fin
+     * @return true si la promotion est possible sinon false
+     */
+    private boolean estPromotionPossible(String p_coordonneeDebut, String p_coordonneeFin) {
+        return (getPiece(p_coordonneeDebut).getCouleur() == Couleur.NOIR && p_coordonneeFin.charAt(1) == '1') ||
+                (getPiece(p_coordonneeDebut).getCouleur() == Couleur.BLANC && p_coordonneeFin.charAt(1) == '8');
+    }
+
     private String obtenirCoordonneeRoiSelonCouleur(Couleur p_couleur) {
         for (Map.Entry<String, Piece> entry : m_echiquier.entrySet()) {
             if (Objects.equals(Type.ROI, entry.getValue().getType()) &&
@@ -383,6 +394,15 @@ public class Echiquier {
 
     public boolean estPatSelonCouleur(Couleur p_couleur) {
         return getToursPossibleSelonCouleur(p_couleur).size() == 0 && !estEchec(p_couleur);
+    }
+
+    /**
+     * Regarde si un cas de partie infinie se produit dans se cas c'est ne partie nulle
+     *
+     * @return true si la partie est nulle, false dans le cas contraire
+     */
+    public boolean partieNulle() {
+        return m_echiquier.size() <= 3;
     }
 
     /**
@@ -474,15 +494,6 @@ public class Echiquier {
         } else {
             return 'm';
         }
-    }
-
-    /**
-     * Regarde si un cas de partie infinie se produit dans se cas c'est ne partie nulle
-     *
-     * @return true si la partie est nulle, false dans le cas contraire
-     */
-    public boolean partieNulle() {
-        return m_echiquier.size() <= 3;
     }
 
     private boolean deplacementValidePion(Piece p_piece, String p_coordonneeDebut, String p_coordonneeFin) {
@@ -697,17 +708,5 @@ public class Echiquier {
             }
         }
         return true;
-    }
-
-    /**
-     * Vérifie si un pion est à la bonne position pour avoir une promotion
-     *
-     * @param p_coordonneeDebut coordonnee de debut
-     * @param p_coordonneeFin   coordonne de fin
-     * @return true si la promotion est possible sinon false
-     */
-    public boolean estPromotionPossible(String p_coordonneeDebut, String p_coordonneeFin) {
-        return (getPiece(p_coordonneeDebut).getCouleur() == Couleur.NOIR && p_coordonneeFin.charAt(1) == '1') ||
-                (getPiece(p_coordonneeDebut).getCouleur() == Couleur.BLANC && p_coordonneeFin.charAt(1) == '8');
     }
 }

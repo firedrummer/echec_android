@@ -37,11 +37,28 @@ public class Partie {
      */
     private int m_tourJoueur = 1;
 
+
+    public Joueur getJoueur1() {
+        return m_joueur1;
+    }
+
+    public void setJoueur1(Joueur p_joueur) {
+        m_joueur1 = p_joueur;
+    }
+
+    public Joueur getJoueur2() {
+        return m_joueur2;
+    }
+
+    public void setJoueur2(Joueur p_joueur) {
+        m_joueur2 = p_joueur;
+    }
+
     /**
      * Getter pour l'historique de la partie
      * @return l'historique de la partie
      */
-    LinkedHashMap<Integer, Pair<Joueur, Echiquier>> getHistoriquePartie() {
+    public LinkedHashMap<Integer, Pair<Joueur, Echiquier>> getHistoriquePartie() {
         return m_historique;
     }
 
@@ -49,7 +66,7 @@ public class Partie {
      * Restaure la partie
      * @param p_echiquier l'échiquier
      */
-    void restaurerPartie(Echiquier p_echiquier) {
+    public void restaurerPartie(Echiquier p_echiquier) {
         m_echiquier = p_echiquier;
     }
 
@@ -60,7 +77,7 @@ public class Partie {
      * @param p_coordonneFin    coordonnée de destination de la piece
      * @return true le tour réussit sinon false
      */
-    boolean jouerTour(String p_coordonneeDebut, String p_coordonneFin) {
+    public boolean jouerTour(String p_coordonneeDebut, String p_coordonneFin) {
         boolean reussite = m_echiquier.deplacerPiece(p_coordonneeDebut, p_coordonneFin);
 
         if (reussite) {
@@ -76,7 +93,7 @@ public class Partie {
      * Restaure l'historique au numéro du tour saisi
      * @param p_numeroTourRestaurer numéro du tour où on veut restaurer
      */
-    void restaurerHistorique(Integer p_numeroTourRestaurer) {
+    public void restaurerHistorique(Integer p_numeroTourRestaurer) {
         m_echiquier = Objects.requireNonNull(m_historique.get(p_numeroTourRestaurer)).second;
 
         for (Integer i = p_numeroTourRestaurer + 1; i < m_historique.size(); i++) {
