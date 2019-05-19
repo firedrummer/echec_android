@@ -1,10 +1,12 @@
 package com.example.echec_android.gui;
 
 import android.graphics.Color;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,6 +14,7 @@ import android.widget.Button;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.echec_android.R;
 import com.example.echec_android.echec.Echiquier;
@@ -20,23 +23,55 @@ import com.example.echec_android.partie.Joueur;
 import com.example.echec_android.partie.Partie;
 
 import java.util.LinkedHashMap;
+import java.util.Objects;
 
 public class FragmentPartie extends Fragment {
 
+    static Partie m_partie = new Partie();
     /**
      * Les 64 cases du tableau d'échec sont représentées par un array de boutons à 2 dimensions
      */
     Button[][] m_boutons = new Button[8][8];
     Button m_dernierBoutonCliquer;
 
-    static Partie m_partie = new Partie();
+    /**
+     * Crée une nouvelle instance de FragmentPartie
+     *
+     * @return retourne une nouvelle instance de FragmentPartie
+     */
+    public static FragmentPartie newInstance() {
+        Bundle args = new Bundle();
+
+        FragmentPartie fragment = new FragmentPartie();
+        fragment.setArguments(args);
+
+        return fragment;
+    }
+
+    public static void setJoueurs(String p_nomJoueurBlanc, String p_nomJoueurNoir) {
+        m_partie.setJoueurBlanc(new Joueur(Piece.Couleur.BLANC, p_nomJoueurBlanc));
+        m_partie.setJoueurNoir(new Joueur(Piece.Couleur.NOIR, p_nomJoueurNoir));
+    }
 
     public void InitialiserTableau(TableLayout p_table, Echiquier p_echiquier) {
 
         if (p_echiquier == null) {
-            m_partie.getEchiquier().initialiser();
+            Echiquier echiquier = new Echiquier();
+            echiquier.initialiser();
+            m_partie.setEchiquier(echiquier);
         } else {
             m_partie.setEchiquier(p_echiquier);
+        }
+
+        Display display = Objects.requireNonNull(getActivity()).getWindow().getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+
+        int largeur;
+        if (size.x > size.y) {
+            largeur = size.y / 9;
+        } else {
+            largeur = size.x / 9;
         }
 
         int numeroBouton = 1;
@@ -49,19 +84,23 @@ public class FragmentPartie extends Fragment {
                 if (i == 0 && j == 0) {
                     // ajouter quelchose de vide
                     TextView textView = new TextView(getContext());
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     textView.setText(" ");
-                    rangee.addView(textView);
+                    rangee.addView(textView, largeur / 2, largeur / 2);
 
                 } else if (i == 0) {
                     // Les lettre de A - H
                     TextView textView = new TextView(getContext());
-                    textView.setText((char) ('a' + j));
-                    rangee.addView(textView);
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    textView.setText(String.format("%s", (char) ('a' + (j - 1))));
+                    //textView.setText("test");
+                    rangee.addView(textView, 50, 50);
                 } else if (j == 0) {
                     // Les chiffres de 1 - 8
                     TextView textView = new TextView(getContext());
-                    textView.setText(i);
-                    rangee.addView(textView);
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    textView.setText(String.format("%s", i));
+                    rangee.addView(textView, largeur / 2, largeur / 2);
                 } else {
                     // Ajouter les bouttons a partir de i = 1 et j = 1
                     final Button bouton = new Button(this.getActivity());
@@ -81,11 +120,18 @@ public class FragmentPartie extends Fragment {
                     int noir = Color.BLACK;
                     int blanc = Color.WHITE;
 
-                    if (i % 2 == 0 && j % 2 == 0) {
-
-                        bouton.setBackgroundColor(noir);
+                    if (i % 2 == 0) {
+                        if (j % 2 == 0) {
+                            bouton.setBackgroundColor(blanc);
+                        } else {
+                            bouton.setBackgroundColor(noir);
+                        }
                     } else {
-                        bouton.setBackgroundColor(blanc);
+                        if (j % 2 == 0) {
+                            bouton.setBackgroundColor(noir);
+                        } else {
+                            bouton.setBackgroundColor(blanc);
+                        }
                     }
 
                     bouton.setOnClickListener(v -> {
@@ -101,39 +147,30 @@ public class FragmentPartie extends Fragment {
                                 m_boutons[mouvements.charAt(0) - 'a'][mouvements.charAt(1) - '1'].setBackgroundColor(couleurMouvement);
                             }
                         } else {
-                            m_partie.jouerTour(m_dernierBoutonCliquer.getTag().toString(), coordonnee);
+                            boolean valide = m_partie.jouerTour(m_dernierBoutonCliquer.getTag().toString(), coordonnee);
+
+                            if (!valide) {
+                                Toast.makeText(getContext(),
+                                        "Votre coup était invalide veuillez réessayer!",
+                                        Toast.LENGTH_SHORT).show();
+                            } else {
+                                // todo echec
+
+                            }
+
+
+
+
                             InitialiserTableau(p_table, m_partie.getEchiquier());
                         }
                     });
 
-                    m_boutons[i][j] = bouton;
-                    rangee.addView(bouton);
+                    m_boutons[i - 1][j - 1] = bouton;
+                    rangee.addView(bouton, largeur, largeur);
                     numeroBouton++;
                 }
             }
         }
-    }
-
-    /**
-     * Crée une nouvelle instance de FragmentPartie
-     *
-     * @return retourne une nouvelle instance de FragmentPartie
-     */
-    public static FragmentPartie newInstance() {
-        Bundle args = new Bundle();
-
-        FragmentPartie fragment = new FragmentPartie();
-        fragment.setArguments(args);
-
-        return fragment;
-    }
-
-    public static void setJoueurs(String p_nomJoueurBlanc, String p_nomJoueurNoir) {
-        Joueur joueurBlanc = new Joueur(Piece.Couleur.BLANC, p_nomJoueurBlanc);
-        Joueur joueurNoir = new Joueur(Piece.Couleur.NOIR, p_nomJoueurNoir);
-
-        m_partie.setJoueurBlanc(joueurBlanc);
-        m_partie.setJoueurNoir(joueurNoir);
     }
 
     @Override
@@ -146,6 +183,13 @@ public class FragmentPartie extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.partie_fragment_layout, container, false);
+
+        TableLayout tableLayout = v.findViewById(R.id.tableLayout);
+        Button boutonPrecedent = v.findViewById(R.id.precedent);
+        Button boutonConfirmer = v.findViewById(R.id.fin);
+
+
+        InitialiserTableau(tableLayout, m_partie.getEchiquier());
 
         return v;
     }

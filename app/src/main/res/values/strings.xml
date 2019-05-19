@@ -7,4 +7,6 @@
     <string name="nom_du_joueur_blanc">Nom du joueur blanc:</string>
     <string name="nom_du_joueur_noire">Nom du joueur noire:</string>
     <string name="toast_info_joueur">Vous devez au moins avoir 3 caractères pour chacun de vos nom!</string>
+    <string name="revenir_en_arriere">Revenir en arriere</string>
+    <string name="confirmer">Confirmer</string>
 </resources>
