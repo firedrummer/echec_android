@@ -12,6 +12,8 @@ import com.example.echec_android.echec.Tour;
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.util.LinkedHashMap;
+
 /**
  * Classe de tests pour l'echiquier
  *
@@ -128,35 +130,134 @@ public class TestEchiquier {
         System.out.println(m_echiquier.obtenirRepresentation());
     }
 
+    @Test
+    public void testDeplacements() {
+        m_echiquier.initialiser();
+        //Test déplacement pion
+        Assert.assertTrue(m_echiquier.deplacerPiece("a2", "a4"));
+        Assert.assertTrue(m_echiquier.deplacerPiece("b2", "b3"));
+        Assert.assertTrue(m_echiquier.deplacerPiece("b3", "b4"));
+        Assert.assertFalse(m_echiquier.deplacerPiece("b4", "b6"));
+
+        // Prise en passant
+        m_echiquier.initialiser();
+        m_echiquier.deplacerPiece("a2","a4");
+        m_echiquier.deplacerPiece("c7","c5");
+        m_echiquier.deplacerPiece("a4","a5");
+        m_echiquier.deplacerPiece("b7","b5");
+        //La prise en passant se fait ici
+        m_echiquier.deplacerPiece("a5","b6");
+
+        //Vérifie si une piece peut en manger une autre et ne peut manger sa propre couleur)
+        m_echiquier.initialiser();
+        Assert.assertFalse(m_echiquier.deplacerPiece("c1", "d2"));
+
+        m_echiquier.deplacerPiece("d2", "d4");
+        m_echiquier.deplacerPiece("c1", "g5");
+        //Ici le fou devrait manger un pion
+        m_echiquier.deplacerPiece("g5", "e7");
+
+        // grand roque
+        m_echiquier.initialiser();
+        m_echiquier.deplacerPiece("b1", "a3");
+        m_echiquier.deplacerPiece("d2", "d4");
+        m_echiquier.deplacerPiece("c1", "e3");
+        m_echiquier.deplacerPiece("d1", "d3");
+        m_echiquier.deplacerPiece("a1", "e1"); // grand roque
+
+        //test petit roque
+        m_echiquier.deplacerPiece("g7", "g5");
+        m_echiquier.deplacerPiece("f8", "g7");
+        m_echiquier.deplacerPiece("g8", "f6");
+        m_echiquier.deplacerPiece("h8", "f8"); //petit roque
+
+
+
+    }
+
+    @Test
+    public void testEstPatSelonCouleur() {
+        Roi roiNoir = new Roi(Piece.Couleur.NOIR);
+        Roi roiBlanc = new Roi(Piece.Couleur.BLANC);
+        Reine reineBlanche = new Reine(Piece.Couleur.BLANC);
+
+        m_echiquier.initialiser();
+        m_echiquier.viderEchiquier();
+        m_echiquier.ajouterPiece("a8", roiNoir);
+        m_echiquier.ajouterPiece("c5", roiBlanc);
+        m_echiquier.ajouterPiece("b6", reineBlanche);
+
+        Assert.assertTrue(m_echiquier.estPatSelonCouleur(Piece.Couleur.NOIR));
+    }
+
+    @Test
+    public void testGetToursPossibleSelonPiece() {
+        LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
+        hashMap.put("a3","a4");
+
+        m_echiquier.initialiser();
+
+        Assert.assertEquals(hashMap, m_echiquier.getToursPossibleSelonPiece(m_echiquier.getPiece("a2"), "a2"));
+    }
+
+    @Test
+    public void testEstEchecEtMathNoirEtBlanc() {
+        Roi roiNoir = new Roi(Piece.Couleur.NOIR);
+        Roi roiBlanc = new Roi(Piece.Couleur.BLANC);
+        Reine reineBlanche = new Reine(Piece.Couleur.BLANC);
+
+        m_echiquier.ajouterPiece("h8", reineBlanche);
+        m_echiquier.ajouterPiece("d6", roiBlanc);
+        m_echiquier.ajouterPiece("d8", roiNoir);
+
+        Assert.assertTrue(m_echiquier.estEchecEtMathNoir());
+    }
+
+    @Test
+    public void testEstEchec() {
+        m_echiquier.initialiser();
+
+    }
+
     /**
      * Méthode test de promotion pour tester un pion qui touche la dernière case
      */
     @Test
     public void testPromotion() {
-        m_echiquier.viderEchiquier();
         m_echiquier.initialiser();
-        //Tour 1 blanc bouge pion de 2 cases
+
         m_echiquier.deplacerPiece("a2", "a4");
-        //Tour 1 noir bouge pion de 2 cases
-        m_echiquier.deplacerPiece("c7", "c5");
-        //Tour 2 blanc avance le meme pion de 1
         m_echiquier.deplacerPiece("a4", "a5");
-        //Tour 2 noir avance le meme pion de 1
-        m_echiquier.deplacerPiece("c5", "c4");
-        //Tour 3 blanc avance le meme pion de 1
         m_echiquier.deplacerPiece("a5", "a6");
-        //Tour 3 noir avance le meme pion de 1
-        m_echiquier.deplacerPiece("c4", "c3");
-        //Tour 4 blanc avance le meme pion de 1
+
+        Assert.assertFalse(m_echiquier.estPromotionPossible("a6", "a7"));
         m_echiquier.deplacerPiece("a6", "a7");
-        //Tour 4 noir avance le meme pion de 1
-        m_echiquier.deplacerPiece("c3", "c2");
-        //Tour 5 blanc avance le meme pion de 1
+
+
+        m_echiquier.initialiser();
+
+        m_echiquier.deplacerPiece("a2", "a4");
+        m_echiquier.deplacerPiece("b8", "c6");
+        m_echiquier.deplacerPiece("d2", "d3");
+        m_echiquier.deplacerPiece("a8", "b8");
+        m_echiquier.deplacerPiece("c1", "c3");
+        m_echiquier.deplacerPiece("c6", "e5");
+        m_echiquier.deplacerPiece("e3", "e7");
+        m_echiquier.deplacerPiece("c8", "c7");
+        m_echiquier.deplacerPiece("a7", "e7");
+        m_echiquier.deplacerPiece("a4", "a5");
+        m_echiquier.deplacerPiece("a5", "a6");
+        m_echiquier.deplacerPiece("a6", "a7");
+
+        Assert.assertTrue(m_echiquier.estPromotionPossible("a7", "a8"));
+
         m_echiquier.deplacerPiece("a7", "a8");
+
         //Test de la  promotion du pion blanc qui s'est rendu à la dernière rangée
         m_echiquier.promotion("a8", Piece.Type.DAME);
 
-        Assert.assertEquals("DAME", m_echiquier.getPieceEnTexte("a8"));
+        Assert.assertEquals(Piece.Type.DAME, m_echiquier.getPiece("a8").getType());
+        Assert.assertEquals(Piece.Couleur.NOIR, m_echiquier.getPiece("a8").getCouleur());
     }
 
     @Test
@@ -172,11 +273,11 @@ public class TestEchiquier {
         m_echiquier.ajouterPiece("d5", roiNoir);
         m_echiquier.ajouterPiece("e7", roiBlanc);
         Assert.assertTrue(m_echiquier.partieNulle());
-
     }
 
     @Test
     public void testEchecMat() {
+        //Test pour echec et math noir
         Roi roiNoir = new Roi(Piece.Couleur.NOIR);
         Roi roiBlanc = new Roi(Piece.Couleur.BLANC);
         Reine reineBlanche = new Reine(Piece.Couleur.BLANC);
@@ -189,6 +290,20 @@ public class TestEchiquier {
         m_echiquier.ajouterPiece("a8", roiNoir);
 
         Assert.assertTrue(m_echiquier.estEchecEtMathNoir());
+
+        //Test pour echec et math blanc
+        Roi roiBlanc2 = new Roi(Piece.Couleur.BLANC);
+        Roi roiNoir2 = new Roi(Piece.Couleur.NOIR);
+        Reine reineNoire2 = new Reine(Piece.Couleur.NOIR);
+        Tour tourNoire2 = new Tour(Piece.Couleur.NOIR);
+
+        m_echiquier.viderEchiquier();
+        m_echiquier.ajouterPiece("b5", roiNoir2);
+        m_echiquier.ajouterPiece("a6", reineNoire2);
+        m_echiquier.ajouterPiece("b7", tourNoire2);
+        m_echiquier.ajouterPiece("a8", roiBlanc2);
+
+        Assert.assertTrue(m_echiquier.estEchecEtMathBlanc());
     }
 }
 

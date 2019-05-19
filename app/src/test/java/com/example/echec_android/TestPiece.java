@@ -41,11 +41,17 @@ public abstract class TestPiece {
         Assert.assertTrue(m_pieceBlanche.estBlanc());
         Assert.assertEquals(Piece.Couleur.BLANC, m_pieceBlanche.getCouleur());
         Assert.assertFalse(m_pieceBlanche.estNoir());
+        Assert.assertFalse(m_pieceBlanche.estDeplacer());
+        m_pieceBlanche.deplacer();
+        Assert.assertTrue(m_pieceBlanche.estDeplacer());
 
         // Piece noir
-        Assert.assertTrue(m_pieceNoir.estBlanc());
+        Assert.assertTrue(m_pieceNoir.estNoir());
         Assert.assertEquals(Piece.Couleur.NOIR, m_pieceNoir.getCouleur());
         Assert.assertFalse(m_pieceNoir.estBlanc());
+        Assert.assertFalse(m_pieceNoir.estDeplacer());
+        m_pieceNoir.deplacer();
+        Assert.assertTrue(m_pieceNoir.estDeplacer());
     }
 
     abstract protected Piece creerPiece(Piece.Couleur p_couleur);

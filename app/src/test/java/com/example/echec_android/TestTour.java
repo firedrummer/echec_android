@@ -5,6 +5,10 @@ import com.example.echec_android.echec.Tour;
 
 import org.junit.Test;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -29,6 +33,7 @@ public class TestTour extends TestPiece {
         Piece piece = creerPiece(Piece.Couleur.BLANC);
         assertEquals("t", piece.obtenirRepresentation());
         assertEquals(5.0, piece.obtenirPointagePiece(), 0.0);
+        assertEquals(Piece.Type.TOUR, piece.getType());
 
         // Ajout de la tour noire
         Piece piece2 = creerPiece(Piece.Couleur.NOIR);
@@ -73,11 +78,20 @@ public class TestTour extends TestPiece {
 
         List<String> listeTest = asList("a2", "b1", "c2", "b3", "d2", "b4", "e2", "b5", "f2", "g2",
                 "h2", "b6", "b7", "b8");
+        Collections.sort(listeTest);
 
         List<String> listeTest2 = asList("h7", "h6", "h5", "h4", "h3", "h2", "h1", "g8", "f8", "e8",
-                "d8", "c8", "b8", "c6", "a8");
+                "d8", "c8", "b8", "a8");
+        Collections.sort(listeTest2);
 
-        assertArrayEquals(listeTest.toArray(), piece.deplacementsPossiblesSelonCoordonnee("b2").toArray());
-        assertArrayEquals(listeTest2.toArray(), piece.deplacementsPossiblesSelonCoordonnee("h8").toArray());
+        ArrayList<String> list = piece.deplacementsPossiblesSelonCoordonnee("b2");
+        Collections.sort(list);
+
+        ArrayList<String> list2 = piece.deplacementsPossiblesSelonCoordonnee("h8");
+        Collections.sort(list2);
+
+        assertArrayEquals(listeTest.toArray(), list.toArray());
+
+        assertArrayEquals(listeTest2.toArray(), list2.toArray());
     }
 }

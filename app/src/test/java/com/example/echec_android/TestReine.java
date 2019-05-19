@@ -5,6 +5,8 @@ import com.example.echec_android.echec.Reine;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -29,6 +31,7 @@ public class TestReine extends TestPiece {
         Piece piece = creerPiece(Piece.Couleur.BLANC);
         assertEquals("d", piece.obtenirRepresentation());
         assertEquals(9.0, piece.obtenirPointagePiece(), 0.0);
+        assertEquals(Piece.Type.DAME, piece.getType());
 
         // Ajout de la reine noire
         Piece piece2 = creerPiece(Piece.Couleur.NOIR);
@@ -73,12 +76,20 @@ public class TestReine extends TestPiece {
 
         List<String> listeTest = asList("a3", "a2", "a1", "a5", "a6", "a7", "a8", "b3", "c2", "d1",
                 "b4", "c4", "d4", "e4", "f4", "g4", "h4", "b5", "c6", "d7", "e8");
+        Collections.sort(listeTest);
 
         List<String> listeTest2 = asList("a5", "b5", "c5", "e5", "f5", "g5", "h5", "d6", "d7", "d8",
                 "e6", "f7", "g8", "c6", "b7", "a8", "c4", "b3", "a2", "d4", "d3", "d2", "d1", "e4", "f3", "g2", "h1");
+        Collections.sort(listeTest2);
 
-        assertArrayEquals(listeTest.toArray(), piece.deplacementsPossiblesSelonCoordonnee("a4").toArray());
-        assertArrayEquals(listeTest2.toArray(), piece.deplacementsPossiblesSelonCoordonnee("d5").toArray());
+        ArrayList<String> list = piece.deplacementsPossiblesSelonCoordonnee("a4");
+        Collections.sort(list);
+
+        ArrayList<String> list2 = piece.deplacementsPossiblesSelonCoordonnee("d5");
+        Collections.sort(list2);
+
+        assertArrayEquals(listeTest.toArray(), list.toArray());
+        assertArrayEquals(listeTest2.toArray(), list2.toArray());
 
     }
 }

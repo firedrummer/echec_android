@@ -64,7 +64,7 @@ public class Cavalier extends Piece {
     }
 
     /**
-     * Méthode qui calcul les coordonnées de base possible selon une piece
+     * Méthode qui calcul les coordonnées de base possible selon une piece à une coordonnée
      *
      * @param p_coordonnee coordonnée à calculer mouvement possible
      * @return coordonées des mouvement possible

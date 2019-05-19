@@ -27,6 +27,7 @@ public class TestCavalier extends TestPiece {
         Piece piece = creerPiece(Piece.Couleur.BLANC);
         assertEquals("c", piece.obtenirRepresentation());
         assertEquals(2.5, piece.obtenirPointagePiece(), 0.0);
+        assertEquals(Piece.Type.CAVALIER, piece.getType());
 
         // Ajout d'un cavalier noir
         Piece piece2 = creerPiece(Piece.Couleur.NOIR);

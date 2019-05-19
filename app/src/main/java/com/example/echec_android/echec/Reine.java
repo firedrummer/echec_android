@@ -47,29 +47,35 @@ public class Reine extends Piece {
      * @return si le deplacement est valide
      */
     public boolean estDeplacementValide(String p_coordonneeDepart, String p_coordonneeFin) {
+        //Variables afin d'éviter le Lint
+        char coordonneeDepartLettre = p_coordonneeDepart.charAt(0);
+        char coordonneeDepartChiffre = p_coordonneeDepart.charAt(1);
+        char coordonneeFinLettre = p_coordonneeFin.charAt(0);
+        char coordonneeFinChiffre = p_coordonneeFin.charAt(1);
+
         if (p_coordonneeDepart.compareTo(p_coordonneeFin) == 0 ||
-                p_coordonneeFin.charAt(0) < 'a' || p_coordonneeFin.charAt(0) > 'h' ||
-                p_coordonneeFin.charAt(1) < '1' || p_coordonneeFin.charAt(1) > '8') {
+                coordonneeFinLettre < 'a' || coordonneeFinLettre > 'h' ||
+                coordonneeFinChiffre < '1' || coordonneeFinChiffre > '8') {
             return false;
         }
 
         for (int i = 1; i < 8; i++) {
-            if ((p_coordonneeDepart.charAt(0) + i == p_coordonneeFin.charAt(0) &&
-                    p_coordonneeDepart.charAt(1) + i == p_coordonneeFin.charAt(1)) ||
-                    (p_coordonneeDepart.charAt(0) - i == p_coordonneeFin.charAt(0) &&
-                            p_coordonneeDepart.charAt(1) - i == p_coordonneeFin.charAt(1)) ||
-                    (p_coordonneeDepart.charAt(0) - 1 == p_coordonneeFin.charAt(0) &&
-                            p_coordonneeDepart.charAt(1) + i == p_coordonneeFin.charAt(1)) ||
-                    (p_coordonneeDepart.charAt(0) + i == p_coordonneeFin.charAt(0) &&
-                            p_coordonneeDepart.charAt(1) - i == p_coordonneeFin.charAt(1))) {
+            if ((coordonneeDepartLettre + i == coordonneeFinLettre &&
+                    coordonneeDepartChiffre + i == coordonneeFinChiffre) ||
+                    (coordonneeDepartLettre - i == coordonneeFinLettre &&
+                            coordonneeDepartChiffre - i == coordonneeFinChiffre) ||
+                    (coordonneeDepartLettre - 1 == coordonneeFinLettre &&
+                            coordonneeDepartChiffre + i == coordonneeFinChiffre) ||
+                    (coordonneeDepartLettre + i == coordonneeFinLettre &&
+                            coordonneeDepartChiffre - i == coordonneeFinChiffre)) {
                 return true;
             }
         }
 
-        return ((Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0)) <= 7 &&
-                Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) == 0) ||
-                (Math.abs(p_coordonneeFin.charAt(0) - p_coordonneeDepart.charAt(0)) == 0 &&
-                        Math.abs(p_coordonneeFin.charAt(1) - p_coordonneeDepart.charAt(1)) <= 7));
+        return ((Math.abs(coordonneeFinLettre - coordonneeDepartLettre) <= 7 &&
+                Math.abs(coordonneeFinChiffre - coordonneeDepartChiffre) == 0) ||
+                (Math.abs(coordonneeFinLettre - coordonneeDepartLettre) == 0 &&
+                        Math.abs(coordonneeFinChiffre - coordonneeDepartChiffre) <= 7));
     }
 
     /**
@@ -81,49 +87,49 @@ public class Reine extends Piece {
     @Override
     public ArrayList<String> deplacementsPossiblesSelonCoordonnee(String p_coordonnee) {
         ArrayList<String> mouvements = new ArrayList<>();
-        String coordonnee = "";
+        String coordonnee;
 
         for (int i = 1; i < 8; i++) {
 
-            if (p_coordonnee.charAt(0) + i <= 'h') {
+            if ((char) (p_coordonnee.charAt(0) + i) <= 'h') {
                 coordonnee = "" + (char) (p_coordonnee.charAt(0) + i) + p_coordonnee.charAt(1);
                 mouvements.add(coordonnee);
             }
 
-            if (p_coordonnee.charAt(0) - i >= 'a') {
-                coordonnee = "" + (char) (p_coordonnee.charAt(0) + i) + (p_coordonnee.charAt(1));
+            if ((char) (p_coordonnee.charAt(0) - i) >= 'a') {
+                coordonnee = "" + (char) (p_coordonnee.charAt(0) - i) + (p_coordonnee.charAt(1));
                 mouvements.add(coordonnee);
             }
 
-            if (p_coordonnee.charAt(1) + i <= 8) {
+            if ((char) (p_coordonnee.charAt(1) + i) <= '8') {
                 coordonnee = "" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) + i);
                 mouvements.add(coordonnee);
             }
 
-            if (p_coordonnee.charAt(1) - i >= 1) {
-                coordonnee = "" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) + i);
+            if ((char) (p_coordonnee.charAt(1) - i) >= '1') {
+                coordonnee = "" + p_coordonnee.charAt(0) + (char) (p_coordonnee.charAt(1) - i);
                 mouvements.add(coordonnee);
             }
 
-            if ((p_coordonnee.charAt(0) + i <= 'h') && (p_coordonnee.charAt(1) + i <= 8)) {
+            if (((char) (p_coordonnee.charAt(0) + i) <= 'h') && ((char) (p_coordonnee.charAt(1) + i) <= '8')) {
                 coordonnee = "" + (char) (p_coordonnee.charAt(0) + i) +
                         (char) (p_coordonnee.charAt(1) + i);
                 mouvements.add(coordonnee);
             }
 
-            if ((p_coordonnee.charAt(0) - i >= 'a') && (p_coordonnee.charAt(1) - i >= 1)) {
+            if (((char) (p_coordonnee.charAt(0) - i) >= 'a') && ((char) (p_coordonnee.charAt(1) - i) >= '1')) {
                 coordonnee = "" + (char) (p_coordonnee.charAt(0) - i) +
                         (char) (p_coordonnee.charAt(1) - i);
                 mouvements.add(coordonnee);
             }
 
-            if ((p_coordonnee.charAt(0) - i >= 'a') && (p_coordonnee.charAt(1) + i <= 8)) {
+            if (((char) (p_coordonnee.charAt(0) - i) >= 'a') && ((char) (p_coordonnee.charAt(1) + i) <= '8')) {
                 coordonnee = "" + (char) (p_coordonnee.charAt(0) - i) +
                         (char) (p_coordonnee.charAt(1) + i);
                 mouvements.add(coordonnee);
             }
 
-            if ((p_coordonnee.charAt(0) + i <= 'h') && (p_coordonnee.charAt(1) - i >= 1)) {
+            if (((char) (p_coordonnee.charAt(0) + i) <= 'h') && ((char) (p_coordonnee.charAt(1) - i) >= '1')) {
                 coordonnee = "" + (char) (p_coordonnee.charAt(0) + i) +
                         (char) (p_coordonnee.charAt(1) - i);
                 mouvements.add(coordonnee);

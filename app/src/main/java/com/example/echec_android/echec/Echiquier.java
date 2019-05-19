@@ -340,8 +340,7 @@ public class Echiquier {
     }
 
     /**
-     *
-     * @param p_piece pièce
+     * @param p_piece      pièce
      * @param p_coordonnee coordonnée où la pièce est placée
      * @return tourPion
      */
@@ -374,10 +373,6 @@ public class Echiquier {
         Piece nouvellePiece;
 
         switch (p_type) {
-            case ROI:
-                nouvellePiece = new Roi(piece.getCouleur());
-                nouvellePiece.deplacer();
-                break;
             case FOU:
                 nouvellePiece = new Roi(piece.getCouleur());
                 nouvellePiece.deplacer();
@@ -395,7 +390,8 @@ public class Echiquier {
                 nouvellePiece.deplacer();
                 break;
             default:
-                throw new IllegalArgumentException("Le code ne devrait pas aller ici!!!");
+                throw new IllegalArgumentException("Le code ne devrait pas aller ici ou " +
+                        "ne devrait pas etre un roi!!!");
         }
 
         m_echiquier.remove(p_coordonnee);
@@ -409,13 +405,16 @@ public class Echiquier {
      * @param p_coordonneeFin   coordonne de fin
      * @return true si la promotion est possible sinon false
      */
-    private boolean estPromotionPossible(String p_coordonneeDebut, String p_coordonneeFin) {
-        return (getPiece(p_coordonneeDebut).getCouleur() == Couleur.NOIR && p_coordonneeFin.charAt(1) == '1') ||
-                (getPiece(p_coordonneeDebut).getCouleur() == Couleur.BLANC && p_coordonneeFin.charAt(1) == '8');
+    public boolean estPromotionPossible(String p_coordonneeDebut, String p_coordonneeFin) {
+        return (getPiece(p_coordonneeDebut).getCouleur() == Couleur.NOIR && p_coordonneeFin.charAt(1) == '1'
+                && getPiece(p_coordonneeDebut).getType() == Type.PION) ||
+                (getPiece(p_coordonneeDebut).getCouleur() == Couleur.BLANC && p_coordonneeFin.charAt(1) == '8'
+                && getPiece(p_coordonneeDebut).getType() == Type.PION);
     }
 
     /**
      * Méthode qui obtient les coordonnées du roi selon sa couleur
+     *
      * @param p_couleur couleur du roi qu'on veut obtenir la coordonnée
      * @return coordonnée en string du roi à la couleur choisie
      */
@@ -477,10 +476,12 @@ public class Echiquier {
         }
     }
 
-    /** Méthode qui test si le déplacement est valide sur une tour
-     * @param p_piece la pièce soit la tour
+    /**
+     * Méthode qui test si le déplacement est valide sur une tour
+     *
+     * @param p_piece          la pièce soit la tour
      * @param p_coordonneDebut coordonnée debut
-     * @param p_coordonneeFin coordonnée de fin
+     * @param p_coordonneeFin  coordonnée de fin
      * @return 2 si c'est un roque ou 0 si le déplacement est invalide ou 1 s'il est valide
      */
     private byte deplacementValideTour(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
@@ -498,9 +499,10 @@ public class Echiquier {
 
     /**
      * Méthode qui test les déplacements valides d'une DAME
-     * @param p_piece pièce soit une dame
+     *
+     * @param p_piece          pièce soit une dame
      * @param p_coordonneDebut coordonnée de début de tour
-     * @param p_coordonneeFin coordonnée de fin de tour
+     * @param p_coordonneeFin  coordonnée de fin de tour
      * @return vrai si le déplacement est valide pour la DAME
      */
     private boolean deplacementValideDame(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
@@ -511,9 +513,10 @@ public class Echiquier {
 
     /**
      * Méthode qui test le déplacement valide d'un cavalier
-     * @param p_piece la pièce soit le cavalier
+     *
+     * @param p_piece          la pièce soit le cavalier
      * @param p_coordonneDebut coordonnée de debut de tour
-     * @param p_coordonneeFin coordonnée de fin de tour
+     * @param p_coordonneeFin  coordonnée de fin de tour
      * @return vrai lorsque le déplacement est valide pour un cavalier
      */
     private boolean deplacementValideCavalier(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
@@ -522,9 +525,10 @@ public class Echiquier {
 
     /**
      * Méthode qui test un déplacement valide pour un fou
-     * @param p_piece pièce soit un FOU
+     *
+     * @param p_piece          pièce soit un FOU
      * @param p_coordonneDebut coordonnée de debut de tour
-     * @param p_coordonneeFin coordonnée de fin de tour
+     * @param p_coordonneeFin  coordonnée de fin de tour
      * @return vrai lorsque le déplacement est valide pour un fou
      */
     private boolean deplacementValideFou(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
@@ -535,9 +539,10 @@ public class Echiquier {
 
     /**
      * Méthode qui test un déplacement valide pour un ROI
-     * @param p_piece pièce soit un ROI
+     *
+     * @param p_piece          pièce soit un ROI
      * @param p_coordonneDebut coordonnée de debut de tour
-     * @param p_coordonneeFin coordonnée de fin de tour
+     * @param p_coordonneeFin  coordonnée de fin de tour
      * @return vrai lorsque le déplacement est valide pour un ROI
      */
     private byte deplacementValideRoi(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
@@ -575,9 +580,10 @@ public class Echiquier {
 
     /**
      * Méthode qui test les déplacements valides pour un PION
-     * @param p_piece pièce soit le pion
+     *
+     * @param p_piece           pièce soit le pion
      * @param p_coordonneeDebut coordonnée de debut de tour
-     * @param p_coordonneeFin coordonnée de fin de tour
+     * @param p_coordonneeFin   coordonnée de fin de tour
      * @return vrai lorsque le déplacement sera valide pour un pion
      */
     private boolean deplacementValidePion(Piece p_piece, String p_coordonneeDebut, String p_coordonneeFin) {
@@ -607,6 +613,7 @@ public class Echiquier {
 
     /**
      * Méthode qui va valider si une prise en passant peut être effectuée
+     *
      * @param p_coordonneeDebut coordonnée de debut
      * @return vrai lorsque la prise en passant est disponible
      */
@@ -620,7 +627,8 @@ public class Echiquier {
 
     /**
      * Méthode qui test si le petit roque est valide
-     * @param p_piece pièce qui sera testée pour le roque
+     *
+     * @param p_piece            pièce qui sera testée pour le roque
      * @param p_coordonneePiece1 coordonnée de la première pièce
      * @param p_coordonneePiece2 coordonnée de la deuxième pièce
      * @return vrai lorsque le petit roque est valide
@@ -648,7 +656,8 @@ public class Echiquier {
 
     /**
      * Méthode qui test si le grand roque est valide
-     * @param p_piece pièce qui sera testée pour le grand roque
+     *
+     * @param p_piece            pièce qui sera testée pour le grand roque
      * @param p_coordonneePiece1 coordonnée de la première pièce
      * @param p_coordonneePiece2 coordonnée de la deuxième pièce
      * @return vrai lorque le grand roque est un déplacement possible

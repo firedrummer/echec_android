@@ -5,6 +5,8 @@ import com.example.echec_android.echec.Roi;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -29,6 +31,7 @@ public class TestRoi extends TestPiece {
         Piece piece = creerPiece(Piece.Couleur.BLANC);
         assertEquals("r", piece.obtenirRepresentation());
         assertEquals(0.0, piece.obtenirPointagePiece(), 0.0);
+        assertEquals(Piece.Type.ROI, piece.getType());
 
         // Ajout du Roi Noir
         Piece piece2 = creerPiece(Piece.Couleur.NOIR);
@@ -71,10 +74,19 @@ public class TestRoi extends TestPiece {
         Roi piece = (Roi) creerPiece(Piece.Couleur.NOIR);
 
         List<String> listeTest = asList("a8", "c8", "a7", "b7", "c7");
+        Collections.sort(listeTest);
 
         List<String> listeTest2 = asList("b3", "d3", "d4", "c4", "b4", "b2", "c2", "d2");
+        Collections.sort(listeTest2);
 
-        assertArrayEquals(listeTest.toArray(), piece.deplacementsPossiblesSelonCoordonnee("b8").toArray());
-        assertArrayEquals(listeTest2.toArray(), piece.deplacementsPossiblesSelonCoordonnee("c3").toArray());
+        ArrayList<String> list = piece.deplacementsPossiblesSelonCoordonnee("b8");
+        Collections.sort(list);
+
+        ArrayList<String> list2 = piece.deplacementsPossiblesSelonCoordonnee("c3");
+        Collections.sort(list2);
+
+        assertArrayEquals(listeTest.toArray(),list.toArray());
+
+        assertArrayEquals(listeTest2.toArray(),list2.toArray());
     }
 }

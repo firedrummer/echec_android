@@ -47,7 +47,7 @@ public class Tour extends Piece {
      * @return si le deplacement est valide
      */
     public boolean estDeplacementValide(String p_coordonneeDepart, String p_coordonneeFin) {
-        //Nous n'avons pas réussi à simplifier ce bout de code pardon du lint ...
+
         if (p_coordonneeDepart.compareTo(p_coordonneeFin) == 0 ||
                 p_coordonneeFin.charAt(0) < 'a' || p_coordonneeFin.charAt(0) > 'h' ||
                 p_coordonneeFin.charAt(1) < '1' || p_coordonneeFin.charAt(1) > '8') {
@@ -69,15 +69,16 @@ public class Tour extends Piece {
         ArrayList<String> mouvements = new ArrayList<>();
 
         String coordonnee;
+
         for (int i = 0; i < 8; i++) {
             if (p_coordonnee.charAt(0) != (char) ('a' + i) || p_coordonnee.charAt(1) != (char) ('1' + i)) {
                 coordonnee = "" + (char) ('a' + i) + p_coordonnee.charAt(1);
-                if (estDeplacementValide(p_coordonnee, coordonnee)) {
+                if (estDeplacementValide(p_coordonnee, coordonnee) && !p_coordonnee.equals(coordonnee)) {
                     mouvements.add(coordonnee);
                 }
 
-                coordonnee = "" + p_coordonnee.charAt(0) + (char) ('1' + i);
-                if (estDeplacementValide(p_coordonnee, coordonnee)) {
+                coordonnee = "" + p_coordonnee.charAt(0) + (char)('1' + i);
+                if (estDeplacementValide(p_coordonnee, coordonnee) && !p_coordonnee.equals(coordonnee)) {
                     mouvements.add(coordonnee);
                 }
             }

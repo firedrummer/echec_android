@@ -48,11 +48,21 @@ public class FragmentPartie extends Fragment {
         return fragment;
     }
 
+    /**
+     * Méthode qui set les 2 joueurs
+     * @param p_nomJoueurBlanc le joueur blanc
+     * @param p_nomJoueurNoir le joueur noir
+     */
     public static void setJoueurs(String p_nomJoueurBlanc, String p_nomJoueurNoir) {
         m_partie.setJoueurBlanc(new Joueur(Piece.Couleur.BLANC, p_nomJoueurBlanc));
         m_partie.setJoueurNoir(new Joueur(Piece.Couleur.NOIR, p_nomJoueurNoir));
     }
 
+    /**
+     * Méthode qui initialise le tableau
+     * @param p_table le tableLayout qui servira pour mettre le tableau
+     * @param p_echiquier l'échiquier
+     */
     public void InitialiserTableau(TableLayout p_table, Echiquier p_echiquier) {
 
         if (p_echiquier == null) {
@@ -173,6 +183,10 @@ public class FragmentPartie extends Fragment {
         }
     }
 
+    /**
+     * Méthode de base onCreate qui cree la view dans l'affichage
+     * @param savedInstanceState
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -47,6 +47,9 @@ public class Fou extends Piece {
      * @return si le deplacement est valide
      */
     public boolean estDeplacementValide(String p_coordonneeDepart, String p_coordonneeFin) {
+        char coordonneeDepartLettre = p_coordonneeDepart.charAt(0);
+        char coordonneeDepartChiffre = p_coordonneeDepart.charAt(1);
+
         if (p_coordonneeDepart.compareTo(p_coordonneeFin) == 0 ||
                 p_coordonneeFin.charAt(0) < 'a' || p_coordonneeFin.charAt(0) > 'h' ||
                 p_coordonneeFin.charAt(1) < '1' || p_coordonneeFin.charAt(1) > '8') {
@@ -54,14 +57,14 @@ public class Fou extends Piece {
         }
 
         for (int i = 1; i < 8; i++) {
-            if ((p_coordonneeDepart.charAt(0) + i == p_coordonneeFin.charAt(0) &&
-                    p_coordonneeDepart.charAt(1) + i == p_coordonneeFin.charAt(1)) ||
-                    (p_coordonneeDepart.charAt(0) - i == p_coordonneeFin.charAt(0) &&
-                            p_coordonneeDepart.charAt(1) - i == p_coordonneeFin.charAt(1)) ||
-                    (p_coordonneeDepart.charAt(0) - 1 == p_coordonneeFin.charAt(0) &&
-                            p_coordonneeDepart.charAt(1) + i == p_coordonneeFin.charAt(1)) ||
-                    (p_coordonneeDepart.charAt(0) + i == p_coordonneeFin.charAt(0) &&
-                            p_coordonneeDepart.charAt(1) - i == p_coordonneeFin.charAt(1))) {
+            if ((coordonneeDepartLettre + i == p_coordonneeFin.charAt(0) &&
+                    coordonneeDepartChiffre + i == p_coordonneeFin.charAt(1)) ||
+                    (coordonneeDepartLettre - i == p_coordonneeFin.charAt(0) &&
+                            coordonneeDepartChiffre - i == p_coordonneeFin.charAt(1)) ||
+                    (coordonneeDepartLettre - 1 == p_coordonneeFin.charAt(0) &&
+                            coordonneeDepartChiffre + i == p_coordonneeFin.charAt(1)) ||
+                    (coordonneeDepartLettre + i == p_coordonneeFin.charAt(0) &&
+                            coordonneeDepartChiffre - i == p_coordonneeFin.charAt(1))) {
                 return true;
             }
         }
@@ -78,29 +81,29 @@ public class Fou extends Piece {
     @Override
     public ArrayList<String> deplacementsPossiblesSelonCoordonnee(String p_coordonnee) {
         ArrayList<String> mouvements = new ArrayList<>();
-        String coordonnee = "";
+        String coordonnee;
 
         for (int i = 1; i < 8; i++) {
 
-            if ((p_coordonnee.charAt(0) + i <= 'h') && (p_coordonnee.charAt(1) + i <= 8)) {
+            if (((char) (p_coordonnee.charAt(0) + i) <= 'h') && ((char) (p_coordonnee.charAt(1) + i) <= '8')) {
                 coordonnee = "" + (char) (p_coordonnee.charAt(0) + i) +
                         (char) (p_coordonnee.charAt(1) + i);
                 mouvements.add(coordonnee);
             }
 
-            if ((p_coordonnee.charAt(0) - i >= 'a') && (p_coordonnee.charAt(1) - i >= 1)) {
+            if (((char) (p_coordonnee.charAt(0) - i) >= 'a') && ((char) (p_coordonnee.charAt(1) - i) >= '1')) {
                 coordonnee = "" + (char) (p_coordonnee.charAt(0) - i) +
                         (char) (p_coordonnee.charAt(1) - i);
                 mouvements.add(coordonnee);
             }
 
-            if ((p_coordonnee.charAt(0) - i >= 'a') && (p_coordonnee.charAt(1) + i <= 8)) {
+            if (((char) (p_coordonnee.charAt(0) - i) >= 'a') && ((char) (p_coordonnee.charAt(1) + i) <= '8')) {
                 coordonnee = "" + (char) (p_coordonnee.charAt(0) - i) +
                         (char) (p_coordonnee.charAt(1) + i);
                 mouvements.add(coordonnee);
             }
 
-            if ((p_coordonnee.charAt(0) + i <= 'h') && (p_coordonnee.charAt(1) - i >= 1)) {
+            if (((char) (p_coordonnee.charAt(0) + i) <= 'h') && ((char) (p_coordonnee.charAt(1) - i) >= '1')) {
                 coordonnee = "" + (char) (p_coordonnee.charAt(0) + i) +
                         (char) (p_coordonnee.charAt(1) - i);
                 mouvements.add(coordonnee);
