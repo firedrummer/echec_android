@@ -6,6 +6,8 @@ import com.example.echec_android.echec.Piece.Couleur;
 
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static java.util.Arrays.asList;
@@ -73,10 +75,19 @@ public class TestCavalier extends TestPiece {
         Cavalier piece = (Cavalier) creerPiece(Couleur.NOIR);
 
         List<String> listeTest = asList("b4", "b6", "c3", "c7", "e3", "e7", "f4", "f6");
-        List<String> listeTest2 = asList("b3", "c2");
+        Collections.sort(listeTest);
 
-        assertArrayEquals(listeTest.toArray(), piece.deplacementsPossiblesSelonCoordonnee("d5").toArray());
-        assertArrayEquals(listeTest2.toArray(), piece.deplacementsPossiblesSelonCoordonnee("a1").toArray());
+        List<String> listeTest2 = asList("b3", "c2");
+        Collections.sort(listeTest2);
+
+        ArrayList<String> list = piece.deplacementsPossiblesSelonCoordonnee("d5");
+        Collections.sort(list);
+
+        ArrayList<String> liste2 = piece.deplacementsPossiblesSelonCoordonnee("a1");
+        Collections.sort(liste2);
+
+        assertArrayEquals(listeTest.toArray(), list.toArray());
+        assertArrayEquals(listeTest2.toArray(), liste2.toArray());
     }
 }
 

@@ -72,6 +72,7 @@ public class Cavalier extends Piece {
     @Override
     public ArrayList<String> deplacementsPossiblesSelonCoordonnee(String p_coordonnee) {
         ArrayList<String> mouvements = new ArrayList<>();
+        ArrayList<String> mouvementsValide = new ArrayList<>();
 
         mouvements.add("" + (char) (p_coordonnee.charAt(0) + 2) + (char) (p_coordonnee.charAt(1) + 1));
         mouvements.add("" + (char) (p_coordonnee.charAt(0) + 2) + (char) (p_coordonnee.charAt(1) - 1));
@@ -83,12 +84,12 @@ public class Cavalier extends Piece {
         mouvements.add("" + (char) (p_coordonnee.charAt(0) - 1) + (char) (p_coordonnee.charAt(1) - 2));
 
         for (String coordonnee : mouvements) {
-            if (coordonnee.charAt(0) > 'h' || coordonnee.charAt(0) < 'a' ||
-                    coordonnee.charAt(1) < '1' || coordonnee.charAt(0) > '8') {
-                mouvements.remove(coordonnee);
+            if (coordonnee.charAt(0) <= 'h' && coordonnee.charAt(0) >= 'a' &&
+                    coordonnee.charAt(1) >= '1' && coordonnee.charAt(1) <= '8') {
+                mouvementsValide.add(coordonnee);
             }
         }
 
-        return mouvements;
+        return mouvementsValide;
     }
 }
