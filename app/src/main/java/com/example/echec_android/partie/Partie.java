@@ -58,8 +58,7 @@ public class Partie {
     }
 
     /**
-     * Getter pour le joueur actuel
-     * @return le joueur dont c'est le tour
+     * @return obtient le joueur actuel
      */
     public Joueur getJoueurActuel() {
         if (getCouleurTour() == Piece.Couleur.BLANC) {

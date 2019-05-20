@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.example.echec_android.R;
 
 /**
- * Classe fragment de départ pour le début de l'application
+ * Classe qui gère le fragment en lien avec l'obtention du nom des joueurs
  * @author Yanick Bellavance
  * @author William Blackburn
  */
