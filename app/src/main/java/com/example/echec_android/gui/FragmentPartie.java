@@ -59,8 +59,9 @@ public class FragmentPartie extends Fragment {
 
     /**
      * Méthode qui set les 2 joueurs
+     *
      * @param p_nomJoueurBlanc le joueur blanc
-     * @param p_nomJoueurNoir le joueur noir
+     * @param p_nomJoueurNoir  le joueur noir
      */
     public static void setJoueurs(String p_nomJoueurBlanc, String p_nomJoueurNoir) {
         m_partie.setJoueurBlanc(new Joueur(Piece.Couleur.BLANC, p_nomJoueurBlanc));
@@ -69,7 +70,8 @@ public class FragmentPartie extends Fragment {
 
     /**
      * Méthode qui initialise le tableau
-     * @param p_table le tableLayout qui servira pour mettre le tableau
+     *
+     * @param p_table     le tableLayout qui servira pour mettre le tableau
      * @param p_echiquier l'échiquier
      */
     public void InitialiserTableau(TableLayout p_table, Echiquier p_echiquier) {
@@ -93,8 +95,6 @@ public class FragmentPartie extends Fragment {
             largeur = size.x / 9;
         }
 
-        int numeroBouton = 1;
-
         for (int i = 0; i < 9; i++) {
             TableRow rangee = new TableRow(this.getActivity());
             p_table.addView(rangee);
@@ -112,7 +112,6 @@ public class FragmentPartie extends Fragment {
                     TextView textView = new TextView(getContext());
                     textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
                     textView.setText(String.format("%s", (char) ('a' + (j - 1))));
-                    //textView.setText("test");
                     rangee.addView(textView, 50, 50);
                 } else if (j == 0) {
                     // Les chiffres de 1 - 8
@@ -136,26 +135,13 @@ public class FragmentPartie extends Fragment {
                         bouton.setText("");
                     }
 
-                    int noir = Color.BLACK;
-                    int blanc = Color.WHITE;
-
-                    if (i % 2 == 0) {
-                        if (j % 2 == 0) {
-                            bouton.setBackgroundColor(blanc);
-                        } else {
-                            bouton.setBackgroundColor(noir);
-                        }
-                    } else {
-                        if (j % 2 == 0) {
-                            bouton.setBackgroundColor(noir);
-                        } else {
-                            bouton.setBackgroundColor(blanc);
-                        }
-                    }
+                    colorerTableau(i, j);
 
                     bouton.setOnClickListener(v -> {
                         if (m_dernierBoutonCliquer == null) {
                             m_dernierBoutonCliquer = bouton;
+
+                            reEcrireTableau();
 
                             LinkedHashMap<String, String> mouvementPossible = m_partie.
                                     getEchiquier().getToursPossibleSelonPiece(piece, coordonnee);
@@ -165,6 +151,7 @@ public class FragmentPartie extends Fragment {
                             for (String mouvements : mouvementPossible.values()) {
                                 m_boutons[mouvements.charAt(0) - 'a'][mouvements.charAt(1) - '1'].setBackgroundColor(couleurMouvement);
                             }
+
                         } else {
                             // Promotion
                             if (m_partie.getEchiquier().estPromotionPossible(m_dernierBoutonCliquer.getTag().toString(), coordonnee)) {
@@ -179,6 +166,7 @@ public class FragmentPartie extends Fragment {
                                     Toast.makeText(getContext(),
                                             "Votre coup était invalide veuillez réessayer!",
                                             Toast.LENGTH_SHORT).show();
+                                    reEcrireTableau();
                                 } else {
                                     if (m_partie.getEchiquier().estEchec(m_partie.getCouleurTour())) {
                                         Toast.makeText(getContext(),
@@ -204,6 +192,8 @@ public class FragmentPartie extends Fragment {
                                             "Veuillez Confirmer la fin de votre tour " +
                                                     "ou revenez en arrière dans le cas contraire!",
                                             Toast.LENGTH_SHORT).show();
+
+                                    reEcrireTableau();
                                 }
                             }
                         }
@@ -211,8 +201,44 @@ public class FragmentPartie extends Fragment {
 
                     m_boutons[i - 1][j - 1] = bouton;
                     rangee.addView(bouton, largeur, largeur);
-                    numeroBouton++;
                 }
+            }
+        }
+    }
+
+    void reEcrireTableau() {
+        Echiquier echiquier = m_partie.getEchiquier();
+
+        for (int i = 0; i < m_boutons.length; i++) {
+            for (int j = 0; j < m_boutons[i].length; j++) {
+                if (echiquier.getPiece(String.valueOf((char) ('a' + i)) +
+                        (j + 1)) != null) {
+
+                    m_boutons[i][j].setText(echiquier.getPiece(String.valueOf((char) ('a' + i))
+                            + (j + 1)).obtenirRepresentation());
+                } else {
+                    m_boutons[i][j].setText(" ");
+                }
+                colorerTableau(i, j);
+            }
+        }
+    }
+
+    void colorerTableau(int p_i, int p_j) {
+        int noir = Color.BLACK;
+        int blanc = Color.WHITE;
+
+        if (p_i % 2 == 0) {
+            if (p_j % 2 == 0) {
+                m_boutons[p_i][p_j].setBackgroundColor(blanc);
+            } else {
+                m_boutons[p_i][p_j].setBackgroundColor(noir);
+            }
+        } else {
+            if (p_j % 2 == 0) {
+                m_boutons[p_i][p_j].setBackgroundColor(noir);
+            } else {
+                m_boutons[p_i][p_j].setBackgroundColor(blanc);
             }
         }
     }
@@ -244,10 +270,6 @@ public class FragmentPartie extends Fragment {
         dialog.show();
     }
 
-    /**
-     * Méthode de base onCreate qui cree la view dans l'affichage
-     * @param savedInstanceState
-     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

@@ -48,12 +48,13 @@ public class DepartFragment extends Fragment {
         View v = inflater.inflate(R.layout.depart_layout, container, false);
 
         Button m_confirmerButton = v.findViewById(R.id.confirmer);
-        m_nomJoueurBlanc = v.findViewById(R.id.nom_joueur_blanc);
+        EditText m_nomJoueurBlanc = v.findViewById(R.id.nom_joueur_blanc);
         EditText m_nomJoueurNoire = v.findViewById(R.id.nom_joueur_noir);
 
         m_confirmerButton.setOnClickListener(v1 -> {
             if (m_nomJoueurBlanc.getText().length() > 3 && m_nomJoueurNoire.getText().length() > 3 &&
                     m_nomJoueurNoire.getText() != m_nomJoueurBlanc.getText()) {
+                FragmentPartie.setJoueurs(m_nomJoueurBlanc.getText().toString(), m_nomJoueurNoire.getText().toString());
                 mode.onChangeMode(Mode.Partie, null);
             } else {
                 Toast.makeText(getContext(),
