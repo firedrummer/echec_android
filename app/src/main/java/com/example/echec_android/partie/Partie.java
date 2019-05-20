@@ -15,7 +15,7 @@ import java.util.Objects;
  * @author Yanick Bellavance
  */
 public class Partie {
-    //Echiquier dasn une partie entre 2 joueurs
+    //Echiquier dans une partie entre 2 joueurs
     private Echiquier m_echiquier;
 
     /**
