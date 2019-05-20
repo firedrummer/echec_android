@@ -239,11 +239,11 @@ public class Echiquier {
             }
 
             if (p_coordonnee.equals("e1") || p_coordonnee.equals("e8")) {
-                if (deplacementGrandRoqueValide(p_piece, p_coordonnee, "a" + p_coordonnee.charAt(1))) {
+                if (deplacementGrandRoqueValide(p_coordonnee, "a" + p_coordonnee.charAt(1))) {
                     tourPossible.put(p_coordonnee, "a" + p_coordonnee.charAt(1));
                 }
 
-                if (deplacementPetitRoqueValide(p_piece, p_coordonnee, "h" + p_coordonnee.charAt(1))) {
+                if (deplacementPetitRoqueValide(p_coordonnee, "h" + p_coordonnee.charAt(1))) {
                     tourPossible.put(p_coordonnee, "h" + p_coordonnee.charAt(1));
                 }
             }
@@ -257,11 +257,11 @@ public class Echiquier {
             }
 
             if (p_coordonnee.equals("h1") || p_coordonnee.equals("h8")) {
-                if (deplacementPetitRoqueValide(p_piece, p_coordonnee, "e" + p_coordonnee.charAt(1))) {
+                if (deplacementPetitRoqueValide(p_coordonnee, "e" + p_coordonnee.charAt(1))) {
                     tourPossible.put(p_coordonnee, "e" + p_coordonnee.charAt(1));
                 }
             } else if (p_coordonnee.equals("a1") || p_coordonnee.equals("a8")) {
-                if (deplacementGrandRoqueValide(p_piece, p_coordonnee, "e" + p_coordonnee.charAt(1))) {
+                if (deplacementGrandRoqueValide(p_coordonnee, "e" + p_coordonnee.charAt(1))) {
                     tourPossible.put(p_coordonnee, "e" + p_coordonnee.charAt(1));
                 }
             }
@@ -400,7 +400,6 @@ public class Echiquier {
 
     /**
      * Vérifie si un pion est à la bonne position pour avoir une promotion
-     *
      * @param p_coordonneeDebut coordonnee de debut
      * @param p_coordonneeFin   coordonne de fin
      * @return true si la promotion est possible sinon false
@@ -486,8 +485,8 @@ public class Echiquier {
      */
     private byte deplacementValideTour(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
         if (casesVide(p_coordonneDebut, p_coordonneeFin)) {
-            if (deplacementGrandRoqueValide(p_piece, p_coordonneDebut, p_coordonneeFin)
-                    && deplacementPetitRoqueValide(p_piece, p_coordonneDebut, p_coordonneeFin)) {
+            if (deplacementGrandRoqueValide(p_coordonneDebut, p_coordonneeFin)
+                    && deplacementPetitRoqueValide(p_coordonneDebut, p_coordonneeFin)) {
                 return 2;
             } else {
                 return (byte) (p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin) ? 1 : 0);
@@ -547,8 +546,8 @@ public class Echiquier {
      */
     private byte deplacementValideRoi(Piece p_piece, String p_coordonneDebut, String p_coordonneeFin) {
         if (casesVide(p_coordonneDebut, p_coordonneeFin)) {
-            if (deplacementGrandRoqueValide(p_piece, p_coordonneDebut, p_coordonneeFin)
-                    && deplacementPetitRoqueValide(p_piece, p_coordonneDebut, p_coordonneeFin)) {
+            if (deplacementGrandRoqueValide(p_coordonneDebut, p_coordonneeFin)
+                    && deplacementPetitRoqueValide(p_coordonneDebut, p_coordonneeFin)) {
                 return 2;
             } else {
                 return (byte) (p_piece.estDeplacementValide(p_coordonneDebut, p_coordonneeFin) ? 1 : 0);
@@ -628,12 +627,11 @@ public class Echiquier {
     /**
      * Méthode qui test si le petit roque est valide
      *
-     * @param p_piece            pièce qui sera testée pour le roque
      * @param p_coordonneePiece1 coordonnée de la première pièce
      * @param p_coordonneePiece2 coordonnée de la deuxième pièce
      * @return vrai lorsque le petit roque est valide
      */
-    private boolean deplacementPetitRoqueValide(Piece p_piece, String p_coordonneePiece1, String p_coordonneePiece2) {
+    private boolean deplacementPetitRoqueValide(String p_coordonneePiece1, String p_coordonneePiece2) {
         Piece piece1 = getPiece(p_coordonneePiece1);
         Piece piece2 = getPiece(p_coordonneePiece2);
 
@@ -657,12 +655,11 @@ public class Echiquier {
     /**
      * Méthode qui test si le grand roque est valide
      *
-     * @param p_piece            pièce qui sera testée pour le grand roque
      * @param p_coordonneePiece1 coordonnée de la première pièce
      * @param p_coordonneePiece2 coordonnée de la deuxième pièce
      * @return vrai lorque le grand roque est un déplacement possible
      */
-    private boolean deplacementGrandRoqueValide(Piece p_piece, String p_coordonneePiece1, String p_coordonneePiece2) {
+    private boolean deplacementGrandRoqueValide(String p_coordonneePiece1, String p_coordonneePiece2) {
         Piece piece1 = getPiece(p_coordonneePiece1);
         Piece piece2 = getPiece(p_coordonneePiece2);
 

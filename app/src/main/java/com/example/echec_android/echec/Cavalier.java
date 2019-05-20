@@ -85,7 +85,7 @@ public class Cavalier extends Piece {
 
         for (String coordonnee : mouvements) {
             if (coordonnee.charAt(0) <= 'h' && coordonnee.charAt(0) >= 'a' &&
-                    coordonnee.charAt(1) >= '1' && coordonnee.charAt(0) <= '8') {
+                    coordonnee.charAt(1) >= '1' && coordonnee.charAt(1) <= '8') {
                 mouvementsValide.add(coordonnee);
             }
         }

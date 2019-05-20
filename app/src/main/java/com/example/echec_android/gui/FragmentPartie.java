@@ -2,7 +2,6 @@ package com.example.echec_android.gui;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -43,11 +42,6 @@ public class FragmentPartie extends Fragment {
     Button[][] m_boutons = new Button[8][8];
     Button m_dernierBoutonCliquer;
     Piece.Type promotionType;
-
-    /**
-     * Variable pour changer le mode
-     */
-    private CallBacks m_callBacks;
 
     /**
      * Crée une nouvelle instance de FragmentPartie
@@ -313,18 +307,6 @@ public class FragmentPartie extends Fragment {
      */
     public interface CallBacks {
         void onChangeMode(Mode mode, String id);
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        m_callBacks = (CallBacks) context;
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        m_callBacks = null;
     }
 }
 
