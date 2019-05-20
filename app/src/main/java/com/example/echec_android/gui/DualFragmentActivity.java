@@ -14,14 +14,27 @@ import com.example.echec_android.R;
  */
 public abstract class DualFragmentActivity extends AppCompatActivity {
 
+    /**
+     * Méthode qui set le fragment au top_container
+     * @param p_fragment le fragment à set
+     */
     public void setTopFragment (Fragment p_fragment) {
         setFragment(R.id.top_container, p_fragment);
     }
 
+    /**
+     * Méthode qui set le main fragment au main_container
+     * @param p_fragment le fragment à set
+     */
     public void setMainFragment (Fragment p_fragment) {
         setFragment(R.id.main_container, p_fragment);
     }
 
+    /**
+     * Méthode qui commit les transactions des fragments avc le fragment manager
+     * @param resId id dans le fichier res
+     * @param newFragment nouveau fragment
+     */
     private void setFragment(int resId, Fragment newFragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment fragment = fragmentManager.findFragmentById(resId);
@@ -35,6 +48,10 @@ public abstract class DualFragmentActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Méthode onCreate de base qui va permettre d'afficher le fragment
+     * @param savedInstanceState l'état d'instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

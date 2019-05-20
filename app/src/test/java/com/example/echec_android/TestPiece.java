@@ -54,11 +54,22 @@ public abstract class TestPiece {
         Assert.assertTrue(m_pieceNoir.estDeplacer());
     }
 
+    /**
+     * Méthode abstraite pour la création des pièces dans les classes non-abstraites
+     * @param p_couleur coueur choisie pour la pièce en question
+     * @return la pièce qui sera créée selon son type avec la couleur passée en param'
+     */
     abstract protected Piece creerPiece(Piece.Couleur p_couleur);
 
+    /**
+     * Méthode abstraite pour valider les déplacements pour tous les types de pièce
+     */
     @Test
     public abstract void deplacementValide();
 
+    /**
+     * Méthode abstraite pour les déplacements possibles selon la coordonnée pour tous les types de pièce
+     */
     @Test
     public abstract void deplacementsPossiblesSelonCoordonnee();
 }

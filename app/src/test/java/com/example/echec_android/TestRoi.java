@@ -39,6 +39,11 @@ public class TestRoi extends TestPiece {
         assertEquals(0.0, piece2.obtenirPointagePiece(), 0.0);
     }
 
+    /**
+     * Méthode qui crée la pièce du Roi
+     * @param p_couleur couleur du roi choisie
+     * @return le roi avec sa couleur choisie
+     */
     @Override
     protected Piece creerPiece(Piece.Couleur p_couleur) {
         return new Roi(p_couleur);
@@ -68,6 +73,9 @@ public class TestRoi extends TestPiece {
         assertFalse(piece.estDeplacementValide("a1", "c3"));
     }
 
+    /**
+     * Méthode de test possibles selon la coordonnée
+     */
     @Test
     @Override
     public void deplacementsPossiblesSelonCoordonnee() {

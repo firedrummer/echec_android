@@ -24,12 +24,12 @@ public class Partie {
     private LinkedHashMap<Integer, Pair<Joueur, Echiquier>> m_historique = new LinkedHashMap<>();
 
     /**
-     *
+     * joueur blanc
      */
     private Joueur m_joueurBlanc;
 
     /**
-     *
+     * joueur noir
      */
     private Joueur m_joueurNoir;
 
@@ -38,10 +38,17 @@ public class Partie {
      */
     private Piece.Couleur couleurTour = Piece.Couleur.BLANC;
 
+    /**
+     * Méthode qui obtient la couleur du tour
+     * @return la couleur de à qui c'est le tour
+     */
     public Piece.Couleur getCouleurTour() {
         return couleurTour;
     }
 
+    /**
+     * Méthode qui fait changer de tour
+     */
     public void changerTour() {
         if (couleurTour == Piece.Couleur.BLANC) {
             couleurTour = Piece.Couleur.NOIR;
@@ -50,6 +57,10 @@ public class Partie {
         }
     }
 
+    /**
+     * Getter pour le joueur actuel
+     * @return le joueur dont c'est le tour
+     */
     public Joueur getJoueurActuel() {
         if (getCouleurTour() == Piece.Couleur.BLANC) {
             return getJoueurBlanc();

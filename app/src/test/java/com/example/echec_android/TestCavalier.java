@@ -35,6 +35,11 @@ public class TestCavalier extends TestPiece {
         assertEquals(2.5, piece2.obtenirPointagePiece(), 0.0);
     }
 
+    /**
+     * Méthode qui créera la pièce cavalier avec la couleur désirée
+     * @param p_couleur coueur choisie pour la pièce en question
+     * @return le nouveau Cavalier créé avec sa couleur
+     */
     @Override
     protected Piece creerPiece(Couleur p_couleur) {
         return new Cavalier(p_couleur);
@@ -70,6 +75,9 @@ public class TestCavalier extends TestPiece {
         assertFalse(piece.estDeplacementValide("d4", "h8"));
     }
 
+    /**
+     * Méthode de test pour les déplacements possibles selon la coordonnée
+     */
     @Test
     @Override
     public void deplacementsPossiblesSelonCoordonnee() {

@@ -10,6 +10,11 @@ import android.view.ViewGroup;
 
 import com.example.echec_android.R;
 
+/**
+ * Classe fragment de l'historique de la partie
+ * @author William Blackburn
+ * @author Yanick Bellavance
+ */
 public class HistoriqueFragment extends Fragment {
     /**
      * Callback pour le mode actuel
@@ -31,11 +36,22 @@ public class HistoriqueFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Méthode onCreate qui ajoute la vue du fragment
+     * @param savedInstanceState l'état d'instance
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Méthode qui cree la vue et la retourne
+     * @param inflater l'inflater
+     * @param container container
+     * @param savedInstanceState l'état d'instance
+     * @return v la vue
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

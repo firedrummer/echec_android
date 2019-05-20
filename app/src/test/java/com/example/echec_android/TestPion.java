@@ -48,6 +48,11 @@ public class TestPion extends TestPiece {
         assertTrue(piece2.estNoir());
     }
 
+    /**
+     * Méthode qui crée la pièce pion
+     * @param p_couleur couleur choisie
+     * @return la pièce créée avec la couleur choisie
+     */
     @Override
     protected Piece creerPiece(Piece.Couleur p_couleur) {
         return new Pion(p_couleur);
@@ -77,6 +82,9 @@ public class TestPion extends TestPiece {
         assertFalse(piece.estDeplacementValide("a1", "c3"));
     }
 
+    /**
+     * Méthode de test pour les déplacements possibles selon la coordonnée
+     */
     @Test
     @Override
     public void deplacementsPossiblesSelonCoordonnee() {

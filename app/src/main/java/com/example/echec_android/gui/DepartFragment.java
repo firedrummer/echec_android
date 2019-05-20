@@ -14,6 +14,11 @@ import android.widget.Toast;
 
 import com.example.echec_android.R;
 
+/**
+ * Classe fragment de départ pour le début de l'application
+ * @author Yanick Bellavance
+ * @author William Blackburn
+ */
 public class DepartFragment extends Fragment {
     /**
      * Callback pour le mode actuel
@@ -35,11 +40,22 @@ public class DepartFragment extends Fragment {
         return fragment;
     }
 
+    /**
+     * Méthode de base on create qui crée le fragment avec un bundle
+     * @param savedInstanceState l'état d'instance
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Méthode onCreateView de base qui crée la vue avec un inflater le container etc
+     * @param inflater l'inflater
+     * @param container le cotainer
+     * @param savedInstanceState l'état d'instance
+     * @return la vue (v)
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -64,12 +80,19 @@ public class DepartFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Méthode lorsque le fragment s'attache a la view
+     * @param context contexte
+     */
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         mode = (FragmentPartie.CallBacks) context;
     }
 
+    /**
+     * Méthode lorsque le fragment se détache de la vue
+     */
     @Override
     public void onDetach() {
         super.onDetach();

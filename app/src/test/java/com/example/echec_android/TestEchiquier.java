@@ -130,6 +130,9 @@ public class TestEchiquier {
         System.out.println(m_echiquier.obtenirRepresentation());
     }
 
+    /**
+     * Méthode de tests pour les déplacements sur l'échiquier
+     */
     @Test
     public void testDeplacements() {
         m_echiquier.initialiser();
@@ -141,16 +144,12 @@ public class TestEchiquier {
 
         // Prise en passant
         m_echiquier.initialiser();
-        m_echiquier.deplacerPiece("a2","a4");
-        m_echiquier.deplacerPiece("c7","c5");
-        m_echiquier.deplacerPiece("a4","a5");
-        m_echiquier.deplacerPiece("b7","b5");
+        m_echiquier.deplacerPiece("a2", "a4");
+        m_echiquier.deplacerPiece("c7", "c5");
+        m_echiquier.deplacerPiece("a4", "a5");
+        m_echiquier.deplacerPiece("b7", "b5");
         //La prise en passant se fait ici
-        m_echiquier.deplacerPiece("a5","b6");
-
-        //Vérifie si une piece peut en manger une autre et ne peut manger sa propre couleur)
-        m_echiquier.initialiser();
-        Assert.assertFalse(m_echiquier.deplacerPiece("c1", "d2"));
+        m_echiquier.deplacerPiece("a5", "b6");
 
         m_echiquier.deplacerPiece("d2", "d4");
         m_echiquier.deplacerPiece("c1", "g5");
@@ -172,9 +171,11 @@ public class TestEchiquier {
         m_echiquier.deplacerPiece("h8", "f8"); //petit roque
 
 
-
     }
 
+    /**
+     * Méthode de test s'il y a un cas de 'pat' selon la couleur en question
+     */
     @Test
     public void testEstPatSelonCouleur() {
         Roi roiNoir = new Roi(Piece.Couleur.NOIR);
@@ -190,18 +191,25 @@ public class TestEchiquier {
         Assert.assertTrue(m_echiquier.estPatSelonCouleur(Piece.Couleur.NOIR));
     }
 
+    /**
+     * Méthode qui test les coups possibles selon la pièce
+     */
     @Test
     public void testGetToursPossibleSelonPiece() {
         LinkedHashMap<String, String> hashMap = new LinkedHashMap<>();
-        hashMap.put("a3","a4");
+        hashMap.put("a3", "a4");
 
         m_echiquier.initialiser();
 
         Assert.assertEquals(hashMap, m_echiquier.getToursPossibleSelonPiece(m_echiquier.getPiece("a2"), "a2"));
     }
 
+    /**
+     * Méthode qui test l'échec et mat du côté des noirs et des blancs
+     */
     @Test
     public void testEstEchecEtMathNoirEtBlanc() {
+        //Test echec et mat noir
         Roi roiNoir = new Roi(Piece.Couleur.NOIR);
         Roi roiBlanc = new Roi(Piece.Couleur.BLANC);
         Reine reineBlanche = new Reine(Piece.Couleur.BLANC);
@@ -211,12 +219,39 @@ public class TestEchiquier {
         m_echiquier.ajouterPiece("d8", roiNoir);
 
         Assert.assertTrue(m_echiquier.estEchecEtMathNoir());
+
+        //Test echec et mat blanc
+        Roi roiNoir2 = new Roi(Piece.Couleur.NOIR);
+        Cavalier cavalierNoir = new Cavalier(Piece.Couleur.NOIR);
+        Fou fouNoir = new Fou(Piece.Couleur.NOIR);
+        Roi roiBlanc2 = new Roi(Piece.Couleur.BLANC);
+
+        m_echiquier.viderEchiquier();
+        m_echiquier.ajouterPiece("a8", roiBlanc2);
+        m_echiquier.ajouterPiece("a6", cavalierNoir);
+        m_echiquier.ajouterPiece("b6", roiNoir2);
+        m_echiquier.ajouterPiece("e4", fouNoir);
+
+        //Echec et mat des blancs
+        Assert.assertTrue(m_echiquier.estEchecEtMathBlanc());
+
     }
 
+    /**
+     * Méthode de test pour effectuer un échec ( sans le mat )
+     */
     @Test
     public void testEstEchec() {
-        m_echiquier.initialiser();
+        Roi roiNoir = new Roi(Piece.Couleur.NOIR);
+        Roi roiBlanc = new Roi(Piece.Couleur.BLANC);
+        Tour tourBlanche = new Tour(Piece.Couleur.BLANC);
 
+        m_echiquier.ajouterPiece("c8", roiNoir);
+        m_echiquier.ajouterPiece("c5", tourBlanche);
+        m_echiquier.ajouterPiece("b5", roiBlanc);
+        m_echiquier.deplacerPiece("b5", "b6");
+
+        Assert.assertTrue(m_echiquier.estEchec(Piece.Couleur.NOIR));
     }
 
     /**
@@ -229,7 +264,6 @@ public class TestEchiquier {
         m_echiquier.deplacerPiece("a2", "a4");
         m_echiquier.deplacerPiece("a4", "a5");
         m_echiquier.deplacerPiece("a5", "a6");
-
         Assert.assertFalse(m_echiquier.estPromotionPossible("a6", "a7"));
         m_echiquier.deplacerPiece("a6", "a7");
 
@@ -260,6 +294,9 @@ public class TestEchiquier {
         Assert.assertEquals(Piece.Couleur.NOIR, m_echiquier.getPiece("a8").getCouleur());
     }
 
+    /**
+     * Méthode de test pour une partie nulle
+     */
     @Test
     public void testPartieNulle() {
         // Les 3 pièces nécéssaires pour tester qu'il y a 3 pièces sur l'échiquier afin d'avoir une partie nulle
@@ -275,6 +312,9 @@ public class TestEchiquier {
         Assert.assertTrue(m_echiquier.partieNulle());
     }
 
+    /**
+     * Méthode de test pour un échec et mat sur peu importe la couleur
+     */
     @Test
     public void testEchecMat() {
         //Test pour echec et math noir

@@ -40,6 +40,11 @@ public class TestFou extends TestPiece {
         assertEquals(3.0, piece2.obtenirPointagePiece(), 0.0);
     }
 
+    /**
+     * Méthode qui crée la pièce fou avec la couleur spécifiée
+     * @param p_couleur coueur choisie pour la pièce en question
+     * @return un nouveau Fou avec la couleur passée en paramètre
+     */
     @Override
     protected Piece creerPiece(Piece.Couleur p_couleur) {
         return new Fou(p_couleur);
@@ -70,6 +75,9 @@ public class TestFou extends TestPiece {
         assertFalse(piece.estDeplacementValide("a1", "g3"));
     }
 
+    /**
+     * Méthode de test pour les déplacements possibles selon la coordonnée
+     */
     @Test
     @Override
     public void deplacementsPossiblesSelonCoordonnee() {

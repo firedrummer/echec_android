@@ -41,6 +41,11 @@ public class TestTour extends TestPiece {
         assertEquals(5.0, piece2.obtenirPointagePiece(), 0.0);
     }
 
+    /**
+     * Méthode qui crée une pièce soit une tour
+     * @param p_couleur couleur de la pièce
+     * @return la tour créée avec la couleur spécifiée
+     */
     @Override
     protected Piece creerPiece(Piece.Couleur p_couleur) {
         return new Tour(p_couleur);
@@ -71,6 +76,9 @@ public class TestTour extends TestPiece {
         assertFalse(piece.estDeplacementValide("a1", "g3"));
     }
 
+    /**
+     * Méthode de test pour les déplacements possibles selon la coordonnée
+     */
     @Test
     @Override
     public void deplacementsPossiblesSelonCoordonnee() {

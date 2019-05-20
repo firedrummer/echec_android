@@ -16,8 +16,12 @@ import static com.example.echec_android.echec.Piece.Couleur.NOIR;
  * @author Yanick Bellavance
  */
 public class TestJoueur {
+    //Variable privée joueur afin de pouvoir tester
     private Joueur joueur = new Joueur(Piece.Couleur.BLANC, "myName");
 
+    /**
+     * Méthode de test de création pour les joueurs
+     */
     @Test
     public void creation() {
 

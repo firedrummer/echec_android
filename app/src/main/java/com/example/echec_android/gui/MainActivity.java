@@ -16,6 +16,10 @@ public class MainActivity extends DualFragmentActivity implements FragmentPartie
      */
     public static Mode actualMode;
 
+    /**
+     * Méthode de base onCreate qui ajoute la vue du fragment
+     * @param savedInstanceState l'état d'instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -26,6 +30,11 @@ public class MainActivity extends DualFragmentActivity implements FragmentPartie
         setMainFragment(FragmentPartie.newInstance());
     }
 
+    /**
+     * Méthode lorsqu'il y a un changement de mode
+     * @param p_mode les différents modes soit départ ou partie
+     * @param p_id le id du mode
+     */
     @Override
     public void onChangeMode(Mode p_mode, String p_id) {
         switch (p_mode) {

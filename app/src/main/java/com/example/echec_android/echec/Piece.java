@@ -19,6 +19,7 @@ public abstract class Piece {
      */
     private Type m_type;
 
+    //Variable privée membre pour voir si une pièce a été déplacée
     private boolean m_deplacer = false;
 
     /**
@@ -50,6 +51,10 @@ public abstract class Piece {
         return this.m_couleur == Couleur.BLANC;
     }
 
+    /**
+     * Méthode qui retourne la variable membre m_deplacer
+     * @return true lorsqu'une pièce est déplacée
+     */
     public boolean estDeplacer() {
         return m_deplacer;
     }

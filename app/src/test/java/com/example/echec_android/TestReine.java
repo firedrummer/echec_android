@@ -39,6 +39,11 @@ public class TestReine extends TestPiece {
         assertEquals(9.0, piece2.obtenirPointagePiece(), 0.0);
     }
 
+    /**
+     * Méthode qui crée la pièce Reine
+     * @param p_couleur couleur choisie
+     * @return la pièce créée avec la couleur choisie
+     */
     @Override
     protected Piece creerPiece(Piece.Couleur p_couleur) {
         return new Reine(p_couleur);
@@ -69,6 +74,9 @@ public class TestReine extends TestPiece {
         assertFalse(piece.estDeplacementValide("a1", "g3"));
     }
 
+    /**
+     * Méthode de test pour les déplacements possibles selon la coordonnée
+     */
     @Test
     @Override
     public void deplacementsPossiblesSelonCoordonnee() {
