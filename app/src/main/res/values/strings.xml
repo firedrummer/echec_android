@@ -6,7 +6,9 @@
     <string name="confirmerText">Confirmer</string>
     <string name="nom_du_joueur_blanc">Nom du joueur blanc:</string>
     <string name="nom_du_joueur_noire">Nom du joueur noire:</string>
-    <string name="toast_info_joueur">Vous devez au moins avoir 3 caractères pour chacun de vos nom!</string>
+    <string name="toast_info_joueur">Vous devez au moins avoir 4 caractères pour chacun de vos nom et le nom ne doit pas être le même !</string>
     <string name="revenir_en_arriere">Revenir en arriere</string>
     <string name="confirmer">Confirmer</string>
+    <string name="promotion_text">Veuillez choisir de type de pièce dont vous voulez promouvoir votre pion!</string>
+    <string name="le_joueur_blanc_commence">Le joueur blanc commence!</string>
 </resources>

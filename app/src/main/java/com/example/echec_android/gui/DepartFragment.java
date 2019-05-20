@@ -52,7 +52,8 @@ public class DepartFragment extends Fragment {
         EditText m_nomJoueurNoire = v.findViewById(R.id.nom_joueur_noir);
 
         m_confirmerButton.setOnClickListener(v1 -> {
-            if (m_nomJoueurBlanc.getText().length() < 3 || m_nomJoueurNoire.getText().length() < 3) {
+            if (m_nomJoueurBlanc.getText().length() > 3 && m_nomJoueurNoire.getText().length() > 3 &&
+                    m_nomJoueurNoire.getText() != m_nomJoueurBlanc.getText()) {
                 mode.onChangeMode(Mode.Partie, null);
             } else {
                 Toast.makeText(getContext(),

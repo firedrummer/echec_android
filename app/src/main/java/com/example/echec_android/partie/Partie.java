@@ -3,6 +3,7 @@ package com.example.echec_android.partie;
 import android.support.v4.util.Pair;
 
 import com.example.echec_android.echec.Echiquier;
+import com.example.echec_android.echec.Piece;
 
 import java.util.LinkedHashMap;
 import java.util.Objects;
@@ -33,9 +34,29 @@ public class Partie {
     private Joueur m_joueurNoir;
 
     /**
-     * La valeur est de 1 si c'est le tour du joueur 1 sinon la valeur est 2
+     * Couleur du joueur actuel, le premier joueur à commencer sont les blancs
      */
-    private int m_tourJoueur = 1;
+    private Piece.Couleur couleurTour = Piece.Couleur.BLANC;
+
+    public Piece.Couleur getCouleurTour() {
+        return couleurTour;
+    }
+
+    public void changerTour() {
+        if (couleurTour == Piece.Couleur.BLANC) {
+            couleurTour = Piece.Couleur.NOIR;
+        } else {
+            couleurTour = Piece.Couleur.BLANC;
+        }
+    }
+
+    public Joueur getJoueurActuel() {
+        if (getCouleurTour() == Piece.Couleur.BLANC) {
+            return getJoueurBlanc();
+        } else {
+            return getJoueurNoir();
+        }
+    }
 
     /**
      * getter pour joueur
@@ -48,6 +69,7 @@ public class Partie {
 
     /**
      * setter pour le joueur 1
+     *
      * @param p_joueur le joueur 1 dans la partie
      */
     public void setJoueurBlanc(Joueur p_joueur) {
@@ -56,6 +78,7 @@ public class Partie {
 
     /**
      * Getter pour le joueur 2
+     *
      * @return le joueur 2
      */
     public Joueur getJoueurNoir() {
@@ -64,6 +87,7 @@ public class Partie {
 
     /**
      * Setter pour le joueur 2
+     *
      * @param p_joueur
      */
     public void setJoueurNoir(Joueur p_joueur) {
@@ -83,6 +107,7 @@ public class Partie {
 
     /**
      * Getter pour l'historique de la partie
+     *
      * @return l'historique de la partie
      */
     public LinkedHashMap<Integer, Pair<Joueur, Echiquier>> getHistoriquePartie() {
@@ -91,6 +116,7 @@ public class Partie {
 
     /**
      * Restaure la partie
+     *
      * @param p_echiquier l'échiquier
      */
     public void restaurerPartie(Echiquier p_echiquier) {
@@ -118,6 +144,7 @@ public class Partie {
 
     /**
      * Restaure l'historique au numéro du tour saisi
+     *
      * @param p_numeroTourRestaurer numéro du tour où on veut restaurer
      */
     public void restaurerHistorique(Integer p_numeroTourRestaurer) {
@@ -126,5 +153,14 @@ public class Partie {
         for (Integer i = p_numeroTourRestaurer + 1; i < m_historique.size(); i++) {
             m_historique.remove(i);
         }
+    }
+
+    /**
+     * Restaure le dernier mouvement et l'enleve de l'historique
+     */
+    public void restaurerDernierMouvement() {
+        m_echiquier = Objects.requireNonNull(m_historique.get(m_historique.size())).second;
+
+        m_historique.remove(m_historique.size() - 1);
     }
 }

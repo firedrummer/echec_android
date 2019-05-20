@@ -1,5 +1,7 @@
 package com.example.echec_android.gui;
 
+import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.os.Bundle;
@@ -10,7 +12,10 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -23,7 +28,10 @@ import com.example.echec_android.partie.Joueur;
 import com.example.echec_android.partie.Partie;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Objects;
+
+import static java.util.Arrays.asList;
 
 public class FragmentPartie extends Fragment {
 
@@ -33,6 +41,7 @@ public class FragmentPartie extends Fragment {
      */
     Button[][] m_boutons = new Button[8][8];
     Button m_dernierBoutonCliquer;
+    Piece.Type promotionType;
 
     /**
      * Crée une nouvelle instance de FragmentPartie
@@ -157,21 +166,46 @@ public class FragmentPartie extends Fragment {
                                 m_boutons[mouvements.charAt(0) - 'a'][mouvements.charAt(1) - '1'].setBackgroundColor(couleurMouvement);
                             }
                         } else {
-                            boolean valide = m_partie.jouerTour(m_dernierBoutonCliquer.getTag().toString(), coordonnee);
-
-                            if (!valide) {
-                                Toast.makeText(getContext(),
-                                        "Votre coup était invalide veuillez réessayer!",
-                                        Toast.LENGTH_SHORT).show();
+                            // Promotion
+                            if (m_partie.getEchiquier().estPromotionPossible(m_dernierBoutonCliquer.getTag().toString(), coordonnee)) {
+                                m_partie.jouerTour(m_dernierBoutonCliquer.getTag().toString(), coordonnee);
+                                m_partie.getEchiquier().promotion(coordonnee, promotionType);
+                                showPromotionDialogueMontrer();
                             } else {
-                                // todo echec
 
+                                boolean valide = m_partie.jouerTour(m_dernierBoutonCliquer.getTag().toString(), coordonnee);
+
+                                if (!valide) {
+                                    Toast.makeText(getContext(),
+                                            "Votre coup était invalide veuillez réessayer!",
+                                            Toast.LENGTH_SHORT).show();
+                                } else {
+                                    if (m_partie.getEchiquier().estEchec(m_partie.getCouleurTour())) {
+                                        Toast.makeText(getContext(),
+                                                "Echec",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    if (m_partie.getEchiquier().estEchecEtMathNoir()) {
+                                        Toast.makeText(getContext(),
+                                                "Echec et math! " + m_partie.
+                                                        getJoueurBlanc().getNomJoueur() + " gagne!",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    if (m_partie.getEchiquier().estEchecEtMathBlanc()) {
+                                        Toast.makeText(getContext(),
+                                                "Echec et math! " + m_partie.getJoueurNoir().
+                                                        getNomJoueur() + " gagne!",
+                                                Toast.LENGTH_SHORT).show();
+                                    }
+
+                                    Toast.makeText(getContext(),
+                                            "Veuillez Confirmer la fin de votre tour " +
+                                                    "ou revenez en arrière dans le cas contraire!",
+                                            Toast.LENGTH_SHORT).show();
+                                }
                             }
-
-
-
-
-                            InitialiserTableau(p_table, m_partie.getEchiquier());
                         }
                     });
 
@@ -183,6 +217,33 @@ public class FragmentPartie extends Fragment {
         }
     }
 
+    private void showPromotionDialogueMontrer() {
+        final Dialog dialog = new Dialog(Objects.requireNonNull(getContext()));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setContentView(R.layout.dialogue_promotion_layout);
+        List<String> stringList = asList(Piece.Type.CAVALIER.toString(), Piece.Type.TOUR.toString(),
+                Piece.Type.FOU.toString(), Piece.Type.DAME.toString());
+
+
+        RadioGroup radioGroup = dialog.findViewById(R.id.radio_group);
+
+        for (int i = 0; i < stringList.size(); i++) {
+            RadioButton radioButton = new RadioButton(getContext());
+            radioButton.setText(stringList.get(i));
+            radioGroup.addView(radioButton);
+        }
+
+        Button bouton = dialog.findViewById(R.id.Ok);
+        bouton.setOnClickListener(v -> {
+            int selectId = radioGroup.getCheckedRadioButtonId();
+
+            RadioButton selectBouton = radioGroup.findViewById(selectId);
+            promotionType = Piece.Type.valueOf(selectBouton.getText().toString());
+        });
+
+        dialog.show();
+    }
+
     /**
      * Méthode de base onCreate qui cree la view dans l'affichage
      * @param savedInstanceState
@@ -192,18 +253,29 @@ public class FragmentPartie extends Fragment {
         super.onCreate(savedInstanceState);
     }
 
+    @SuppressLint("SetTextI18n")
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.partie_fragment_layout, container, false);
 
+        TextView tourActuel = v.findViewById(R.id.tour_actuel);
+
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
         Button boutonPrecedent = v.findViewById(R.id.precedent);
+        boutonPrecedent.setOnClickListener(v1 -> {
+            m_partie.restaurerDernierMouvement();
+
+            InitialiserTableau(tableLayout, m_partie.getEchiquier());
+        });
+
         Button boutonConfirmer = v.findViewById(R.id.fin);
 
-
-        InitialiserTableau(tableLayout, m_partie.getEchiquier());
+        boutonConfirmer.setOnClickListener(v1 -> {
+            m_partie.changerTour();
+            tourActuel.setText("Tour de " + m_partie.getJoueurActuel().getNomJoueur());
+        });
 
         return v;
     }
