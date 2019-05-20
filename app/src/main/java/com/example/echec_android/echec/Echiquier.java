@@ -1,8 +1,6 @@
 package com.example.echec_android.echec;
 
 
-import android.support.v4.util.Pair;
-
 import com.example.echec_android.echec.Piece.Couleur;
 import com.example.echec_android.echec.Piece.Type;
 
@@ -29,11 +27,16 @@ public class Echiquier {
     private LinkedHashMap<String, Piece> m_echiquier = new LinkedHashMap<>();
 
     /**
+     * Dernier déplacement d'une Piece
+     */
+    String dernierTourJouer = "";
+
+    /**
      * Dernier déplacement d'une Piece avec 1 si c'est sont premier déplacement
      * et 0 dans le cas contraire, la valeur est du String est vide et le nombre est 3
      * si le dernier deplacement n'est pas effectuer par un pion
      */
-    private Pair<String, Integer> dernierTourJouer = new Pair<>("", 3);
+    int estDernierTourJouerPion = 3;
 
     /**
      * Constructeur sans paramètres
@@ -617,8 +620,8 @@ public class Echiquier {
      * @return vrai lorsque la prise en passant est disponible
      */
     private boolean estPriseEnPassantValide(String p_coordonneeDebut) {
-        if (Objects.equals(dernierTourJouer.first, p_coordonneeDebut) && dernierTourJouer.second != null) {
-            return dernierTourJouer.second == 1;
+        if (Objects.equals(dernierTourJouer, p_coordonneeDebut)) {
+            return estDernierTourJouerPion == 1;
         } else {
             return false;
         }
@@ -700,9 +703,11 @@ public class Echiquier {
             }
 
             if (piece.getType() == Type.PION) {
-                dernierTourJouer = new Pair<>(p_coordonneeFin, piece.estDeplacer() ? 1 : 0);
+                dernierTourJouer = p_coordonneeFin;
+                estDernierTourJouerPion = piece.estDeplacer() ? 1 : 0;
             } else {
-                dernierTourJouer = new Pair<>("", 3);
+                dernierTourJouer = p_coordonneeFin;
+                estDernierTourJouerPion = 3;
             }
 
             piece.deplacer();
