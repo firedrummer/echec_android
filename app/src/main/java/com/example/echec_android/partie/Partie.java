@@ -88,19 +88,24 @@ public class Partie {
     /**
      * Setter pour le joueur 2
      *
-     * @param p_joueur
+     * @param p_joueur joueur à modifier
      */
     public void setJoueurNoir(Joueur p_joueur) {
         m_joueurNoir = p_joueur;
     }
 
     /**
-     * @return
+     * @return obtient l'échiquer actuel
      */
     public Echiquier getEchiquier() {
         return m_echiquier;
     }
 
+    /**
+     * Change la valeur de l'échiquer pour un nouveau
+     *
+     * @param p_echiquier echiquier à mettre la valeur
+     */
     public void setEchiquier(Echiquier p_echiquier) {
         m_echiquier = p_echiquier;
     }

@@ -1,5 +1,6 @@
 package com.example.echec_android.gui;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -14,9 +15,6 @@ import android.widget.Toast;
 import com.example.echec_android.R;
 
 public class DepartFragment extends Fragment {
-
-    private EditText m_nomJoueurBlanc;
-
     /**
      * Callback pour le mode actuel
      */
@@ -64,5 +62,17 @@ public class DepartFragment extends Fragment {
         });
 
         return v;
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mode = (FragmentPartie.CallBacks) context;
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mode = null;
     }
 }
