@@ -800,53 +800,39 @@ public class Echiquier {
                 }
             }
         } else if (lettreDebut < lettreFin) {
-            if (chiffreDebut == chiffreFin) {
-                for (char i = lettreDebut; i < lettreFin; i++) {
+            for (char i = lettreDebut; i < lettreFin; i++) {
+                if (chiffreDebut == chiffreFin) {
                     if (getPiece("" + i + chiffreDebut) != null) {
                         return false;
                     }
-                }
-            } else if (chiffreDebut < chiffreFin) {
-                for (char i = lettreDebut; i < lettreFin; i++) {
-                    if (getPiece("" + i + chiffreDebut) != null) {
-                        return false;
+                } else if (chiffreDebut < chiffreFin) {
+                    for (char j = chiffreDebut; j < chiffreFin; j++) {
+                        if (getPiece("" + i + j) != null) {
+                            return false;
+                        }
                     }
-                }
-            } else {
-                for (char i = lettreDebut; i > lettreFin; i--) {
-                    if (getPiece("" + i + chiffreDebut) != null) {
-                        return false;
+                } else {
+                    for (char j = chiffreDebut; j > chiffreFin; j--) {
+                        if (getPiece("" + i + j) != null) {
+                            return false;
+                        }
                     }
                 }
             }
         } else {
-            if (lettreDebut < lettreFin && chiffreDebut < chiffreFin) {
-                for (char i = lettreDebut; i < lettreFin; i++) {
-                    for (char j = chiffreFin; i < chiffreFin; i++) {
+            for (char i = lettreFin; i < lettreDebut; i++) {
+                if (chiffreDebut == chiffreFin) {
+                    if (getPiece("" + i + chiffreDebut) != null) {
+                        return false;
+                    }
+                } else if (chiffreDebut < chiffreFin) {
+                    for (char j = chiffreDebut; j < chiffreFin; j++) {
                         if (getPiece("" + i + j) != null) {
                             return false;
                         }
                     }
-                }
-            } else if (lettreDebut > lettreFin && chiffreDebut < chiffreFin) {
-                for (char i = lettreDebut; i > lettreFin; i--) {
-                    for (char j = chiffreDebut; i < chiffreFin; i++) {
-                        if (getPiece("" + i + j) != null) {
-                            return false;
-                        }
-                    }
-                }
-            } else if (lettreDebut < lettreFin && chiffreDebut > chiffreFin) {
-                for (char i = lettreDebut; i < lettreFin; i++) {
-                    for (char j = chiffreDebut; i > chiffreFin; i--) {
-                        if (getPiece("" + i + j) != null) {
-                            return false;
-                        }
-                    }
-                }
-            } else {
-                for (char i = lettreDebut; i > lettreFin; i--) {
-                    for (char j = chiffreDebut; i > chiffreFin; i--) {
+                } else {
+                    for (char j = chiffreDebut; j > chiffreFin; j--) {
                         if (getPiece("" + i + j) != null) {
                             return false;
                         }
