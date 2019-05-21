@@ -11,6 +11,11 @@ import android.support.v4.app.Fragment;
  */
 public class MainActivity extends SingleFragmentActivity {
 
+    /**
+     * Méthode create fragment qui crée le fragment
+     *
+     * @return la nouvelle instance du fragment
+     */
     @Override
     protected Fragment createFragment() {
         return DepartFragment.newInstance();

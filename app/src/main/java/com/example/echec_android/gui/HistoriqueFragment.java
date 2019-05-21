@@ -28,8 +28,9 @@ import java.util.Objects;
  */
 public class HistoriqueFragment extends Fragment {
 
+    // Recycler view pour l'historique
     private RecyclerView m_historiqueRecyclerView;
-
+    //L'adapter pour l'historique
     private HistoriqueAdapter m_adapter;
 
     /**
@@ -78,6 +79,9 @@ public class HistoriqueFragment extends Fragment {
         return v;
     }
 
+    /**
+     * Méthode lorsque le fragment est en mode onResume
+     */
     @Override
     public void onResume() {
         super.onResume();

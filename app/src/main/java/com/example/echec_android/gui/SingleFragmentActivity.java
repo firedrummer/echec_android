@@ -13,9 +13,14 @@ import com.example.echec_android.R;
  * @author William Blackburn
  */
 abstract class SingleFragmentActivity extends AppCompatActivity {
-
+    //Declaration de la methode abstraite
     protected abstract Fragment createFragment();
 
+    /**
+     * Méthode oncreate de base
+     *
+     * @param savedInstanceState l'etat d'instance
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

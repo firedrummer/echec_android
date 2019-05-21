@@ -205,6 +205,9 @@ public class FragmentPartie extends Fragment {
         }
     }
 
+    /**
+     * Rebatit le tableau soit lechiquier
+     */
     void reEcrireTableau() {
         Echiquier echiquier = m_partie.getEchiquier();
 
@@ -223,6 +226,12 @@ public class FragmentPartie extends Fragment {
         }
     }
 
+    /**
+     * Méthode qui ajoute les couleurs sur les bonnes tuiles
+     *
+     * @param p_i cases blanches
+     * @param p_j cases noires
+     */
     void colorerTableau(int p_i, int p_j) {
         int noir = Color.BLACK;
         int blanc = Color.WHITE;
@@ -242,6 +251,9 @@ public class FragmentPartie extends Fragment {
         }
     }
 
+    /**
+     * Méthode qui montre le dialogue de promotion
+     */
     private void showPromotionDialogueMontrer() {
         final Dialog dialog = new Dialog(Objects.requireNonNull(getContext()));
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -269,11 +281,22 @@ public class FragmentPartie extends Fragment {
         dialog.show();
     }
 
+    /**
+     * Méthode de base oncreate
+     * @param savedInstanceState l'état d'instance
+     */
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
+    /**
+     * Méthode de base oncreateView
+     * @param inflater inflater
+     * @param container container
+     * @param savedInstanceState l'état d'instance
+     * @return la vue (v)
+     */
     @SuppressLint("SetTextI18n")
     @Nullable
     @Override
