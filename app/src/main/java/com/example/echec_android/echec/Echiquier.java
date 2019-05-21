@@ -774,52 +774,66 @@ public class Echiquier {
      * @return true si les cases sont vides sinon false
      */
     private boolean casesVide(String p_coordonneeDebut, String p_coordonneeFin) {
+
+        if (p_coordonneeDebut.equals(p_coordonneeFin)) {
+            return false;
+        }
+
         char lettreDebut = p_coordonneeDebut.charAt(0);
         char chiffreDebut = p_coordonneeDebut.charAt(1);
 
         char lettreFin = p_coordonneeFin.charAt(0);
         char chiffreFin = p_coordonneeFin.charAt(1);
 
-        // Déplacement horizontal ou vertical
         if (lettreDebut == lettreFin) {
             if (chiffreDebut < chiffreFin) {
                 for (char i = chiffreDebut; i < chiffreFin; i++) {
-                    if (getPiece("" + lettreDebut + i) != null)
+                    if (getPiece("" + lettreDebut + i) != null) {
                         return false;
+                    }
                 }
             } else {
                 for (char i = chiffreDebut; i > chiffreFin; i--) {
-                    if (getPiece("" + lettreDebut + i) != null)
+                    if (getPiece("" + lettreDebut + i) != null) {
                         return false;
+                    }
                 }
             }
-        } else if (lettreDebut < chiffreFin) {
-            if (chiffreDebut < chiffreFin) {
+        } else if (lettreDebut < lettreFin) {
+            if (chiffreDebut == chiffreFin) {
                 for (char i = lettreDebut; i < lettreFin; i++) {
-                    if (getPiece("" + i + chiffreDebut) != null)
+                    if (getPiece("" + i + chiffreDebut) != null) {
                         return false;
+                    }
+                }
+            } else if (chiffreDebut < chiffreFin) {
+                for (char i = lettreDebut; i < lettreFin; i++) {
+                    if (getPiece("" + i + chiffreDebut) != null) {
+                        return false;
+                    }
                 }
             } else {
                 for (char i = lettreDebut; i > lettreFin; i--) {
-                    if (getPiece("" + i + chiffreDebut) != null)
+                    if (getPiece("" + i + chiffreDebut) != null) {
                         return false;
+                    }
                 }
             }
-        }
-        // Déplacement diagonal
-        else {
+        } else {
             if (lettreDebut < lettreFin && chiffreDebut < chiffreFin) {
                 for (char i = lettreDebut; i < lettreFin; i++) {
                     for (char j = chiffreFin; i < chiffreFin; i++) {
-                        if (getPiece("" + i + j) != null)
+                        if (getPiece("" + i + j) != null) {
                             return false;
+                        }
                     }
                 }
             } else if (lettreDebut > lettreFin && chiffreDebut < chiffreFin) {
                 for (char i = lettreDebut; i > lettreFin; i--) {
                     for (char j = chiffreDebut; i < chiffreFin; i++) {
-                        if (getPiece("" + i + j) != null)
+                        if (getPiece("" + i + j) != null) {
                             return false;
+                        }
                     }
                 }
             } else if (lettreDebut < lettreFin && chiffreDebut > chiffreFin) {
