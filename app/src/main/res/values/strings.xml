@@ -11,4 +11,7 @@
     <string name="confirmer">Confirmer</string>
     <string name="promotion_text">Veuillez choisir de type de pièce dont vous voulez promouvoir votre pion!</string>
     <string name="le_joueur_blanc_commence">Le joueur blanc commence!</string>
+    <string name="numero_tour">Numero de tour</string>
+    <string name="nom_joueur">Nom du joueur</string>
+    <string name="representation_echiquier">Representation de l\'echiquier</string>
 </resources>

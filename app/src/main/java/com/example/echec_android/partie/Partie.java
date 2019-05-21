@@ -16,7 +16,7 @@ import java.util.Objects;
  */
 public class Partie {
     //Echiquier dans une partie entre 2 joueurs
-    private Echiquier m_echiquier;
+    private static Echiquier m_echiquier;
 
     /**
      * Historique de la partie le Pair<Joueur, Echiquier> stock le joueur ayant effectuer le tour et l'echiquier du moment
@@ -37,6 +37,11 @@ public class Partie {
      * Couleur du joueur actuel, le premier joueur à commencer sont les blancs
      */
     private Piece.Couleur couleurTour = Piece.Couleur.BLANC;
+
+    public Partie() {
+        m_echiquier = new Echiquier();
+        m_echiquier.initialiser();
+    }
 
     /**
      * Méthode qui obtient la couleur du tour

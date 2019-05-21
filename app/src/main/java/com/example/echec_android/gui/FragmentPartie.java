@@ -132,10 +132,8 @@ public class FragmentPartie extends Fragment {
                     if (piece != null) {
                         bouton.setText(piece.obtenirRepresentation());
                     } else {
-                        bouton.setText("");
+                        bouton.setText(" ");
                     }
-
-                    colorerTableau(i, j);
 
                     bouton.setOnClickListener(v -> {
                         if (m_dernierBoutonCliquer == null) {
@@ -144,7 +142,7 @@ public class FragmentPartie extends Fragment {
                             reEcrireTableau();
 
                             LinkedHashMap<String, String> mouvementPossible = m_partie.
-                                    getEchiquier().getToursPossibleSelonPiece(piece, coordonnee);
+                                    getEchiquier().getToursPossibleSelonPiece(m_partie.getEchiquier().getPiece(coordonnee), coordonnee);
 
                             int couleurMouvement = Color.GRAY;
 
@@ -200,6 +198,7 @@ public class FragmentPartie extends Fragment {
                     });
 
                     m_boutons[i - 1][j - 1] = bouton;
+                    colorerTableau(i - 1, j - 1);
                     rangee.addView(bouton, largeur, largeur);
                 }
             }
@@ -282,31 +281,32 @@ public class FragmentPartie extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.partie_fragment_layout, container, false);
 
-        TextView tourActuel = v.findViewById(R.id.tour_actuel);
-
         TableLayout tableLayout = v.findViewById(R.id.tableLayout);
+        InitialiserTableau(tableLayout, m_partie.getEchiquier());
+
+        TextView tourActuel = v.findViewById(R.id.tour_actuel);
+        tourActuel.setText(m_partie.getJoueurActuel().getNomJoueur());
+
         Button boutonPrecedent = v.findViewById(R.id.precedent);
         boutonPrecedent.setOnClickListener(v1 -> {
-            m_partie.restaurerDernierMouvement();
+            if (m_partie.getHistoriquePartie().size() > 1) {
+                m_partie.restaurerDernierMouvement();
 
-            InitialiserTableau(tableLayout, m_partie.getEchiquier());
+                InitialiserTableau(tableLayout, m_partie.getEchiquier());
+            } else {
+                Toast.makeText(getContext(),
+                        "Vous devez avoir jouer un tour pour pouvoir revenir en arrière!",
+                        Toast.LENGTH_SHORT).show();
+            }
         });
 
         Button boutonConfirmer = v.findViewById(R.id.fin);
-
         boutonConfirmer.setOnClickListener(v1 -> {
             m_partie.changerTour();
             tourActuel.setText("Tour de " + m_partie.getJoueurActuel().getNomJoueur());
         });
 
         return v;
-    }
-
-    /**
-     * Interface de gestion des modes de l'application.
-     */
-    public interface CallBacks {
-        void onChangeMode(Mode mode, String id);
     }
 }
 

@@ -42,7 +42,6 @@ public class DepartFragmentTest {
         onView(withText(R.string.toast_info_joueur)).inRoot(withDecorView(not(is(m_activityRule.
                 getActivity().getWindow().getDecorView())))).check(matches(isDisplayed()));
 
-
         onView(withId(R.id.nom_joueur_blanc)).perform(typeText("allo"), closeSoftKeyboard());
         onView(withId(R.id.nom_joueur_noir)).perform(typeText("ennd"), closeSoftKeyboard());
         onView(withId(R.id.confirmer)).perform(click());

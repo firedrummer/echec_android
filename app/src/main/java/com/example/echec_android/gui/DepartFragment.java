@@ -1,6 +1,6 @@
 package com.example.echec_android.gui;
 
-import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -21,17 +21,11 @@ import com.example.echec_android.R;
  */
 public class DepartFragment extends Fragment {
     /**
-     * Callback pour le mode actuel
-     */
-    private FragmentPartie.CallBacks mode;
-
-    /**
      * Crée une nouvelle instance d'AucunModeFragment.
      *
      * @return retourne une instance de DepartFragment
      */
     public static DepartFragment newInstance() {
-
         Bundle args = new Bundle();
 
         DepartFragment fragment = new DepartFragment();
@@ -68,34 +62,16 @@ public class DepartFragment extends Fragment {
         m_confirmerButton.setOnClickListener(v1 -> {
             if (m_nomJoueurBlanc.getText().length() > 3 && m_nomJoueurNoire.getText().length() > 3 &&
                     m_nomJoueurNoire.getText() != m_nomJoueurBlanc.getText()) {
-                FragmentPartie.setJoueurs(m_nomJoueurBlanc.getText().toString(), m_nomJoueurNoire.getText().toString());
-                mode.onChangeMode(Mode.Partie, null);
+
+                Intent intent = JeuActivity.newIntent(getActivity(), m_nomJoueurBlanc.getText().toString(), m_nomJoueurNoire.getText().toString());
+
+                startActivity(intent);
+
             } else {
-                Toast.makeText(getContext(),
-                        R.string.toast_info_joueur,
-                        Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.toast_info_joueur, Toast.LENGTH_SHORT).show();
             }
         });
 
         return v;
-    }
-
-    /**
-     * Méthode lorsque le fragment s'attache a la view
-     * @param context contexte
-     */
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        mode = (FragmentPartie.CallBacks) context;
-    }
-
-    /**
-     * Méthode lorsque le fragment se détache de la vue
-     */
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mode = null;
     }
 }

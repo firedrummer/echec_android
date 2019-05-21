@@ -136,6 +136,7 @@ public class TestEchiquier {
     @Test
     public void testDeplacements() {
         m_echiquier.initialiser();
+
         //Test déplacement pion
         Assert.assertTrue(m_echiquier.deplacerPiece("a2", "a4"));
         Assert.assertTrue(m_echiquier.deplacerPiece("b2", "b3"));
@@ -150,9 +151,9 @@ public class TestEchiquier {
         m_echiquier.deplacerPiece("b7", "b5");
         //La prise en passant se fait ici
         m_echiquier.deplacerPiece("a5", "b6");
-
         m_echiquier.deplacerPiece("d2", "d4");
         m_echiquier.deplacerPiece("c1", "g5");
+
         //Ici le fou devrait manger un pion
         m_echiquier.deplacerPiece("g5", "e7");
 
@@ -169,8 +170,6 @@ public class TestEchiquier {
         m_echiquier.deplacerPiece("f8", "g7");
         m_echiquier.deplacerPiece("g8", "f6");
         m_echiquier.deplacerPiece("h8", "f8"); //petit roque
-
-
     }
 
     /**
@@ -264,9 +263,8 @@ public class TestEchiquier {
         m_echiquier.deplacerPiece("a2", "a4");
         m_echiquier.deplacerPiece("a4", "a5");
         m_echiquier.deplacerPiece("a5", "a6");
-        Assert.assertFalse(m_echiquier.estPromotionPossible("a6", "a7"));
         m_echiquier.deplacerPiece("a6", "a7");
-
+        Assert.assertFalse(m_echiquier.estPromotionPossible("a7", "a8"));
 
         m_echiquier.initialiser();
 

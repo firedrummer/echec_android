@@ -29,14 +29,14 @@ public class Echiquier {
     /**
      * Dernier déplacement d'une Piece
      */
-    String dernierTourJouer = "";
+    private String dernierTourJouer = "";
 
     /**
      * Dernier déplacement d'une Piece avec 1 si c'est sont premier déplacement
      * et 0 dans le cas contraire, la valeur est du String est vide et le nombre est 3
      * si le dernier deplacement n'est pas effectuer par un pion
      */
-    int estDernierTourJouerPion = 3;
+    private int estDernierTourJouerPion = 3;
 
     /**
      * Constructeur sans paramètres
@@ -347,7 +347,7 @@ public class Echiquier {
      * @param p_coordonnee coordonnée où la pièce est placée
      * @return tourPion
      */
-    private LinkedHashMap<String, String> deplacementSpeciauxPion(Piece p_piece, String p_coordonnee) {
+    private LinkedHashMap<String, String> deplacementSpeciauxPion(Piece p_piece, @org.jetbrains.annotations.NotNull String p_coordonnee) {
         LinkedHashMap<String, String> tourPion = new LinkedHashMap<>();
 
         ArrayList<String> deplacementSpeciaux = new ArrayList<>();
@@ -403,6 +403,7 @@ public class Echiquier {
 
     /**
      * Vérifie si un pion est à la bonne position pour avoir une promotion
+     *
      * @param p_coordonneeDebut coordonnee de debut
      * @param p_coordonneeFin   coordonne de fin
      * @return true si la promotion est possible sinon false
@@ -411,7 +412,7 @@ public class Echiquier {
         return (getPiece(p_coordonneeDebut).getCouleur() == Couleur.NOIR && p_coordonneeFin.charAt(1) == '1'
                 && getPiece(p_coordonneeDebut).getType() == Type.PION) ||
                 (getPiece(p_coordonneeDebut).getCouleur() == Couleur.BLANC && p_coordonneeFin.charAt(1) == '8'
-                && getPiece(p_coordonneeDebut).getType() == Type.PION);
+                        && getPiece(p_coordonneeDebut).getType() == Type.PION);
     }
 
     /**
@@ -663,22 +664,27 @@ public class Echiquier {
      * @return vrai lorque le grand roque est un déplacement possible
      */
     private boolean deplacementGrandRoqueValide(String p_coordonneePiece1, String p_coordonneePiece2) {
-        Piece piece1 = getPiece(p_coordonneePiece1);
-        Piece piece2 = getPiece(p_coordonneePiece2);
+        try {
+            Piece piece1 = getPiece(p_coordonneePiece1);
+            Piece piece2 = getPiece(p_coordonneePiece2);
 
-        if (piece1.estDeplacer() || piece2.estDeplacer()) {
-            return false;
-        }
 
-        if (Math.abs(p_coordonneePiece1.charAt(0) - p_coordonneePiece2.charAt(0)) == 3 &&
-                casesVide(p_coordonneePiece1, p_coordonneePiece2)) {
-            if (piece1.getCouleur() == piece2.getCouleur()) {
-                return (piece1.getType() == Type.ROI && piece2.getType() == Type.TOUR) ||
-                        (piece2.getType() == Type.ROI && piece1.getType() == Type.TOUR);
+            if (piece1.estDeplacer() || piece2.estDeplacer()) {
+                return false;
+            }
+
+            if (Math.abs(p_coordonneePiece1.charAt(0) - p_coordonneePiece2.charAt(0)) == 3 &&
+                    casesVide(p_coordonneePiece1, p_coordonneePiece2)) {
+                if (piece1.getCouleur() == piece2.getCouleur()) {
+                    return (piece1.getType() == Type.ROI && piece2.getType() == Type.TOUR) ||
+                            (piece2.getType() == Type.ROI && piece1.getType() == Type.TOUR);
+                } else {
+                    return false;
+                }
             } else {
                 return false;
             }
-        } else {
+        } catch (NullPointerException e) {
             return false;
         }
     }
@@ -693,7 +699,12 @@ public class Echiquier {
     public boolean deplacerPiece(String p_coordonneeDebut, String p_coordonneeFin) {
         Piece piece = getPiece(p_coordonneeDebut);
 
-        byte valide = deplacementValide(piece, p_coordonneeDebut, p_coordonneeFin);
+        byte valide;
+        if (piece != null) {
+            valide = deplacementValide(piece, p_coordonneeDebut, p_coordonneeFin);
+        } else {
+            valide = 3;
+        }
 
         if (valide == 1) {
             m_echiquier.remove(p_coordonneeDebut);
@@ -763,60 +774,68 @@ public class Echiquier {
      * @return true si les cases sont vides sinon false
      */
     private boolean casesVide(String p_coordonneeDebut, String p_coordonneeFin) {
+        char lettreDebut = p_coordonneeDebut.charAt(0);
+        char chiffreDebut = p_coordonneeDebut.charAt(1);
+
+        char lettreFin = p_coordonneeFin.charAt(0);
+        char chiffreFin = p_coordonneeFin.charAt(1);
+
         // Déplacement horizontal ou vertical
-        if (p_coordonneeDebut.charAt(0) == p_coordonneeFin.charAt(0)) {
-            if (p_coordonneeDebut.charAt(1) < p_coordonneeFin.charAt(1)) {
-                for (char i = p_coordonneeDebut.charAt(1); i < p_coordonneeFin.charAt(1); i++) {
-                    if (m_echiquier.containsKey("" + p_coordonneeDebut.charAt(0) + i))
+        if (lettreDebut == lettreFin) {
+            if (chiffreDebut < chiffreFin) {
+                for (char i = chiffreDebut; i < chiffreFin; i++) {
+                    if (getPiece("" + lettreDebut + i) != null)
                         return false;
                 }
             } else {
-                for (char i = p_coordonneeDebut.charAt(1); i > p_coordonneeFin.charAt(1); i--) {
-                    if (m_echiquier.containsKey("" + p_coordonneeDebut.charAt(0) + i))
+                for (char i = chiffreDebut; i > chiffreFin; i--) {
+                    if (getPiece("" + lettreDebut + i) != null)
                         return false;
                 }
             }
-        } else if (p_coordonneeDebut.charAt(1) == p_coordonneeFin.charAt(1)) {
-            if (p_coordonneeDebut.charAt(1) < p_coordonneeFin.charAt(1)) {
-                for (char i = p_coordonneeDebut.charAt(0); i < p_coordonneeFin.charAt(0); i++) {
-                    if (m_echiquier.containsKey("" + i + p_coordonneeDebut.charAt(1)))
+        } else if (lettreDebut < chiffreFin) {
+            if (chiffreDebut < chiffreFin) {
+                for (char i = lettreDebut; i < lettreFin; i++) {
+                    if (getPiece("" + i + chiffreDebut) != null)
                         return false;
                 }
             } else {
-                for (char i = p_coordonneeDebut.charAt(0); i > p_coordonneeFin.charAt(0); i--) {
-                    if (m_echiquier.containsKey("" + i + p_coordonneeDebut.charAt(1)))
+                for (char i = lettreDebut; i > lettreFin; i--) {
+                    if (getPiece("" + i + chiffreDebut) != null)
                         return false;
                 }
             }
         }
         // Déplacement diagonal
         else {
-            if (p_coordonneeDebut.charAt(0) < p_coordonneeFin.charAt(0) && p_coordonneeDebut.charAt(1) < p_coordonneeFin.charAt(1)) {
-                for (char i = p_coordonneeDebut.charAt(0); i < p_coordonneeFin.charAt(0); i++) {
-                    for (char j = p_coordonneeDebut.charAt(1); i < p_coordonneeFin.charAt(1); i++) {
-                        if (m_echiquier.containsKey("" + i + j))
+            if (lettreDebut < lettreFin && chiffreDebut < chiffreFin) {
+                for (char i = lettreDebut; i < lettreFin; i++) {
+                    for (char j = chiffreFin; i < chiffreFin; i++) {
+                        if (getPiece("" + i + j) != null)
                             return false;
                     }
                 }
-            } else if (p_coordonneeDebut.charAt(0) > p_coordonneeFin.charAt(0) && p_coordonneeDebut.charAt(1) < p_coordonneeFin.charAt(1)) {
-                for (char i = p_coordonneeDebut.charAt(0); i > p_coordonneeFin.charAt(0); i--) {
-                    for (char j = p_coordonneeDebut.charAt(1); i < p_coordonneeFin.charAt(1); i++) {
-                        if (m_echiquier.containsKey("" + i + j))
+            } else if (lettreDebut > lettreFin && chiffreDebut < chiffreFin) {
+                for (char i = lettreDebut; i > lettreFin; i--) {
+                    for (char j = chiffreDebut; i < chiffreFin; i++) {
+                        if (getPiece("" + i + j) != null)
                             return false;
                     }
                 }
-            } else if (p_coordonneeDebut.charAt(0) < p_coordonneeFin.charAt(0) && p_coordonneeDebut.charAt(1) > p_coordonneeFin.charAt(1)) {
-                for (char i = p_coordonneeDebut.charAt(0); i < p_coordonneeFin.charAt(0); i++) {
-                    for (char j = p_coordonneeDebut.charAt(1); i > p_coordonneeFin.charAt(1); i--) {
-                        if (m_echiquier.containsKey("" + i + j))
+            } else if (lettreDebut < lettreFin && chiffreDebut > chiffreFin) {
+                for (char i = lettreDebut; i < lettreFin; i++) {
+                    for (char j = chiffreDebut; i > chiffreFin; i--) {
+                        if (getPiece("" + i + j) != null) {
                             return false;
+                        }
                     }
                 }
             } else {
-                for (char i = p_coordonneeDebut.charAt(0); i > p_coordonneeFin.charAt(0); i--) {
-                    for (char j = p_coordonneeDebut.charAt(1); i > p_coordonneeFin.charAt(1); i--) {
-                        if (m_echiquier.containsKey("" + i + j))
+                for (char i = lettreDebut; i > lettreFin; i--) {
+                    for (char j = chiffreDebut; i > chiffreFin; i--) {
+                        if (getPiece("" + i + j) != null) {
                             return false;
+                        }
                     }
                 }
             }
