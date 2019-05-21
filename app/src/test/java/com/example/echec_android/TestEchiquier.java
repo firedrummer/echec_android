@@ -200,7 +200,8 @@ public class TestEchiquier {
 
         m_echiquier.initialiser();
 
-        Assert.assertEquals(hashMap, m_echiquier.getToursPossibleSelonPiece(m_echiquier.getPiece("a2"), "a2"));
+        Assert.assertEquals(hashMap, m_echiquier.getToursPossibleSelonPiece(m_echiquier.
+                getPiece("a2"), "a2"));
     }
 
     /**

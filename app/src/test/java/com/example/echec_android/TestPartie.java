@@ -52,7 +52,7 @@ public class TestPartie {
         //On joue un tour pour revérifier le joueur actuel
         Echiquier echiquier2 = partie.getEchiquier();
         Assert.assertTrue(partie.jouerTour("a2", "a4"));
-        partie.restaurerPartie(echiquier2);
+        partie.setEchiquier(echiquier2);
         Assert.assertEquals(echiquier2, partie.getEchiquier());
 
         partie.changerTour();
@@ -63,5 +63,8 @@ public class TestPartie {
 
         partie.restaurerDernierMouvement();
         Assert.assertEquals(echiquier3, partie.getEchiquier());
+
+        partie.restaurerHistorique(1);
+        Assert.assertEquals(1, partie.getHistoriquePartie().size());
     }
 }

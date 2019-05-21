@@ -8,6 +8,7 @@ import java.util.ArrayList;
  * @author Yanick Bellavance
  * @author William Blackburn
  */
+
 public abstract class Piece {
     /**
      * Couleur d'une pièce
@@ -53,6 +54,7 @@ public abstract class Piece {
 
     /**
      * Méthode qui retourne la variable membre m_deplacer
+     *
      * @return true lorsqu'une pièce est déplacée
      */
     public boolean estDeplacer() {

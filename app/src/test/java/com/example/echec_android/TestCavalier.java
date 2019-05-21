@@ -16,6 +16,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+/**
+ * Test la classe cavalier
+ *
+ * @author Yanick Bellavance
+ * @author William Blackburn
+ */
 public class TestCavalier extends TestPiece {
 
     /**

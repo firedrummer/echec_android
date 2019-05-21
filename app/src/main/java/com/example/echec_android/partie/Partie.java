@@ -135,15 +135,6 @@ public class Partie {
     }
 
     /**
-     * Restaure la partie
-     *
-     * @param p_echiquier l'échiquier
-     */
-    public void restaurerPartie(Echiquier p_echiquier) {
-        m_echiquier = p_echiquier;
-    }
-
-    /**
      * Tente de jouer le tour, s'il ne réussit pas ret
      *
      * @param p_coordonneeDebut coordonnée de départ de la piece

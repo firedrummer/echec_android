@@ -98,7 +98,6 @@ public class TestReine extends TestPiece {
 
         assertArrayEquals(listeTest.toArray(), list.toArray());
         assertArrayEquals(listeTest2.toArray(), list2.toArray());
-
     }
 }
 

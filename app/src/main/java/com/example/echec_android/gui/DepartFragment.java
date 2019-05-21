@@ -16,6 +16,7 @@ import com.example.echec_android.R;
 
 /**
  * Classe qui gère le fragment en lien avec l'obtention du nom des joueurs
+ *
  * @author Yanick Bellavance
  * @author William Blackburn
  */
@@ -36,6 +37,7 @@ public class DepartFragment extends Fragment {
 
     /**
      * Méthode de base on create qui crée le fragment avec un bundle
+     *
      * @param savedInstanceState l'état d'instance
      */
     @Override
@@ -45,14 +47,16 @@ public class DepartFragment extends Fragment {
 
     /**
      * Méthode onCreateView de base qui crée la vue avec un inflater le container etc
-     * @param inflater l'inflater
-     * @param container le cotainer
+     *
+     * @param inflater           l'inflater
+     * @param container          le cotainer
      * @param savedInstanceState l'état d'instance
      * @return la vue (v)
      */
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.depart_layout, container, false);
 
         Button m_confirmerButton = v.findViewById(R.id.confirmer);
@@ -63,12 +67,15 @@ public class DepartFragment extends Fragment {
             if (m_nomJoueurBlanc.getText().length() > 3 && m_nomJoueurNoire.getText().length() > 3 &&
                     m_nomJoueurNoire.getText() != m_nomJoueurBlanc.getText()) {
 
-                Intent intent = JeuActivity.newIntent(getActivity(), m_nomJoueurBlanc.getText().toString(), m_nomJoueurNoire.getText().toString());
+                Intent intent = JeuActivity.newIntent(getActivity(),
+                        m_nomJoueurBlanc.getText().toString(), m_nomJoueurNoire.getText().toString());
 
                 startActivity(intent);
 
             } else {
-                Toast.makeText(getActivity(), R.string.toast_info_joueur, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(),
+                        R.string.toast_info_joueur,
+                        Toast.LENGTH_SHORT).show();
             }
         });
 

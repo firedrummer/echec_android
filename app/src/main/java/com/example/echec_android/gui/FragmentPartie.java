@@ -142,23 +142,27 @@ public class FragmentPartie extends Fragment {
                             reEcrireTableau();
 
                             LinkedHashMap<String, String> mouvementPossible = m_partie.
-                                    getEchiquier().getToursPossibleSelonPiece(m_partie.getEchiquier().getPiece(coordonnee), coordonnee);
+                                    getEchiquier().getToursPossibleSelonPiece(m_partie.
+                                    getEchiquier().getPiece(coordonnee), coordonnee);
 
                             int couleurMouvement = Color.GRAY;
 
                             for (String mouvements : mouvementPossible.values()) {
-                                m_boutons[mouvements.charAt(0) - 'a'][mouvements.charAt(1) - '1'].setBackgroundColor(couleurMouvement);
+                                m_boutons[mouvements.charAt(0) - 'a'][mouvements.charAt(1) - '1'].
+                                        setBackgroundColor(couleurMouvement);
                             }
 
                         } else {
                             // Promotion
-                            if (m_partie.getEchiquier().estPromotionPossible(m_dernierBoutonCliquer.getTag().toString(), coordonnee)) {
+                            if (m_partie.getEchiquier().estPromotionPossible(m_dernierBoutonCliquer.
+                                    getTag().toString(), coordonnee)) {
                                 m_partie.jouerTour(m_dernierBoutonCliquer.getTag().toString(), coordonnee);
                                 m_partie.getEchiquier().promotion(coordonnee, promotionType);
                                 showPromotionDialogueMontrer();
                             } else {
 
-                                boolean valide = m_partie.jouerTour(m_dernierBoutonCliquer.getTag().toString(), coordonnee);
+                                boolean valide = m_partie.jouerTour(m_dernierBoutonCliquer.getTag().
+                                        toString(), coordonnee);
 
                                 if (!valide) {
                                     Toast.makeText(getContext(),
@@ -283,6 +287,7 @@ public class FragmentPartie extends Fragment {
 
     /**
      * Méthode de base oncreate
+     *
      * @param savedInstanceState l'état d'instance
      */
     @Override
@@ -292,8 +297,9 @@ public class FragmentPartie extends Fragment {
 
     /**
      * Méthode de base oncreateView
-     * @param inflater inflater
-     * @param container container
+     *
+     * @param inflater           inflater
+     * @param container          container
      * @param savedInstanceState l'état d'instance
      * @return la vue (v)
      */
